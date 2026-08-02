@@ -7,9 +7,8 @@ lang: en
 website:
   title: "Engineering Notes — MIT OCW"
   description: "Self-study engineering portfolio, based on MIT OpenCourseWare."
-  # ⚠️ Replace with your GitHub username and repository name once created:
-  site-url: "https://USERNAME.github.io/REPO/"
-  repo-url: "https://github.com/USERNAME/REPO"
+  site-url: "https://ludovic1211.github.io/MIT-Engineering-selfstudy/"
+  repo-url: "https://github.com/Ludovic1211/MIT-Engineering-selfstudy"
   page-navigation: true
   back-to-top-navigation: true
   navbar:
@@ -38,7 +37,7 @@ website:
         text: The approach
     right:
       - icon: github
-        href: "https://github.com/USERNAME/REPO"
+        href: "https://github.com/Ludovic1211/MIT-Engineering-selfstudy"
         aria-label: GitHub repository
   page-footer:
     border: true
