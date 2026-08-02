@@ -28,7 +28,7 @@ The course is organized into four parts:
 | # | Lecture | Status |
 |---|---------|--------|
 | 1 | [Dot Product](lecture-01-dot-product.qmd) | ✅ Online |
-| 2 | Determinants; cross product | 🚧 In progress |
+| 2 | [Determinants & Cross Product](lecture-02-determinants-cross-product.qmd) | ✅ Online |
 | 3 | Matrices; inverse matrices | ⬜ Planned |
 | 4 | Square systems; equations of planes | ⬜ Planned |
 | 5 | Parametric equations for lines and curves | ⬜ Planned |

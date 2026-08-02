@@ -9,6 +9,8 @@ date: today
 Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 1 ("Dot Product").
 Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
 License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-01.pdf) these notes were rewritten from.
 :::
 
 ## In brief

@@ -1,0 +1,221 @@
+---
+title: "Lecture 2 — Determinants & Cross Product"
+subtitle: "MIT 18.02 · Part I: Vectors and Matrices"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 2 ("Determinants; cross product").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-02.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Lecture 1 turned two vectors into a **number** (the dot product). Lecture 2 introduces two new operations:
+
+- the **determinant**, which turns vectors into a *signed* **area** (2D) or **volume** (3D);
+- the **cross product**, which turns two 3D vectors into a **new vector**, perpendicular to both.
+
+The thread tying them together: the determinant *measures* the area/volume, and the cross product is the vector whose **length is that area** and whose **direction is the perpendicular**.
+
+## 1. The concepts
+
+### 1.1 Bridge: projecting onto a direction (the pendulum)
+
+Quick recap from Lecture 1. The component of a vector $\vec A$ along a **unit** direction $\hat u$ is simply $\vec A\cdot\hat u$ (since $|\hat u| = 1$, we have $|\vec A|\cos\theta = \vec A\cdot\hat u$).
+
+A physical example — a **pendulum**. The weight $\vec F$ points straight down. We split it along two useful directions: the tangent $\hat T$ to the trajectory and the normal $\hat N$.
+
+- The component of $\vec F$ along $\hat T$ is **what makes the pendulum swing**.
+- The component of $\vec F$ along $\hat N$ is balanced by the **tension in the string**.
+
+"Decomposing a vector along chosen directions" is exactly the projection idea from Lecture 1 — now doing physics.
+
+### 1.2 Area and the 2×2 determinant
+
+The area of any polygon can be found by cutting it into triangles and adding them up. So the atom is the triangle, with area $\tfrac12 \times \text{base} \times \text{height}$. For a triangle spanned by $\vec A$ and $\vec B$, the height is $|\vec B|\sin\theta$, so:
+$$
+\text{area of the parallelogram} = |\vec A|\,|\vec B|\sin\theta .
+$$
+
+But $\sin\theta$ is awkward to handle. Here is the trick from the lecture: rotate $\vec A$ by $90^\circ$ counterclockwise into $\vec A'$. The angle between $\vec A'$ and $\vec B$ is then $\theta' = \tfrac{\pi}{2} - \theta$, so $\cos\theta' = \sin\theta$, and
+$$
+|\vec A|\,|\vec B|\sin\theta = |\vec A'|\,|\vec B|\cos\theta' = \vec A'\cdot\vec B .
+$$
+
+In coordinates, rotating $\vec A = \langle a_1, a_2\rangle$ by $90^\circ$ gives $\vec A' = \langle -a_2, a_1\rangle$, hence
+$$
+\vec A'\cdot\vec B = -a_2 b_1 + a_1 b_2 = a_1 b_2 - a_2 b_1 .
+$$
+
+This quantity is the **2×2 determinant**:
+$$
+\det(\vec A,\vec B) = \begin{vmatrix} a_1 & a_2 \\ b_1 & b_2 \end{vmatrix} = a_1 b_2 - a_2 b_1 = \pm\,(\text{area of the parallelogram}).
+$$
+
+The **sign** encodes orientation (going from $\vec A$ to $\vec B$, do we turn counterclockwise or clockwise?); its **absolute value** is the area.
+
+### 1.3 Volume and the 3×3 determinant
+
+The same idea, one dimension up: three vectors $\vec A, \vec B, \vec C$ span a parallelepiped, and
+$$
+\det(\vec A,\vec B,\vec C) = \pm\,(\text{volume}).
+$$
+
+It is computed by expansion along the first row (note the alternating $+,-,+$):
+$$
+\det(\vec A,\vec B,\vec C) =
+\begin{vmatrix} a_1 & a_2 & a_3 \\ b_1 & b_2 & b_3 \\ c_1 & c_2 & c_3 \end{vmatrix}
+= a_1\begin{vmatrix} b_2 & b_3 \\ c_2 & c_3 \end{vmatrix}
+- a_2\begin{vmatrix} b_1 & b_3 \\ c_1 & c_3 \end{vmatrix}
++ a_3\begin{vmatrix} b_1 & b_2 \\ c_1 & c_2 \end{vmatrix}.
+$$
+
+### 1.4 The cross product
+
+The cross product takes two 3D vectors and returns a **new vector**. It is defined by a *symbolic* determinant with the basis vectors on the first row:
+$$
+\vec A\times\vec B =
+\begin{vmatrix} \hat\imath & \hat\jmath & \hat k \\ a_1 & a_2 & a_3 \\ b_1 & b_2 & b_3 \end{vmatrix}
+= \begin{vmatrix} a_2 & a_3 \\ b_2 & b_3 \end{vmatrix}\hat\imath
+- \begin{vmatrix} a_1 & a_3 \\ b_1 & b_3 \end{vmatrix}\hat\jmath
++ \begin{vmatrix} a_1 & a_2 \\ b_1 & b_2 \end{vmatrix}\hat k .
+$$
+
+Its two defining geometric properties:
+
+- **Length**: $|\vec A\times\vec B| = |\vec A|\,|\vec B|\sin\theta =$ area of the parallelogram spanned by $\vec A$ and $\vec B$.
+- **Direction**: $\vec A\times\vec B$ is **perpendicular** to the plane of $\vec A$ and $\vec B$ (orientation given by the right-hand rule).
+
+### 1.5 Tying it together: the triple product
+
+Volume $=$ area of base $\times$ height. Take the base spanned by $\vec B$ and $\vec C$: its area is $|\vec B\times\vec C|$, and the perpendicular direction is $\hat n = (\vec B\times\vec C)/|\vec B\times\vec C|$. The height is the component of $\vec A$ along that perpendicular, i.e. $\vec A\cdot\hat n$. Therefore
+$$
+\text{Volume} = |\vec B\times\vec C|\,(\vec A\cdot\hat n)
+= |\vec B\times\vec C|\left(\vec A\cdot\frac{\vec B\times\vec C}{|\vec B\times\vec C|}\right)
+= \vec A\cdot(\vec B\times\vec C) = \det(\vec A,\vec B,\vec C).
+$$
+
+The **scalar triple product** $\vec A\cdot(\vec B\times\vec C)$ *is* the 3×3 determinant — three views (algebra / base × height / signed volume) of one and the same object.
+
+## 2. The key intuition
+
+- The **determinant** is a *signed* measure of size: area in 2D, volume in 3D. Sign $=$ orientation, magnitude $=$ size. A **zero** determinant means the vectors are squashed flat (collinear in 2D, coplanar in 3D) — degenerate, no area or volume.
+- The **cross product** packages *both* that area *and* the perpendicular direction into a single vector: its length is the area, its direction is the normal.
+
+## 3. Python demonstration
+
+Three checks, each against an **independent** ground truth — never just re-running the same formula.
+
+### 3.1 The 2×2 determinant is a signed area
+
+Independent ground truth: build $\vec B$ by rotating $\vec A$ by a **known** angle and scaling, so the true area $|\vec A||\vec B|\sin\theta_0$ comes from the construction, not from the determinant.
+
+```{python}
+import numpy as np
+
+theta0 = np.deg2rad(37)                 # known angle, independent of the determinant
+A = np.array([2.0, 1.0])
+R = np.array([[np.cos(theta0), -np.sin(theta0)],
+              [np.sin(theta0),  np.cos(theta0)]])
+B = 1.7 * (R @ A)                       # B = A rotated by 37°, then scaled ×1.7
+
+area_true = np.linalg.norm(A) * np.linalg.norm(B) * np.sin(theta0)   # ground truth
+det = A[0] * B[1] - A[1] * B[0]                                      # a1·b2 − a2·b1
+
+print(f"True area (|A||B| sin θ₀)  : {area_true:.6f}")
+print(f"|det(A, B)|               : {abs(det):.6f}")
+print(f"Sign of det (orientation) : {'+ (counterclockwise)' if det > 0 else '− (clockwise)'}")
+```
+
+### 3.2 The cross product: perpendicular, and length = area
+
+Two independent checks. Perpendicularity is a geometric property (the dot products must vanish). For the length, I compute the parallelogram area a **second, different way** — placing $\vec A$ and $\vec B$ in their own plane by Gram–Schmidt and using the 2D determinant — so it never reuses the cross-product formula.
+
+```{python}
+A = np.array([2.0, -1.0, 3.0])
+B = np.array([1.0,  4.0, 1.0])
+
+AxB = np.cross(A, B)
+
+# (a) is A×B perpendicular to both A and B?
+print(f"(A×B)·A = {AxB @ A:.2e}    (A×B)·B = {AxB @ B:.2e}    → both ≈ 0")
+
+# (b) |A×B| vs the area computed independently (2D coordinates in the A–B plane)
+e1 = A / np.linalg.norm(A)
+w  = B - (B @ e1) * e1              # Gram–Schmidt: remove the part of B along e1
+e2 = w / np.linalg.norm(w)
+A2 = np.array([A @ e1, A @ e2])     # A and B expressed in the plane's 2D basis
+B2 = np.array([B @ e1, B @ e2])
+area_2d = abs(A2[0] * B2[1] - A2[1] * B2[0])
+
+print(f"|A×B|              : {np.linalg.norm(AxB):.6f}")
+print(f"area (independent) : {area_2d:.6f}")
+```
+
+### 3.3 Triple product = determinant = volume
+
+Here `np.linalg.det` is an **independent** (LU-based) implementation, so comparing it to the hand-assembled $\vec A\cdot(\vec B\times\vec C)$ is a genuine check.
+
+```{python}
+#| fig-cap: "A, B and A×B: the cross product stands perpendicular to the A–B plane."
+import matplotlib.pyplot as plt
+
+A = np.array([2.0, 0.0, 0.5])
+B = np.array([0.5, 2.0, 0.0])
+C = np.array([0.3, 0.4, 2.0])
+
+triple = A @ np.cross(B, C)                     # scalar triple product
+det    = np.linalg.det(np.array([A, B, C]))     # independent determinant
+
+print(f"A·(B×C)           : {triple:.6f}")
+print(f"det([A; B; C])    : {det:.6f}")
+print(f"Volume of the box : {abs(triple):.6f}")
+
+# 3D view: A, B and their cross product
+AxB = np.cross(A, B)
+
+# Per-axis bounds from the origin and the three tips (handles negative components),
+# with a little padding — so no arrow is ever clipped.
+pts = np.array([[0, 0, 0], A, B, AxB])
+lo, hi = pts.min(axis=0), pts.max(axis=0)
+pad = 0.12 * (hi - lo).max()
+lo, hi = lo - pad, hi + pad
+
+fig = plt.figure(figsize=(6, 6))
+ax = fig.add_subplot(111, projection="3d")
+for vec, col, lab in [(A, '#c0392b', 'A'), (B, '#2c3e50', 'B'), (AxB, '#27ae60', 'A×B')]:
+    ax.quiver(0, 0, 0, *vec, color=col, label=lab, arrow_length_ratio=0.12)
+ax.set_xlim(lo[0], hi[0]); ax.set_ylim(lo[1], hi[1]); ax.set_zlim(lo[2], hi[2])
+ax.set_box_aspect(hi - lo)            # equal scale per axis → angles aren't distorted
+ax.view_init(elev=22, azim=35)        # viewing angle that shows the perpendicularity
+ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_zlabel("z")
+ax.legend(); ax.set_title("A × B ⟂ the A–B plane")
+plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain the determinant and the cross product to a high-school student, with no formulas, in 30 seconds.
+
+**My target answer**: *Put two arrows in a plane; they frame a parallelogram. The determinant is just its area — with a plus or minus sign that tells you whether you turn left or right going from the first arrow to the second. In 3D, three arrows frame a box, and the determinant is its volume. The cross product is a bonus: given two arrows, it hands you a third one that points straight out of their plane, exactly as long as that parallelogram's area. And if the determinant is zero, the arrows are squashed flat — no area, no volume.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Dot vs cross**: the dot product returns a *number*, the cross product returns a *vector*. Don't mix them up.
+- A determinant can be **negative** — that's orientation, not a mistake. The area/volume is its **absolute value**.
+- **det $= 0$** is meaningful: the vectors are collinear (2D) or coplanar (3D) — degenerate, with no area or volume.
+- The cross product is **not** commutative: $\vec B\times\vec A = -(\vec A\times\vec B)$ (opposite direction, same length).
+- $|\vec A\times\vec B| = |\vec A||\vec B|\sin\theta$ uses **sin**, whereas $\vec A\cdot\vec B = |\vec A||\vec B|\cos\theta$ uses **cos**: perpendicular vectors give a maximal cross product but a zero dot product, and vice versa.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
