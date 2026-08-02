@@ -1,0 +1,191 @@
+---
+title: "Lecture 1 — Dot Product"
+subtitle: "MIT 18.02 · Part I: Vectors and Matrices"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 1 ("Dot Product").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+:::
+
+## In brief
+
+A **vector** carries two pieces of information: a **direction** and a **length**. The **dot product** is an operation that takes *two* vectors and returns *a single number*.
+
+The whole lecture rests on one idea: this number has **two faces** — an **algebraic** one (a sum of products of components) and a **geometric** one ($|\vec A|\,|\vec B|\cos\theta$) — and these two faces are **the same object**. From this equality follow two concrete tools:
+
+- measuring the **angle** between two vectors;
+- testing whether they are **orthogonal** (perpendicular).
+
+## 1. The concepts
+
+### 1.1 Vector, components, length
+
+A vector in 3D is written through its components:
+$$
+\vec A = a_1\,\hat\imath + a_2\,\hat\jmath + a_3\,\hat k = \langle a_1, a_2, a_3\rangle .
+$$
+
+Its **length** reads like a Pythagorean theorem extended to three dimensions:
+$$
+|\vec A| = \sqrt{a_1^2 + a_2^2 + a_3^2}.
+$$
+
+Two basic operations: **scalar multiplication** (stretch/shrink, and possibly flip the vector) and **addition** (component by component, or geometrically "tip to tail" — the parallelogram rule).
+
+### 1.2 The dot product: two definitions
+
+**Algebraic definition** — multiply the components pairwise and sum:
+$$
+\vec A \cdot \vec B = a_1 b_1 + a_2 b_2 + a_3 b_3 .
+$$
+The result is a **scalar** (a number), not a vector — worth remembering.
+
+**Geometric definition** — with $\theta$ the angle between the two vectors:
+$$
+\vec A \cdot \vec B = |\vec A|\,|\vec B|\cos\theta .
+$$
+
+### 1.3 Why the two definitions coincide
+
+This is the heart of the lecture, and it isn't magic: it's the **law of cosines** in disguise. Let $\vec C = \vec A - \vec B$ (the third side of the triangle formed by $\vec A$ and $\vec B$).
+
+*On the geometry side*, the law of cosines gives:
+$$
+|\vec C|^2 = |\vec A|^2 + |\vec B|^2 - 2\,|\vec A|\,|\vec B|\cos\theta .
+$$
+
+*On the algebra side*, expand the square as a dot product:
+$$
+|\vec C|^2 = \vec C \cdot \vec C = (\vec A - \vec B)\cdot(\vec A - \vec B)
+= |\vec A|^2 - 2\,\vec A\cdot\vec B + |\vec B|^2 .
+$$
+
+Both expressions describe the **same** length $|\vec C|^2$. Setting them equal, everything cancels except:
+$$
+\boxed{\;\vec A\cdot\vec B = |\vec A|\,|\vec B|\cos\theta\;}
+$$
+
+> **The *why* to remember**: the dot product is not a definition that fell from the sky. It is the law of cosines rewritten in vector form. The algebraic formula and the geometric formula are two ways of naming the same thing.
+
+### 1.4 Two applications
+
+**(a) Angles and lengths.** Isolating the cosine:
+$$
+\cos\theta = \frac{\vec A\cdot\vec B}{|\vec A|\,|\vec B|}.
+$$
+The **sign** of the dot product alone already tells you something: $>0$ acute angle, $=0$ right angle, $<0$ obtuse angle.
+
+**(b) Orthogonality.** Since $\cos 90^\circ = 0$:
+$$
+\vec A\cdot\vec B = 0 \iff \vec A \perp \vec B \quad(\text{for } \vec A,\vec B \neq \vec 0).
+$$
+A classic application: the **equation of a plane**. The plane through the origin, perpendicular to the vector $\vec N = \langle 1,2,3\rangle$, is exactly the set of points $P=(x,y,z)$ such that $\vec{OP}\cdot\vec N = 0$, that is:
+$$
+x + 2y + 3z = 0 .
+$$
+
+## 2. The key intuition: projection
+
+Group the geometric definition differently:
+$$
+\vec A\cdot\vec B = |\vec B|\,\underbrace{\big(|\vec A|\cos\theta\big)}_{\text{"amount of } \vec A \text{ along } \vec B \text{"}} .
+$$
+
+The quantity $|\vec A|\cos\theta$ is the **scalar projection** of $\vec A$ onto $\vec B$: literally *how much of $\vec A$ points in the direction of $\vec B$*. We compute it with the unit vector $\hat B = \vec B/|\vec B|$:
+$$
+\text{proj}_{\vec B} \vec A = \vec A\cdot\hat B .
+$$
+
+This is **the recurring thread of the whole course**: "what component of a vector lies along a given direction?" will come back again and again (work of a force, flux, and so on).
+
+## 3. Python demonstration
+
+### 3.1 Checking that the two definitions coincide
+
+A methodological trap: if I compute $\cos\theta$ *from* the dot product, my "verification" goes in circles. For an **honest** test, I build $\vec B$ by rotating $\vec A$ by a **known** angle — so the angle does not come from the dot product.
+
+```{python}
+import numpy as np
+
+theta0 = np.deg2rad(50)                    # IMPOSED angle, known independently
+A = np.array([3.0, 1.0])
+
+R = np.array([[np.cos(theta0), -np.sin(theta0)],   # 50° rotation
+              [np.sin(theta0),  np.cos(theta0)]])
+B = 2.0 * (R @ A)                          # B = A rotated by 50°, then scaled ×2
+
+dot_algebraic = A @ B                                          # sum of products
+dot_geometric = np.linalg.norm(A) * np.linalg.norm(B) * np.cos(theta0)
+
+print(f"Algebraic definition  (Σ aᵢbᵢ)        : {dot_algebraic:.6f}")
+print(f"Geometric definition  (|A||B|cos θ)   : {dot_geometric:.6f}")
+print(f"Difference between the two            : {abs(dot_algebraic - dot_geometric):.2e}")
+```
+
+The difference is on the order of $10^{-15}$ (floating-point noise): the two definitions really do give the same number.
+
+### 3.2 Recovering the angle from the $P,Q,R$ example
+
+We reuse the example from the notes: $P=(1,0,0)$, $Q=(0,1,0)$, $R=(0,0,2)$, and compute the angle at $P$ between $\vec{PQ}$ and $\vec{PR}$.
+
+```{python}
+P = np.array([1, 0, 0]); Q = np.array([0, 1, 0]); R = np.array([0, 0, 2])
+PQ, PR = Q - P, R - P
+
+cos_theta = (PQ @ PR) / (np.linalg.norm(PQ) * np.linalg.norm(PR))
+angle = np.degrees(np.arccos(cos_theta))
+
+print(f"cos θ = {cos_theta:.4f}   (that is, 1/√10)")
+print(f"θ ≈ {angle:.1f}°")
+```
+
+### 3.3 Visualizing the projection
+
+```{python}
+#| fig-cap: "Projection of A onto B: the part of A that points in the direction of B."
+import matplotlib.pyplot as plt
+
+A = np.array([3.0, 1.0])
+B = np.array([2.0, 3.0])
+
+Bhat      = B / np.linalg.norm(B)
+scal_proj = A @ Bhat            # |A| cos θ  (a number)
+proj_vec  = scal_proj * Bhat    # the projection, as a vector
+
+fig, ax = plt.subplots(figsize=(6, 6))
+opt = dict(angles='xy', scale_units='xy', scale=1, width=0.013)
+ax.quiver(0, 0, *A,        color='#c0392b', label='A', **opt)
+ax.quiver(0, 0, *B,        color='#2c3e50', label='B', **opt)
+ax.quiver(0, 0, *proj_vec, color='#27ae60', label='projection of A onto B', **opt)
+ax.plot([A[0], proj_vec[0]], [A[1], proj_vec[1]], '--', color='gray', lw=1)  # perpendicular
+
+ax.set_xlim(-0.5, 4); ax.set_ylim(-0.5, 4); ax.set_aspect('equal')
+ax.grid(alpha=0.3); ax.legend(loc='upper left')
+ax.set_title('"How much of A points in the direction of B?"')
+plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain the dot product to a high-school student, with no formula, in 30 seconds.
+
+**My target answer**: *The dot product is a two-input machine — two arrows — that spits out a single number. That number measures how much the two arrows point in the same direction. Large and positive: they point the same way. Zero: they are perpendicular. Negative: they oppose each other. At its core, it answers one question — "how much of arrow A moves along arrow B?"*
+:::
+
+## 5. Pitfalls & takeaways
+
+- The dot product returns a **scalar**, never a vector. (Not to be confused with the cross product in Lecture 2.)
+- For the angle, don't forget to **divide by the lengths**: $\cos\theta = \dfrac{\vec A\cdot\vec B}{|\vec A||\vec B|}$, not $\vec A\cdot\vec B$ alone.
+- $\vec A\cdot\vec B = 0$ means **perpendicular**, not "one of them is zero": two nonzero vectors can perfectly well have a zero dot product.
+- The **sign** of $\vec A\cdot\vec B$ is enough to tell the nature of the angle (acute / right / obtuse) — no need to compute $\theta$.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::

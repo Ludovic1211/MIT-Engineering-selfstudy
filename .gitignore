@@ -1,0 +1,16 @@
+# Quarto render output (regenerated on every build — do not version)
+/_site/
+/.quarto/
+
+# Execution cache "freeze" (enable later if needed)
+# /_freeze/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# System
+.DS_Store
+Thumbs.db

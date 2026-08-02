@@ -1,0 +1,37 @@
+---
+title: "18.02 — Multivariable Calculus"
+subtitle: "MIT · Denis Auroux · Fall 2007"
+toc: true
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Course source** — Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007.
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/).
+:::
+
+## What this course is about
+
+Multivariable calculus extends the tools of analysis (derivative, integral) to functions of several variables and to three-dimensional space. It is the engineer's basic mathematical toolbox: describing surfaces, force fields, and fluxes, and tying it all together with a handful of major theorems (Green, Stokes, divergence).
+
+The course is organized into four parts:
+
+- **I. Vectors and matrices** — dot product, determinants, cross product, linear systems, parametric curves.
+- **II. Partial derivatives** — tangent planes, optimization, Lagrange multipliers.
+- **III. Double integrals and line integrals in the plane** — Green's theorem.
+- **IV. Triple integrals and surface integrals** — flux, divergence, Stokes' theorem.
+
+## The lectures
+
+### Part I — Vectors and matrices
+
+| # | Lecture | Status |
+|---|---------|--------|
+| 1 | [Dot Product](lecture-01-dot-product.qmd) | ✅ Online |
+| 2 | Determinants; cross product | 🚧 In progress |
+| 3 | Matrices; inverse matrices | ⬜ Planned |
+| 4 | Square systems; equations of planes | ⬜ Planned |
+| 5 | Parametric equations for lines and curves | ⬜ Planned |
+| 6 | Velocity, acceleration; Kepler's second law | ⬜ Planned |
+
+*(Parts II to IV will be added as I go.)*

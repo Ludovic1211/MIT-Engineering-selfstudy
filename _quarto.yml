@@ -1,0 +1,67 @@
+project:
+  type: website
+  output-dir: _site
+
+lang: en
+
+website:
+  title: "Engineering Notes — MIT OCW"
+  description: "Self-study engineering portfolio, based on MIT OpenCourseWare."
+  # ⚠️ Replace with your GitHub username and repository name once created:
+  site-url: "https://USERNAME.github.io/REPO/"
+  repo-url: "https://github.com/USERNAME/REPO"
+  page-navigation: true
+  back-to-top-navigation: true
+  navbar:
+    background: light
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+      - text: Courses
+        menu:
+          - href: courses/18.02/index.qmd
+            text: "18.02 — Multivariable Calculus"
+          - href: courses/8.01SC/index.qmd
+            text: "8.01SC — Classical Mechanics (WIP)"
+          - href: courses/18.03/index.qmd
+            text: "18.03 — Differential Equations (WIP)"
+          - href: courses/18.06/index.qmd
+            text: "18.06 — Linear Algebra (WIP)"
+          - href: courses/8.02/index.qmd
+            text: "8.02 — Electricity & Magnetism (WIP)"
+          - href: courses/2.003SC/index.qmd
+            text: "2.003SC — Engineering Dynamics (WIP)"
+          - href: courses/16.01/index.qmd
+            text: "16.01 — Unified Engineering (WIP)"
+      - href: about.qmd
+        text: The approach
+    right:
+      - icon: github
+        href: "https://github.com/USERNAME/REPO"
+        aria-label: GitHub repository
+  page-footer:
+    border: true
+    left: |
+      Content derived from [MIT OpenCourseWare](https://ocw.mit.edu), licensed under
+      [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Non-commercial use.
+    right: |
+      Built with [Quarto](https://quarto.org).
+
+format:
+  html:
+    theme: [litera, theme.scss]
+    toc: true
+    toc-title: "On this page"
+    toc-location: right
+    toc-depth: 3
+    html-math-method: katex
+    code-copy: true
+    code-tools: true
+    fig-align: center
+    fig-cap-location: bottom
+    include-in-header: _include/fonts.html
+    link-external-newwindow: true
+
+execute:
+  warning: false

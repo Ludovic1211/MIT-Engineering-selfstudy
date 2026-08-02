@@ -1,0 +1,43 @@
+/*-- scss:defaults --*/
+
+// ─────────────────────────────────────────────────────────────
+//  TYPOGRAPHY — change the site-wide font HERE.
+//  The "Inter" font is loaded in _include/fonts.html.
+//  To try another one: change the name below AND the link
+//  in _include/fonts.html. This is the only place to touch.
+// ─────────────────────────────────────────────────────────────
+
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !default;
+$headings-font-family:   "Inter", #{$font-family-sans-serif} !default;
+
+// Reading settings: a bit more breathing room than the default theme
+$body-color:          #1f2328;
+$body-font-size:      1.03rem;
+$line-height-base:    1.65;
+$headings-font-weight: 650;
+
+// Accent color (links, active elements) — a more contemporary blue
+$link-color:    #2563eb;
+$primary:       #2563eb;
+
+/*-- scss:rules --*/
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.011em;
+}
+
+h2 {
+  margin-top: 2.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #eaecef;   // light rule under section headings
+}
+
+// Slightly softer code blocks
+pre.sourceCode {
+  border-radius: 8px;
+}

@@ -1,0 +1,38 @@
+---
+title: "The approach"
+subtitle: "What this site contains, and how it's built"
+toc: true
+---
+
+## The idea
+
+I'm teaching myself engineering, in my spare time, from the courses of [MIT OpenCourseWare](https://ocw.mit.edu). This site is the notebook where I consolidate that work: for each lecture, I take my notes, rewrite them in my own words, and add a Python demonstration that puts the concept to the test.
+
+This is not a mere transcription. Rephrasing is **the** moment of learning: it's where you discover what you thought you understood but haven't mastered yet.
+
+## A note's template
+
+Every note follows the same structure, designed around the Feynman method:
+
+1. **In brief** — the lay of the land in a few lines.
+2. **The concepts** — the theory rewritten, focused on the *why*.
+3. **The key intuition** — the analogy or image that holds it together.
+4. **Python demonstration** — numerical check and visualization.
+5. **Feynman test** — re-explaining simply, without formulas.
+6. **Pitfalls & takeaways** — the classic mistakes and the essentials to remember.
+
+## How the site is built
+
+- **[Quarto](https://quarto.org)** turns source files (`.qmd`) into web pages. It runs the Python code at build time and shows the results and figures directly.
+- Mathematics is written in **LaTeX** and rendered in the browser by **KaTeX**.
+- The site is hosted on **GitHub Pages** and rebuilt automatically on every change, via **GitHub Actions**.
+
+## License & attribution
+
+The source content comes from MIT OpenCourseWare, licensed under **Creative Commons BY-NC-SA**. I follow these conditions:
+
+- **Attribution (BY)** — each note cites the original course, instructor, and semester.
+- **NonCommercial (NC)** — this site is free and will stay free, with no monetization.
+- **ShareAlike (SA)** — my rewritten notes are derivative works, published under the **same** CC BY-NC-SA license.
+
+The full license text is in the [`LICENSE`](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) file of the repository. Some original materials may contain third-party "all rights reserved" elements: those are not re-published verbatim.

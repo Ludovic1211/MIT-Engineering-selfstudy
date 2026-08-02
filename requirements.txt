@@ -1,0 +1,5 @@
+# Python dependencies executed by Quarto at render time (numerical demos).
+# The GitHub Actions workflow installs them automatically.
+jupyter
+numpy
+matplotlib

@@ -1,0 +1,13 @@
+---
+title: "16.01 — Unified Engineering I–IV"
+subtitle: "MIT · AeroAstro · Fall 2005 – Spring 2006"
+toc: false
+---
+
+::: {.callout-warning appearance="default"}
+## ⚠️ Work In Progress ⚠️
+
+This course is part of my self-study roadmap but hasn't been tackled yet.
+Check back later — or head to the [18.02 course](/courses/18.02/index.qmd),
+already online.
+:::
