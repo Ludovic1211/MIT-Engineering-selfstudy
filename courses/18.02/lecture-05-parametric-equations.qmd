@@ -1,0 +1,277 @@
+---
+title: "Lecture 5 — Parametric Equations & Curves"
+subtitle: "MIT 18.02 · Part I: Vectors and Matrices"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 5 ("Parametric equations for lines and curves").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-05.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Lecture 4 described a line *statically* — as the set of points where two planes cross. This lecture switches to a **kinematic** view: describe a curve by a **moving point**, giving each coordinate as a function of a parameter $t$.
+
+- A **line** becomes $Q(t) = Q_0 + t\,\vec v$ — a point leaving $Q_0$ at constant velocity.
+- Feeding a parametrization into a plane equation collapses the **line–plane intersection** into a single equation in $t$.
+- The same idea handles curved motion. The star example is the **cycloid** — the path of a point on a rolling wheel — and a **Taylor** zoom reveals the sharp **cusp** it makes each time it touches the ground.
+
+## 1. The concepts
+
+### 1.1 A line as a moving point
+
+Besides "intersection of two planes" (Lecture 4), a line is the trajectory of a point moving at **constant velocity**. Through $Q_0$ (at $t=0$) and $Q_1$ (at $t=1$), with direction $\vec v = \vec{Q_0Q_1}$:
+$$
+Q(t) = Q_0 + t\,\vec v,\qquad \vec{Q_0Q(t)} = t\,\vec{Q_0Q_1}.
+$$
+
+*Worked example (from the notes):* $Q_0=(-1,2,2)$, $Q_1=(1,3,-1)$, so $\vec v=\langle 2,1,-3\rangle$ and each coordinate is linear in $t$:
+$$
+x(t) = -1 + 2t,\qquad y(t) = 2 + t,\qquad z(t) = 2 - 3t .
+$$
+
+### 1.2 Where does the line pierce a plane?
+
+Substitute the parametric coordinates into the plane $\vec N\cdot\vec X = c$. Because $Q(t)$ is linear in $t$, so is the result:
+$$
+\vec N\cdot Q(t) = \vec N\cdot Q_0 + t\,(\vec N\cdot\vec v) = c
+\;\Longrightarrow\;
+t^\* = \frac{c - \vec N\cdot Q_0}{\vec N\cdot\vec v}.
+$$
+
+*From the notes*, with plane $x+2y+4z=7$: $\ \vec N\cdot Q(t) = 11 - 8t = 7 \Rightarrow t^\*=\tfrac12$, giving $Q(\tfrac12)=(0,\tfrac52,\tfrac12)$. Since $Q_0$ gives $11>7$ and $Q_1$ gives $3<7$, the two endpoints sit on **opposite sides**, so the segment really crosses.
+
+Two degenerate cases hide in the denominator $\vec N\cdot\vec v$:
+
+- **line inside the plane** — $\vec N\cdot\vec v = 0$ *and* $\vec N\cdot Q_0 = c$: the equation holds for **every** $t$;
+- **line parallel, outside** — $\vec N\cdot\vec v = 0$ but $\vec N\cdot Q_0 \neq c$: **no** solution.
+
+### 1.3 Parametric curves — the cycloid
+
+For general motion we just let $\big(x(t),y(t),z(t)\big)$ be any functions of $t$. The headline example: a wheel of radius $a$ **rolls without slipping** along the $x$-axis, and we track a point $P$ on its rim, starting at the origin. We want $\big(x(\theta),y(\theta)\big)$ as a function of the rotation angle $\theta$.
+
+Decompose the position as $\vec{OP} = \vec{OA} + \vec{AB} + \vec{BP}$:
+
+- $\vec{OA} = \langle a\theta,\ 0\rangle$ — the contact point has moved by the **arc length rolled**, $a\theta$ (this *is* the no-slip condition);
+- $\vec{AB} = \langle 0,\ a\rangle$ — up from the ground to the centre;
+- $\vec{BP} = \langle -a\sin\theta,\ -a\cos\theta\rangle$ — centre to rim, length $a$, angle $\theta$ from the vertical.
+
+Adding them:
+$$
+\boxed{\,x(\theta) = a(\theta - \sin\theta),\qquad y(\theta) = a(1 - \cos\theta).\,}
+$$
+
+### 1.4 A Taylor zoom on the cusp
+
+Take $a=1$, so $x=\theta-\sin\theta$, $y=1-\cos\theta$, and look near the bottom point $\theta = 0$. With
+$$
+F(t) \approx F(0) + F'(0)\,t + \tfrac{t^2}{2}F''(0) + \tfrac{t^3}{6}F'''(0) + \cdots,
+\qquad
+\sin\theta \approx \theta - \tfrac{\theta^3}{6},\quad \cos\theta \approx 1 - \tfrac{\theta^2}{2},
+$$
+we get
+$$
+x(\theta) \approx \frac{\theta^3}{6},\qquad y(\theta) \approx \frac{\theta^2}{2}.
+$$
+So $|x|\ll|y|$, and the slope $\dfrac{dy}{dx} = \dfrac{\dot y}{\dot x} = \dfrac{\sin\theta}{1-\cos\theta} \approx \dfrac{2}{\theta} \to \infty$ as $\theta\to 0$: a **vertical tangent**, i.e. a sharp **cusp** at each ground contact.
+
+## 2. The key intuition
+
+A parametric description trades a **map** for a **movie**: instead of one equation that a curve's points satisfy, you get "where am I at instant $t$?" That is the natural language for motion — and exactly what we'll differentiate next lecture to get velocity and acceleration.
+
+Two habits worth keeping:
+
+- **Substitute the motion into the constraint.** A line piercing a plane becomes a single equation in $t$; the geometry dissolves into algebra.
+- **Taylor is a microscope.** Keep the first couple of power terms and you read a curve's *local* shape straight off. For the cycloid, that microscope shows why the tack in a rolling tyre carves a sharp point: at the ground it is momentarily the wheel's contact point, which isn't moving — so the point stops and reverses, and a path that stops and reverses has a cusp.
+
+## 3. Python demonstration
+
+### 3.1 The line as a moving point, and where it hits a plane
+
+Independent ground truth: after solving for $t^\*$, we check the point actually lies in the plane, that the endpoints straddle it, and that "constant speed" really holds (distance from $Q_0$ grows linearly in $t$).
+
+```{python}
+import numpy as np
+
+Q0 = np.array([-1, 2,  2])
+Q1 = np.array([ 1, 3, -1])
+v  = Q1 - Q0                       # direction  ⟨2, 1, -3⟩
+def Q(t): return Q0 + t * v        # moving point: Q(0)=Q0, Q(1)=Q1
+
+N = np.array([1, 2, 4]); c = 7     # plane  x + 2y + 4z = 7  (N·X = c)
+
+t_star = (c - N @ Q0) / (N @ v)    # solve N·Q(t) = c
+P = Q(t_star)
+print("t* =", t_star, "   intersection:", P)
+
+print("in-plane check   N·P - c :", N @ P - c)                          # ~0
+print("opposite sides?  signs   :", int(np.sign(N @ Q0 - c)), int(np.sign(N @ Q1 - c)))
+
+ts = np.array([0.3, 0.5, 0.9, 1.3])
+speed = np.linalg.norm(ts[:, None] * v, axis=1) / ts    # |Q(t)-Q0| / t
+print("constant speed? |Q(t)-Q0|/t :", np.round(speed, 6), " |v| =", round(np.linalg.norm(v), 6))
+```
+
+```{python}
+#| fig-cap: "The line Q(t) leaves Q₀, crosses the plane once (red point), and reaches Q₁ on the far side."
+import matplotlib.pyplot as plt
+
+def plane_grid(N, d, ctr, r, n=12):
+    N = np.asarray(N, float); dom = int(np.argmax(np.abs(N)))
+    a1, a2 = [k for k in range(3) if k != dom]
+    g1 = np.linspace(ctr[a1] - r[a1], ctr[a1] + r[a1], n)
+    g2 = np.linspace(ctr[a2] - r[a2], ctr[a2] + r[a2], n)
+    G1, G2 = np.meshgrid(g1, g2)
+    G3 = (d - N[a1] * G1 - N[a2] * G2) / N[dom]
+    M = [None, None, None]; M[a1], M[a2], M[dom] = G1, G2, G3
+    return M
+
+pts = np.vstack([Q0, Q1, P]).astype(float)
+ctr = pts.mean(0); r = np.full(3, 1.4 * max(1.0, np.abs(pts - ctr).max()))
+fig = plt.figure(figsize=(7, 6)); ax = fig.add_subplot(111, projection='3d')
+X, Y, Z = plane_grid(N, c, ctr, r); ax.plot_surface(X, Y, Z, alpha=0.30, color='#3498db')
+seg = np.array([Q0 + t * v for t in np.linspace(-0.2, 1.4, 2)])
+ax.plot(*seg.T, color='#7f8c8d', lw=2, label='line Q(t)')
+for pt, name, col in [(Q0, 'Q0', 'k'), (Q1, 'Q1', 'k'), (P, 'hit', '#c0392b')]:
+    ax.scatter(*pt, color=col, s=70, depthshade=False); ax.text(*pt, f'  {name}')
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('z')
+ax.set_title('Line piercing a plane'); ax.legend(); plt.tight_layout(); plt.show()
+```
+
+### 3.2 The cycloid, built two independent ways (and animated)
+
+Route A is the derived formula. Route B rebuilds the point from scratch — centre at $(a\theta, a)$ plus the spoke $\vec{CP}$ obtained by **rotating** the straight-down vector $(0,-a)$ — so it never reuses the closed form. If they agree, the formula is confirmed.
+
+```{python}
+a = 1.0
+theta = np.linspace(0, 4 * np.pi, 600)
+
+# Route A — derived formula
+xA = a * (theta - np.sin(theta))
+yA = a * (1 - np.cos(theta))
+
+# Route B — INDEPENDENT rolling construction: centre + rotated spoke
+def rot(ang):                                  # CCW rotation matrix
+    c_, s_ = np.cos(ang), np.sin(ang)
+    return np.array([[c_, -s_], [s_, c_]])
+
+C = np.stack([a * theta, np.full_like(theta, a)], axis=1)   # wheel centres
+spoke0 = np.array([0.0, -a])                                # centre -> P at θ = 0
+PB = np.array([C[i] + rot(-th) @ spoke0 for i, th in enumerate(theta)])
+
+print("max |Route A - Route B| :", np.abs(np.column_stack([xA, yA]) - PB).max())   # ~0
+
+cusp_theta = 2 * np.pi * np.arange(3)           # P touches ground at θ = 2πk
+print("cusp x-positions :", np.round(a * (cusp_theta - np.sin(cusp_theta)), 6),
+      " vs 2πa·k :", np.round(2 * np.pi * a * np.arange(3), 6))
+```
+
+```{python}
+#| fig-cap: "The cycloid, with the wheel and spoke drawn at four angles."
+fig, ax = plt.subplots(figsize=(9, 3.2))
+ax.plot(xA, yA, color='#c0392b', lw=2, label='cycloid')
+circ = np.linspace(0, 2 * np.pi, 60)
+for th in [np.pi/2, np.pi, 3*np.pi/2, 2*np.pi + np.pi/2]:
+    cx = a * th
+    ax.plot(cx + a*np.cos(circ), a + a*np.sin(circ), color='#95a5a6', lw=1)
+    px, py = a*(th - np.sin(th)), a*(1 - np.cos(th))
+    ax.plot([cx, px], [a, py], color='#2c3e50', lw=1)
+    ax.plot(px, py, 'o', color='#c0392b', ms=5)
+ax.axhline(0, color='k', lw=0.6); ax.set_aspect('equal')
+ax.set_xlim(-0.5, 4*np.pi + 0.5); ax.set_ylim(-0.4, 2.4)
+ax.set_title('Cycloid = path of a rim point'); ax.legend(loc='upper right')
+plt.tight_layout(); plt.show()
+```
+
+The animation below is produced with `FuncAnimation(...).to_jshtml()`: matplotlib bakes each frame into a **self-contained JavaScript player**, so it runs in the browser on a static site — no server, no video codec needed.
+
+```{python}
+#| fig-cap: "Press play: a point on the rolling wheel traces the cycloid in real time."
+from matplotlib import animation
+from IPython.display import HTML
+
+fig, ax = plt.subplots(figsize=(9, 3.2))
+ax.set_aspect('equal'); ax.axhline(0, color='k', lw=0.6)
+ax.set_xlim(-0.5, 4*np.pi + 0.5); ax.set_ylim(-0.4, 2.4)
+ax.set_title('A point on a rolling wheel traces the cycloid')
+
+trail, = ax.plot([], [], color='#c0392b', lw=2)
+wheel, = ax.plot([], [], color='#95a5a6', lw=1.5)
+spoke, = ax.plot([], [], color='#2c3e50', lw=1)
+dot,   = ax.plot([], [], 'o', color='#c0392b', ms=7)
+circ = np.linspace(0, 2*np.pi, 60)
+
+def update(th):
+    cx = a * th
+    wheel.set_data(cx + a*np.cos(circ), a + a*np.sin(circ))
+    px, py = a*(th - np.sin(th)), a*(1 - np.cos(th))
+    spoke.set_data([cx, px], [a, py])
+    dot.set_data([px], [py])
+    m = theta <= th
+    trail.set_data(xA[m], yA[m])
+    return trail, wheel, spoke, dot
+
+anim = animation.FuncAnimation(fig, update, frames=np.linspace(0, 4*np.pi, 72),
+                               interval=60, blit=True)
+plt.close(fig)                          # avoid a duplicate static frame
+HTML(anim.to_jshtml())
+```
+
+### 3.3 Taylor near the cusp — the vertical tangent
+
+Independent ground truth: the slope $dy/dx$ is estimated by **finite differences** on the exact parametric curve (using no analytic derivative), then compared with the predicted $2/\theta$ — and it blows up, confirming the vertical tangent.
+
+```{python}
+th = np.linspace(-1.2, 1.2, 400)
+x_exact, y_exact = th - np.sin(th), 1 - np.cos(th)
+x_taylor, y_taylor = th**3 / 6, th**2 / 2
+
+mask = np.abs(th) < 0.5
+err = np.abs(np.stack([x_exact - x_taylor, y_exact - y_taylor]))[:, mask].max()
+print("max Taylor error on |θ|<0.5 :", err)
+
+for th0 in [0.4, 0.2, 0.1, 0.05]:                 # slope by finite differences
+    h = 1e-6
+    dx = ((th0+h - np.sin(th0+h)) - (th0-h - np.sin(th0-h))) / (2*h)
+    dy = ((1 - np.cos(th0+h)) - (1 - np.cos(th0-h))) / (2*h)
+    print(f"θ = {th0:>4}:  dy/dx ≈ {dy/dx:7.2f}   (analytic 2/θ = {2/th0:6.2f})")
+```
+
+```{python}
+#| fig-cap: "Near the ground the cycloid meets a vertical tangent; the Taylor curve x≈θ³/6, y≈θ²/2 matches it."
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.plot(x_exact, y_exact, color='#c0392b', lw=2, label='exact cycloid')
+ax.plot(x_taylor, y_taylor, '--', color='#2980b9', lw=2, label='Taylor near cusp')
+ax.axvline(0, color='k', lw=0.6)
+ax.annotate('vertical tangent', xy=(0, 0), xytext=(0.12, 0.28),
+            arrowprops=dict(arrowstyle='->'))
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_aspect('equal')
+ax.set_title('Cusp of the cycloid'); ax.legend(); plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: with no heavy formulas, explain what a "parametric equation" is, and why the cycloid has a sharp point at the bottom.
+
+**My target answer**: *A parametric equation describes a shape by saying where a moving dot is at each instant, instead of giving one equation its points must obey — the difference between a map of a road and a movie of a car driving it. The cycloid is the path of a tack stuck in a rolling tyre. Every time the tack reaches the ground it is, for that instant, the exact point of the wheel touching the road — and by no-slip that point isn't moving. So the tack momentarily stops and whips back upward; a path that stops dead and reverses makes a sharp point — the cusp.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **The parameter is not distance.** Equal steps in $t$ are equal steps in space *only* when the speed is constant — true for a line, false for the cycloid.
+- **One curve, many parametrizations.** $Q(t)$ and $Q(2t)$ draw the same line at different speeds; the trace is a property of the image, not of $t$.
+- **Line vs plane — mind the denominator.** If $\vec N\cdot\vec v = 0$ the line is parallel to the plane; don't divide. Check $\vec N\cdot Q_0 = c$ to tell "line lies in the plane" (all $t$) from "no intersection".
+- **Keep enough Taylor terms.** $\sin\theta\approx\theta$ alone would give $x\approx 0$ near the cusp and miss it entirely; you need the next term ($\theta^3/6$ for $\sin$, $\theta^2/2$ for $\cos$).
+- **"Slope $\to\infty$" means vertical tangent, not "undefined".** The curve is perfectly smooth as a function of $\theta$; only $y$-as-a-function-of-$x$ misbehaves at the cusp.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::

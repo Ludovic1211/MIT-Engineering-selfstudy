@@ -31,7 +31,7 @@ The course is organized into four parts:
 | 2 | [Determinants & Cross Product](lecture-02-determinants-cross-product.qmd) | ✅ Online |
 | 3 | [Matrices & Inverse Matrices](lecture-03-matrices.qmd) | ✅ Online |
 | 4 | [Square Systems & Equations of Planes](lecture-04-square-systems-planes.qmd) | ✅ Online |
-| 5 | Parametric equations for lines and curves | ⬜ Planned |
+| 5 | [Parametric Equations & Curves](lecture-05-parametric-equations.qmd) | ✅ Online |
 | 6 | Velocity, acceleration; Kepler's second law | ⬜ Planned |
 
 *(Parts II to IV will be added as I go.)*
