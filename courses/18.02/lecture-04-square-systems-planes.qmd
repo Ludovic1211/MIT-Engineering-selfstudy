@@ -1,0 +1,275 @@
+---
+title: "Lecture 4 — Square Systems & Equations of Planes"
+subtitle: "MIT 18.02 · Part I: Vectors and Matrices"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 4 ("Square systems; equations of planes").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-04.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+A **plane** is nothing more than a single linear equation $ax + by + cz = d$, and its coefficient vector $\langle a,b,c\rangle$ is the **normal** — the direction perpendicular to it. That one fact drives the whole lecture:
+
+- read a plane off its normal vector, and test which **side** of it a point is on;
+- stack **three** plane equations into a square system $A\vec X = \vec b$ — solving it means finding the point where three planes meet;
+- let the **determinant** call the outcome: $\det A \neq 0$ gives one clean intersection point; $\det A = 0$ means the three normals are coplanar (a flattened parallelepiped), so the planes either miss each other (**no** solution) or share a whole line (**infinitely many**).
+
+This is the geometry sitting underneath the matrix algebra of Lecture 3.
+
+## 1. The concepts
+
+### 1.1 One plane = one linear equation
+
+An equation $ax + by + cz = d$ describes a plane, and the coefficient vector $\vec N = \langle a,b,c\rangle$ is its **normal** — the direction perpendicular to the plane.
+
+*Why.* A point $P$ lies in the plane through $P_0$ with normal $\vec N$ exactly when the displacement $\vec{P_0P}$ has **no component along** $\vec N$:
+$$
+P \in \text{plane} \iff \vec{P_0P}\cdot\vec N = 0 .
+$$
+Expanding this gives $ax + by + cz = \vec N\cdot\vec{OP_0} = d$. So the right-hand side $d$ is simply the value of the left-hand side at any point of the plane.
+
+*Two worked cases (from the notes), both with $\vec N = \langle 1,5,10\rangle$:*
+
+- through the **origin**: $\;x + 5y + 10z = 0$;
+- through $P_0 = (2,1,-1)$: $\;(x-2) + 5(y-1) + 10(z+1) = 0$, i.e.
+$$
+x + 5y + 10z = \underbrace{1\cdot 2 + 5\cdot 1 + 10\cdot(-1)}_{=\ -3} \;=\; -3 .
+$$
+
+**Which side are you on?** The sign of $ax + by + cz - d = \vec N\cdot\vec{P_0P}$ tells you which side of the plane a point sits on ($0$ meaning "exactly on it").
+
+::: {.callout-note appearance="simple"}
+In **Lecture 3** we got the same "is $P$ in the plane?" test as a *determinant* condition (a flattened parallelepiped). The normal-vector form here is the other face of that same coin — and it is the form that scales up cleanly to systems of planes.
+:::
+
+### 1.2 Getting the normal from the plane
+
+If you know **two vectors** $\vec u, \vec v$ lying in the plane, the normal is their cross product (Lecture 2):
+$$
+\vec N = \vec u \times \vec v .
+$$
+Conversely, a vector $\vec w$ is **parallel to** the plane iff it is perpendicular to the normal:
+$$
+\vec w \parallel \text{plane} \iff \vec w \perp \vec N \iff \vec w\cdot\vec N = 0 .
+$$
+
+### 1.3 Three planes = a square system
+
+Stack three plane equations and you get a $3\times 3$ linear system:
+$$
+\begin{cases}\vec N_1\cdot\vec X = b_1\\[2pt] \vec N_2\cdot\vec X = b_2\\[2pt] \vec N_3\cdot\vec X = b_3\end{cases}
+\iff A\vec X = \vec b,
+\qquad
+A = \begin{bmatrix} \text{—}\ \vec N_1\ \text{—}\\ \text{—}\ \vec N_2\ \text{—}\\ \text{—}\ \vec N_3\ \text{—}\end{bmatrix}.
+$$
+
+Geometrically: two planes meet in a **line**, and the third plane cuts that line at a single **point** — the unique solution. The exceptions all happen when the third plane is **parallel to that line**:
+
+- if the line lies **inside** the third plane → **infinitely many** solutions;
+- if the line is parallel to but **outside** it → **no** solution.
+
+### 1.4 The determinant decides
+
+The matrix $A$ is invertible iff $\det A \neq 0$. And
+$$
+\det A = 0 \iff \vec N_1,\vec N_2,\vec N_3 \text{ are coplanar} \iff \text{their parallelepiped has volume } 0,
+$$
+straight from Lecture 2's reading of the determinant as a signed volume.
+
+### 1.5 The homogeneous case $A\vec X = \vec 0$
+
+Now every plane passes through the origin, so $\vec X = \vec 0$ is **always** a solution — the *trivial* one.
+
+- $\det A \neq 0$: it is the **only** solution.
+- $\det A = 0$: **infinitely many**. Because the normals are coplanar, the direction perpendicular to their common plane — namely $\vec N_1\times\vec N_2$ — is perpendicular to *all three* normals at once, so it lies in all three planes. That entire line through the origin solves the system.
+
+### 1.6 The full picture
+
+| $\det A$ | $A\vec X = \vec b$ | $A\vec X = \vec 0$ |
+|:---:|:---|:---|
+| $\neq 0$ | unique solution $\vec X = A^{-1}\vec b$ | unique: $\vec X = \vec 0$ |
+| $= 0$ | no solution **or** infinitely many | infinitely many |
+
+## 2. The key intuition
+
+Each plane equation is **one constraint** that removes one degree of freedom. Three *independent* constraints pin a point down completely — that is the $\det \neq 0$ world.
+
+The determinant is the **independence meter**: it measures the 3-D volume the three normals still enclose. Full volume means the three constraints genuinely point in three different directions and lock onto a single point. Zero volume means the normals have been squashed flat into one plane — the constraints are secretly redundant. Then one of two things happens: they *agree* and leave a direction free (a whole **line** of solutions), or they *disagree* and nothing satisfies all three at once (**no** solution). This is exactly Lecture 3's "$\det = 0 \Rightarrow$ no inverse", now *seen* as sheets in space.
+
+## 3. Python demonstration
+
+### 3.1 A plane from its normal, and the "which side?" test
+
+Independent ground truth: instead of trusting the equation, we **build points that are guaranteed to lie in the plane** using only geometry (two directions perpendicular to $\vec N$), then check they satisfy the equation.
+
+```{python}
+import numpy as np
+
+N  = np.array([1, 5, 10])          # normal vector  ⟨a, b, c⟩
+P0 = np.array([2, 1, -1])          # a point the plane passes through
+d  = N @ P0                        # constant term: d = N·OP0
+print(f"Plane:  x + 5y + 10z = {d}")          # -> -3
+
+# --- Independent ground truth ------------------------------------------------
+# Two directions perpendicular to N span the plane; P0 + s·u + t·v is IN it,
+# and this construction never uses the plane equation itself.
+u = np.cross(N, [1, 0, 0])         # ⊥ N
+v = np.cross(N, u)                 # ⊥ N and ⊥ u  ->  u, v span the plane
+rng = np.random.default_rng(0)
+S = rng.uniform(-5, 5, (1000, 1))
+T = rng.uniform(-5, 5, (1000, 1))
+pts = P0 + S * u + T * v           # 1000 points constructed to be in the plane
+print("max |N·P - d| over 1000 in-plane points:", np.abs(pts @ N - d).max())
+
+# --- Which side of the plane?  sign of N·(P - P0) ----------------------------
+for P in ([10, 10, 10], [-5, -5, -5]):
+    val = N @ (np.array(P) - P0)
+    print(f"point {P}:  N·(P-P0) = {val:+d}  ->  side {int(np.sign(val)):+d}")
+```
+
+### 3.2 Building the normal from two in-plane vectors
+
+Independent ground truth: a normal must be perpendicular to **both** spanning vectors, tested with the **dot** product — a different operation from the cross product used to build it.
+
+```{python}
+u = np.array([1, 2, -1])           # two vectors known to lie in a plane
+v = np.array([2, 1,  0])
+N = np.cross(u, v)                 # normal = u × v            (Lecture 2)
+print("N = u × v =", N)
+print("N·u =", N @ u, "   N·v =", N @ v)        # both 0  ->  N ⊥ plane
+
+# Bonus tie to Lecture 2: |N| equals the area of the (u, v) parallelogram,
+# obtained here independently from |u||v| sin(θ), with θ from the dot product.
+cos_t   = (u @ v) / (np.linalg.norm(u) * np.linalg.norm(v))
+area_sin   = np.linalg.norm(u) * np.linalg.norm(v) * np.sqrt(1 - cos_t**2)
+area_cross = np.linalg.norm(N)
+print(f"area via sin(θ): {area_sin:.6f}   |u×v|: {area_cross:.6f}")
+```
+
+### 3.3 ⭐ Solving the system = intersecting three planes ($\det \neq 0$)
+
+Independent ground truth: after solving with an LU solver, we plug the point back into the three **plane equations** — a geometric check, not the solver echoing itself.
+
+```{python}
+import matplotlib.pyplot as plt
+
+# Three planes  Ni·X = bi   ->   square system  A X = b
+A = np.array([[1, 0, 1],           # x        +  z = 1
+              [1, 1, 0],           # x +  y       = 2
+              [1, 2, 3]])          # x + 2y + 3z = 3
+b = np.array([1, 2, 3])
+
+print("det(A) =", round(np.linalg.det(A), 6))   # != 0  ->  unique intersection
+sol = np.linalg.solve(A, b)                      # LU solver
+print("intersection point:", np.round(sol, 6))
+
+for i, (Ni, bi) in enumerate(zip(A, b), 1):
+    print(f"  plane {i}:  N·X = {Ni @ sol:.6f}   (target {bi})")
+```
+
+```{python}
+#| fig-cap: "det ≠ 0 — two planes meet in a line, the third stabs that line at one point."
+def plane_grid(N, d, ctr, r, n=12):
+    """Mesh for plane N·X = d over a cube of half-size r around ctr,
+    solved along the axis with the largest |coefficient| (robust to vertical planes)."""
+    N = np.asarray(N, float)
+    dom = int(np.argmax(np.abs(N)))
+    a1, a2 = [k for k in range(3) if k != dom]
+    g1 = np.linspace(ctr[a1] - r[a1], ctr[a1] + r[a1], n)
+    g2 = np.linspace(ctr[a2] - r[a2], ctr[a2] + r[a2], n)
+    G1, G2 = np.meshgrid(g1, g2)
+    G3 = (d - N[a1] * G1 - N[a2] * G2) / N[dom]
+    M = [None, None, None]
+    M[a1], M[a2], M[dom] = G1, G2, G3
+    return M                                     # -> [X, Y, Z]
+
+colors = ['#3498db', '#2ecc71', '#e67e22']
+ctr = sol.astype(float)
+r = np.full(3, 1.5 * max(1.0, np.abs(sol).max()))   # auto bounds around the point
+
+fig = plt.figure(figsize=(7, 6))
+ax = fig.add_subplot(111, projection='3d')
+for Ni, bi, c in zip(A, b, colors):
+    X, Y, Z = plane_grid(Ni, bi, ctr, r)
+    ax.plot_surface(X, Y, Z, alpha=0.35, color=c)
+ax.scatter(*sol, color='#c0392b', s=90, depthshade=False)
+ax.text(*sol, "  unique solution", color='#c0392b')
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('z')
+ax.set_title("det ≠ 0 : three planes meet in one point")
+plt.tight_layout(); plt.show()
+```
+
+### 3.4 The degenerate case ($\det = 0$): no solution, or a whole line
+
+We force the three normals to be **coplanar** by making the third a combination of the first two.
+
+```{python}
+N1 = np.array([1, 0, 1])
+N2 = np.array([0, 1, 1])
+N3 = 2 * N1 - N2                    # lies in span(N1, N2)  ->  det = 0
+A = np.vstack([N1, N2, N3]).astype(float)
+print("det(A) =", round(np.linalg.det(A), 12))
+
+# Independent evidence of coplanarity (no determinant used):
+# d = N1×N2 is ⊥ to N1, N2 by construction; here it is ALSO ⊥ N3.
+d_dir = np.cross(N1, N2)
+print("d·N1, d·N2, d·N3 =", d_dir @ N1, d_dir @ N2, d_dir @ N3)   # all 0
+
+# --- Sub-case A: inconsistent b  ->  NO solution -----------------------------
+# Consistency needs b3 = 2·b1 - b2 (same combination as the normals). Break it:
+b_bad = np.array([1.0, 1.0, 5.0])              # 2·1 - 1 = 1 ≠ 5
+x_ls, *_ = np.linalg.lstsq(A, b_bad, rcond=None)
+print("no-solution case, residual |A x - b| =", round(np.linalg.norm(A @ x_ls - b_bad), 6))
+
+# --- Sub-case B: consistent b  ->  a WHOLE LINE of solutions ------------------
+x0   = np.array([2.0, -1.0, 0.5])              # pick any point...
+b_ok = A @ x0                                  # ...and make b compatible with it
+res = [np.linalg.norm(A @ (x0 + t * d_dir) - b_ok) for t in np.linspace(-3, 3, 7)]
+print("infinite-solutions case, residuals along x0 + t·d:", np.round(res, 12))
+```
+
+```{python}
+#| fig-cap: "det = 0 (consistent case) — the three planes share one common line of solutions."
+ctr = x0.astype(float)
+r = np.full(3, 1.5 * max(1.0, np.abs(x0).max(), np.linalg.norm(d_dir)))
+
+fig = plt.figure(figsize=(7, 6))
+ax = fig.add_subplot(111, projection='3d')
+for Ni, bi, c in zip(A, b_ok, colors):
+    X, Y, Z = plane_grid(Ni, bi, ctr, r)
+    ax.plot_surface(X, Y, Z, alpha=0.30, color=c)
+line = np.array([x0 + t * d_dir for t in (-2, 2)])
+ax.plot(line[:, 0], line[:, 1], line[:, 2], color='#c0392b', lw=3, label='line of solutions')
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('z')
+ax.set_title("det = 0 : three planes share a whole line")
+ax.legend(); plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: with no matrices and no formulas, explain what it means to "solve three equations in three unknowns", and why the answer is sometimes one point, sometimes none, sometimes infinitely many.
+
+**My target answer**: *Each equation is a flat sheet — a plane — floating in space. Solving all three at once means finding the single point that sits on all three sheets simultaneously. Usually two sheets cross along a line, and the third sheet stabs that line at exactly one spot: one answer. But if the third sheet happens to run parallel to that line, two things can go wrong — it either contains the line, so the whole line works (infinitely many answers), or it floats alongside and never touches it (no answer). The determinant is just a quick check of whether the three sheets are tilted independently enough to guarantee that one clean crossing point.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- The normal is read straight off the coefficients: $ax+by+cz=d \Rightarrow \vec N = \langle a,b,c\rangle$. The constant $d$ carries **no direction** — it only slides the plane along $\vec N$.
+- Parallel planes share the same $\vec N$ (up to scale) with different $d$; the **same** $\vec N$ *and* $d$ describe the identical plane.
+- $\det A = 0$ does **not** automatically mean "no solution" — it means "no *unique* solution". You still have to check consistency to tell no-solution from infinitely-many.
+- "Parallel to a plane" ($\vec w\cdot\vec N = 0$) is the **opposite** condition to "perpendicular to a plane" ($\vec w \parallel \vec N$). Easy to swap by accident.
+- On paper, solving $A\vec X = \vec b$ via $A^{-1}$ is fine; numerically, prefer a solver (`np.linalg.solve`) — it is faster and more stable than forming the inverse.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
