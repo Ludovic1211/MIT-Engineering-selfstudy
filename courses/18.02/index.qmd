@@ -32,6 +32,6 @@ The course is organized into four parts:
 | 3 | [Matrices & Inverse Matrices](lecture-03-matrices.qmd) | ✅ Online |
 | 4 | [Square Systems & Equations of Planes](lecture-04-square-systems-planes.qmd) | ✅ Online |
 | 5 | [Parametric Equations & Curves](lecture-05-parametric-equations.qmd) | ✅ Online |
-| 6 | Velocity, acceleration; Kepler's second law | ⬜ Planned |
+| 6 | [Velocity, Acceleration & Kepler's Second Law](lecture-06-velocity-acceleration-kepler.qmd) | ✅ Online |
 
 *(Parts II to IV will be added as I go.)*

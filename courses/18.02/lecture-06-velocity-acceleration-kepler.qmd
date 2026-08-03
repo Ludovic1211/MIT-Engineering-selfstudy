@@ -1,0 +1,254 @@
+---
+title: "Lecture 6 — Velocity, Acceleration & Kepler's Second Law"
+subtitle: "MIT 18.02 · Part I: Vectors and Matrices"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 6 ("Velocity, acceleration; Kepler's second law").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-06.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Differentiate a moving point and physics appears. The **velocity** $\vec v = \dot{\vec r}$ always points along the direction of travel; its length is the **speed**. Differentiate again for the **acceleration** $\vec a = \dot{\vec v}$. The lecture's payoff is astronomical: with these tools, **Kepler's second law** — a planet's Sun-line sweeps equal areas in equal times — becomes a one-line statement about the vector $\vec r\times\vec v$, and Newton's explanation (gravity is a **central** force) falls straight out of a derivative.
+
+## 1. The concepts
+
+### 1.1 Position, velocity, acceleration
+
+For a moving point with position vector $\vec r(t) = \langle x(t), y(t), z(t)\rangle$:
+$$
+\vec v = \frac{d\vec r}{dt} = \langle \dot x, \dot y, \dot z\rangle,
+\qquad \text{speed} = |\vec v|,
+\qquad \vec a = \frac{d\vec v}{dt} = \ddot{\vec r}.
+$$
+
+*Example — the cycloid* (radius $1$, from Lecture 5): $\vec r = \langle t-\sin t,\ 1-\cos t\rangle$, so
+$$
+\vec v = \langle 1-\cos t,\ \sin t\rangle,\quad
+|\vec v| = \sqrt{(1-\cos t)^2 + \sin^2 t} = \sqrt{2 - 2\cos t},\quad
+\vec a = \langle \sin t,\ \cos t\rangle .
+$$
+At $t=0$ the speed is $0$: the point momentarily **stops** — exactly the cusp we found last lecture — while $\vec a(0) = \langle 0,1\rangle$ points straight up, whipping it back into motion.
+
+### 1.2 Arc length and the unit tangent
+
+The **arc length** $s$ is the distance travelled *along* the path, and it grows at the speed:
+$$
+\left|\frac{ds}{dt}\right| = |\vec v|
+\quad\Longrightarrow\quad
+s = \int |\vec v|\,dt .
+$$
+For one arch of the cycloid, $s = \int_0^{2\pi}\sqrt{2-2\cos t}\,dt$ (which works out to $8$).
+
+The **unit tangent** is $\hat T = \vec v/|\vec v|$, and the chain rule splits velocity cleanly into *where* and *how fast*:
+$$
+\vec v = \frac{d\vec r}{dt} = \underbrace{\frac{d\vec r}{ds}}_{\hat T}\,\underbrace{\frac{ds}{dt}}_{|\vec v|} = \hat T\,\frac{ds}{dt}.
+$$
+So velocity carries **direction** (tangent to the trajectory) and **length** (the speed).
+
+### 1.3 Kepler's second law (1609)
+
+Kepler observed that a planet's motion is **planar**, and that the line from the Sun to the planet **sweeps out area at a constant rate** — equal areas in equal times. Newton later showed *why*, from the law of gravitation.
+
+Two observations turn this into vectors:
+
+1. The area swept in a small time $\Delta t$ is the triangle spanned by $\vec r$ and the small step $\Delta\vec r \approx \vec v\,\Delta t$:
+$$
+\Delta A \approx \tfrac12\,|\vec r\times\Delta\vec r| \approx \tfrac12\,|\vec r\times\vec v|\,\Delta t
+\;\Longrightarrow\;
+\frac{dA}{dt} = \tfrac12\,|\vec r\times\vec v|.
+$$
+So "constant areal rate" means $|\vec r\times\vec v|$ is constant.
+2. The plane of motion is spanned by $\vec r$ and $\vec v$, and the **direction** of $\vec r\times\vec v$ is the normal to that plane.
+
+Put together, Kepler's second law is the single statement
+$$
+\boxed{\;\vec r\times\vec v = \text{constant vector}\;}
+$$
+— constant *magnitude* gives equal areas, constant *direction* keeps the orbit in one plane.
+
+### 1.4 Why it holds: a central force
+
+Differentiate the cross product:
+$$
+\frac{d}{dt}(\vec r\times\vec v) = \underbrace{\dot{\vec r}\times\vec v}_{\vec v\times\vec v \,=\, \vec 0} + \vec r\times\dot{\vec v} = \vec r\times\vec a .
+$$
+Therefore
+$$
+\vec r\times\vec v = \text{const}
+\iff \vec r\times\vec a = \vec 0
+\iff \vec a \parallel \vec r
+\iff \text{the force points along the Sun–planet line.}
+$$
+Gravity does exactly that — it pulls the planet straight toward the Sun — so Kepler's second law follows. Notice the argument never used the *inverse-square* strength: **any central force** gives equal areas.
+
+## 2. The key intuition
+
+Velocity is position's derivative, so it lives **tangent** to the path with length equal to the speed; acceleration measures how that velocity vector turns and stretches.
+
+Kepler's second law is best read as a **conservation law**. Picture the Sun–planet line as a clock hand. Its "sweep rate" is $\tfrac12|\vec r\times\vec v|$. Near the Sun the hand is short, so to cover the same area each day the planet must **race** through a long arc; far away the hand is long, so the same area is swept by **crawling** through a short arc. Fast at perihelion, slow at aphelion — all because one vector, $\vec r\times\vec v$, never changes. And it never changes for a simple reason: the only thing that could change it is a sideways push, but gravity pulls straight down the hand, contributing nothing to the sweep.
+
+## 3. Python demonstration
+
+### 3.1 Velocity, speed and acceleration on the cycloid
+
+Independent ground truth: we recover $\vec v$ and $\vec a$ by **finite differences** on $\vec r(t)$ (using no analytic derivative), and we measure the arch length **two** independent ways — integrating the speed, and summing straight chord lengths along the path.
+
+```{python}
+import numpy as np
+
+t = np.linspace(0, 2*np.pi, 2000)
+r = np.column_stack([t - np.sin(t), 1 - np.cos(t)])       # cycloid, radius 1
+
+v_analytic = np.column_stack([1 - np.cos(t), np.sin(t)])
+a_analytic = np.column_stack([np.sin(t), np.cos(t)])
+
+# One finite-difference step each: r -> v, then v -> a
+v_numeric = np.gradient(r, t, axis=0)
+a_numeric = np.gradient(v_analytic, t, axis=0)
+interior = slice(1, -1)                                   # endpoints use one-sided diffs
+print("max |v_numeric - v_exact| :", np.abs(v_numeric - v_analytic)[interior].max())
+print("max |a_numeric - a_exact| :", np.abs(a_numeric - a_analytic)[interior].max())
+
+speed = np.hypot(*v_analytic.T)
+print("speed at the cusp (t=0)   :", round(speed[0], 6))     # 0 -> the point stops
+
+# Arch length, two independent ways
+dt_ = np.diff(t)
+L_integral = np.sum((speed[:-1] + speed[1:]) / 2 * dt_)  # ∫|v| dt  (trapezoid)
+L_polygon  = np.sum(np.hypot(*np.diff(r, axis=0).T))      # Σ chord lengths
+print(f"arch length: ∫|v|dt = {L_integral:.5f},  Σ chords = {L_polygon:.5f},  exact = 8")
+```
+
+### 3.2 ⭐ Kepler's second law — simulate an orbit, then measure the swept area
+
+We integrate the two-body problem $\vec a = -GM\,\vec r/|\vec r|^3$ with a symplectic (velocity-Verlet) step, which keeps the ellipse closed.
+
+```{python}
+GM, dt = 1.0, 0.005
+r = np.array([1.0, 0.0]); v = np.array([0.0, 1.3])       # eccentric ellipse
+accel = lambda q: -GM * q / (q @ q)**1.5
+
+E = 0.5 * v @ v - GM / np.linalg.norm(r)                 # specific energy < 0 -> bound
+a_semi = -GM / (2 * E)
+n = int(2*np.pi*np.sqrt(a_semi**3 / GM) / dt)            # steps for one period
+R = np.empty((n, 2)); V = np.empty((n, 2))
+acc = accel(r)
+for i in range(n):
+    R[i], V[i] = r, v
+    r = r + v*dt + 0.5*acc*dt**2
+    new = accel(r)
+    v = v + 0.5*(acc + new)*dt
+    acc = new
+
+# Independent check A: r × v (angular momentum) is conserved
+L = R[:, 0]*V[:, 1] - R[:, 1]*V[:, 0]
+print(f"r×v : mean = {L.mean():.5f},  full spread = {L.max()-L.min():.2e}")
+
+# Independent check B: geometric area swept in equal-TIME bins (shoelace of Sun-sectors),
+#                      a construction that never mentions r×v.
+bins = 8
+edges = np.linspace(0, n-1, bins+1).astype(int)
+areas = []
+for k in range(bins):
+    seg = R[edges[k]:edges[k+1]+1]
+    cross = seg[:-1, 0]*seg[1:, 1] - seg[:-1, 1]*seg[1:, 0]
+    areas.append(0.5*np.sum(cross))
+areas = np.array(areas)
+print("area per equal-time bin :", np.round(areas, 4))
+print(f"max relative deviation  : {(areas.max()-areas.min())/areas.mean():.2%}")
+```
+
+```{python}
+#| fig-cap: "Equal-time sectors (alternating shades) enclose equal area — long and thin near aphelion, short and fat near perihelion."
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 6))
+ax.plot(R[:, 0], R[:, 1], color='#2c3e50', lw=1)
+ax.plot(0, 0, 'o', color='#f39c12', ms=15, label='Sun')
+for k in range(bins):
+    seg = R[edges[k]:edges[k+1]+1]
+    poly = np.vstack([[0, 0], seg])
+    ax.fill(poly[:, 0], poly[:, 1], color='#e74c3c' if k % 2 else '#3498db', alpha=0.45)
+ax.set_aspect('equal'); ax.legend(loc='upper right')
+ax.set_xlim(R[:, 0].min()-0.4, R[:, 0].max()+0.4)
+ax.set_ylim(R[:, 1].min()-0.4, R[:, 1].max()+0.4)
+ax.set_title("Kepler's 2nd law: equal areas in equal times")
+plt.tight_layout(); plt.show()
+```
+
+Now the animation: the Sun–planet spoke sweeps the orbit, and the shaded fan is the area covered in a **fixed time window** — its shape morphs wildly while its area stays put.
+
+```{python}
+#| fig-cap: "Press play — the swept fan (fixed time window) keeps constant area while changing shape."
+from matplotlib import animation
+from IPython.display import HTML
+
+fig, ax = plt.subplots(figsize=(7, 6)); ax.set_aspect('equal')
+ax.set_xlim(R[:, 0].min()-0.4, R[:, 0].max()+0.4)
+ax.set_ylim(R[:, 1].min()-0.4, R[:, 1].max()+0.4)
+ax.plot(R[:, 0], R[:, 1], color='#bdc3c7', lw=1)          # faint orbit
+ax.plot(0, 0, 'o', color='#f39c12', ms=15)               # Sun
+ax.set_title("A planet sweeps equal areas in equal times")
+
+planet, = ax.plot([], [], 'o', color='#c0392b', ms=9)
+spoke,  = ax.plot([], [], color='#c0392b', lw=1)
+fan = ax.fill([0, 0, 0], [0, 0, 0], color='#3498db', alpha=0.55)[0]
+win = max(1, int(0.07 * n))                              # fixed-time window
+
+def update(i):
+    planet.set_data([R[i, 0]], [R[i, 1]])
+    spoke.set_data([0, R[i, 0]], [0, R[i, 1]])
+    seg = R[max(0, i-win):i+1]
+    fan.set_xy(np.vstack([[0, 0], seg]))
+    return planet, spoke, fan
+
+anim = animation.FuncAnimation(fig, update, frames=range(0, n, max(1, n//90)),
+                               interval=60, blit=True)
+plt.close(fig)
+HTML(anim.to_jshtml())
+```
+
+### 3.3 The vector proof, made numerical
+
+Independent ground truth: along the *same* simulated orbit, $\tfrac{d}{dt}(\vec r\times\vec v)$ (finite differences) and $\vec r\times\vec a$ (direct) are **both** essentially zero — the two sides of Newton's identity, confirmed separately.
+
+```{python}
+cross_rv = R[:, 0]*V[:, 1] - R[:, 1]*V[:, 0]             # r × v  (scalar in 2-D)
+ddt_rv   = np.gradient(cross_rv, dt)                     # d/dt (r × v)
+print("max |d/dt (r×v)| along the orbit :", np.abs(ddt_rv).max())
+
+Acc = -GM * R / np.linalg.norm(R, axis=1, keepdims=True)**3
+cross_ra = R[:, 0]*Acc[:, 1] - R[:, 1]*Acc[:, 0]         # r × a
+print("max |r × a| (central force)      :", np.abs(cross_ra).max())
+```
+
+Both vanish (to rounding), so $\vec r\times\vec v$ is conserved precisely *because* the force is central — Kepler's second law, exactly as Newton argued.
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: with no formulas, explain why a planet speeds up when it is near the Sun and slows down when it is far away.
+
+**My target answer**: *Imagine a line drawn from the Sun to the planet, like a clock hand. Kepler noticed that hand sweeps out area at a perfectly steady rate — the same amount of "pie slice" every day, all year long. When the planet is close, the hand is short, so to paint the same slice of area it has to swing quickly through a long stretch of orbit. When it is far, the hand is long, so the same slice is painted while it barely creeps along. That is why planets are fastest at their closest point and slowest at their farthest — the steady sweeping rate forces it. Underneath, the sweep stays steady because the Sun always pulls straight down the hand, never sideways.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Speed vs velocity.** Speed $|\vec v|$ is a scalar; velocity is the vector. On the cycloid the speed drops to $0$ at the cusp even as the point is about to move again.
+- **Equal *areas*, not equal distances or angles.** The conserved quantity is swept area; the planet covers very different arc lengths and turns through very different angles in equal times.
+- **The 2nd law needs only a *central* force**, not the inverse-square law. Inverse-square is what additionally gives the closed ellipse (1st law) and the period–size relation (3rd law).
+- **$\vec r\times\vec v$ = const packs two facts**: constant magnitude (equal areas) *and* constant direction (motion stays in a single plane). Don't drop the planar half.
+- **Arc length is $\int|\vec v|\,dt$**, not $|\vec r(b)-\vec r(a)|$ — the latter is only the straight chord between endpoints.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
