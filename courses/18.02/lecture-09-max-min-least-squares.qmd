@@ -1,0 +1,224 @@
+---
+title: "Lecture 9 — Max-Min Problems, Least Squares"
+subtitle: "MIT 18.02 · Part II: Partial Derivatives"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 9 ("Max-min problems; least squares").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-09.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Two payoffs from the partial derivatives of Lecture 8. First, the two axis-slopes $f_x$ and $f_y$ assemble into the **tangent plane**
+$$z = z_0 + f_x(x_0,y_0)\,(x-x_0) + f_y(x_0,y_0)\,(y-y_0),$$
+the flat sheet that best approximates the surface near a point — the multivariable version of the linear approximation. Second, that plane is **horizontal** exactly at the candidates for a max or min: the **critical points** where $f_x = f_y = 0$. Which kind (min, max, or saddle) is the next lecture; here we settle one example by completing the square. Finally, **least squares** — the workhorse of data fitting — is nothing but this critical-point idea applied to the total squared error, and it produces the **normal equations** giving the best-fit line in closed form.
+
+## 1. The concepts
+
+### 1.1 The total differential and the tangent plane
+
+Nudge the inputs by $\Delta x,\Delta y$; to first order the output moves by
+$$
+\Delta z \approx f_x\,\Delta x + f_y\,\Delta y .
+$$
+
+Why is this the equation of a plane? Fix a point $(x_0,y_0)$ with $z_0=f(x_0,y_0)$. The partial $f_x(x_0,y_0)=a$ is the slope of the tangent line $L_1$ obtained by slicing with $y=y_0$:
+$$
+L_1:\quad \begin{cases} z = z_0 + a\,(x-x_0)\\ y = y_0\end{cases}
+$$
+and $f_y(x_0,y_0)=b$ is the slope of the tangent line $L_2$ from slicing with $x=x_0$:
+$$
+L_2:\quad \begin{cases} z = z_0 + b\,(y-y_0)\\ x = x_0.\end{cases}
+$$
+$L_1$ and $L_2$ both pass through $(x_0,y_0,z_0)$ and are tangent to the surface, so **together they determine a plane** — the tangent plane:
+$$
+\boxed{\,z = z_0 + f_x(x_0,y_0)\,(x-x_0) + f_y(x_0,y_0)\,(y-y_0)\,}.
+$$
+
+The **approximation formula** is the statement that, close to $(x_0,y_0)$, the graph of $f$ hugs this plane — exactly the two-variable analogue of $f(x)\approx f(x_0)+f'(x_0)(x-x_0)$.
+
+### 1.2 Critical points: where max and min hide
+
+At a local maximum or minimum the surface has a horizontal tangent plane, which forces **both** slopes to vanish:
+$$
+\text{local max/min}\ \Longrightarrow\ f_x = 0 \ \text{and}\ f_y = 0 .
+$$
+
+::: {.callout-note appearance="simple"}
+**Definition.** $(x_0,y_0)$ is a **critical point** of $f$ if $f_x(x_0,y_0)=0$ and $f_y(x_0,y_0)=0$.
+:::
+
+A critical point is only a *candidate*. Three things can happen there — a **local min**, a **local max**, or a **saddle** (up in one direction, down in another). Telling them apart is the job of the **second-derivative test** in Lecture 10; here we resolve an example directly.
+
+### 1.3 Worked example (settled by completing the square)
+
+$$
+f(x,y) = x^2 - 2xy + 3y^2 + 2x - 2y .
+$$
+Its partials, and the critical-point system:
+$$
+f_x = 2x - 2y + 2 = 0, \qquad f_y = -2x + 6y - 2 = 0 .
+$$
+Adding the two equations gives $4y = 0\Rightarrow y=0$, and then $2x+2=0\Rightarrow x=-1$: a **single critical point $(-1,0)$**.
+
+Is it a min? Complete the square:
+$$
+f(x,y) = \underbrace{(x - y + 1)^2}_{\ge 0} + \underbrace{2y^2}_{\ge 0} - 1 \ \ge\ -1 = f(-1,0).
+$$
+Both squared terms are $\ge 0$, so $f$ never dips below $-1$, and it *reaches* $-1$ only at $(-1,0)$. Therefore $(-1,0)$ is a **global minimum** — no derivative test required, the algebra settles it.
+
+### 1.4 Least squares
+
+Least squares turns "fit a model to data" into a min problem. Given points $(x_1,y_1),\dots,(x_n,y_n)$, look for the best-fit line $y = ax + b$. The **residual** at point $i$ is $y_i-(ax_i+b)$, and we minimize the **total squared error**
+$$
+D(a,b) = \sum_{i=1}^{n}\bigl(y_i - (a x_i + b)\bigr)^2 .
+$$
+This is an unconstrained minimum in the unknowns $a,b$, so we set both partials to zero:
+$$
+\frac{\partial D}{\partial a} = \sum_i 2\bigl(y_i-(ax_i+b)\bigr)(-x_i)=0,
+\qquad
+\frac{\partial D}{\partial b} = \sum_i 2\bigl(y_i-(ax_i+b)\bigr)(-1)=0 .
+$$
+Rearranging gives two **linear** equations in $a,b$ — the **normal equations**:
+$$
+\left(\sum x_i^2\right)a + \left(\sum x_i\right)b = \sum x_i y_i,
+\qquad
+\left(\sum x_i\right)a + n\,b = \sum y_i .
+$$
+Two equations, two unknowns — solved in closed form. The idea generalizes: a **quadratic** fit $y=ax^2+bx+c$ minimizes over three unknowns, and an **exponential** fit $y=ce^{ax}$ becomes linear after taking logs, $\ln y = \ln c + a x$.
+
+## 2. The key intuition
+
+**The tangent plane is "zoom in until it's flat."** A smooth surface under a microscope looks like a plane; the two partials are the only numbers needed to tilt that plane correctly. Optimization then becomes a *flatness hunt* — peaks and valleys are exactly where the tangent plane lies horizontal. Least squares reuses the very same move on a different surface: the **error landscape** $D(a,b)$ floating above the space of all possible lines. The bottom of that bowl — where its tangent plane is horizontal — is the best fit, and because $D$ is quadratic, "horizontal" is just a pair of linear equations.
+
+## 3. Python demonstration
+
+### 3.1 The tangent plane really is tangent
+
+We build a plane at a point from finite-difference partials (so it only ever *evaluates* the surface), then confirm it is genuinely **tangent** — not merely close — by checking that the gap to the true surface shrinks like the **square** of the step. Independent ground truth: the full function values, which the plane never used.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def g(x, y):
+    return np.exp(-(x**2 + y**2) / 2)          # a smooth, curvy bump
+
+x0, y0 = 0.5, -0.3
+gx = lambda x, y, h=1e-6: (g(x+h, y) - g(x-h, y)) / (2*h)   # only evaluates g
+gy = lambda x, y, h=1e-6: (g(x, y+h) - g(x, y-h)) / (2*h)
+
+z0, a, b = g(x0, y0), gx(x0, y0), gy(x0, y0)
+plane = lambda x, y: z0 + a*(x - x0) + b*(y - y0)
+
+print("max |g - plane| on a circle of radius h around the point:")
+print("     h        max_err      max_err / h^2")
+for h in [0.4, 0.2, 0.1, 0.05, 0.025]:
+    th = np.linspace(0, 2*np.pi, 400)
+    xs, ys = x0 + h*np.cos(th), y0 + h*np.sin(th)
+    err = np.abs(g(xs, ys) - plane(xs, ys)).max()
+    print(f"  {h:6.3f}   {err:.3e}     {err/h**2:7.4f}")
+print("the ratio settles to a constant => error is O(h^2): the plane is truly tangent.")
+```
+
+```{python}
+R = 1.6
+GX, GY = np.meshgrid(np.linspace(-R, R, 120), np.linspace(-R, R, 120))
+fig = plt.figure(figsize=(6.5, 5))
+ax = fig.add_subplot(111, projection="3d")
+ax.plot_surface(GX, GY, g(GX, GY), cmap="viridis", alpha=0.85, linewidth=0)
+pr = 0.6
+px, py = np.meshgrid([x0-pr, x0+pr], [y0-pr, y0+pr])
+ax.plot_surface(px, py, plane(px, py), color="orange", alpha=0.55)
+ax.scatter([x0], [y0], [z0], color="black", s=30)
+ax.set_title(r"Tangent plane to $z=g(x,y)$")
+ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_zlabel("z")
+plt.tight_layout(); plt.show()
+```
+
+### 3.2 Finding the critical point *without* calculus
+
+The lecture example $f(x,y)=x^2-2xy+3y^2+2x-2y$ was solved by algebra: one critical point $(-1,0)$, a global minimum with value $-1$. As an independent check, a brute-force grid search — which never differentiates, it only *evaluates* $f$ — should land on the same spot, and the completed-square bound $f\ge -1$ should hold across the whole grid.
+
+```{python}
+def f(x, y):
+    return x**2 - 2*x*y + 3*y**2 + 2*x - 2*y
+
+xs = ys = np.linspace(-4, 4, 1601)
+FX, FY = np.meshgrid(xs, ys)
+F = f(FX, FY)
+i = np.unravel_index(np.argmin(F), F.shape)
+print(f"grid-search minimum : ({FX[i]:+.3f}, {FY[i]:+.3f}),  f = {F[i]:+.4f}")
+print(f"algebraic result    : (-1.000, +0.000),  f = -1.0000")
+assert abs(FX[i] + 1) < 0.02 and abs(FY[i]) < 0.02 and abs(F[i] + 1) < 1e-3
+assert F.min() >= -1 - 1e-9            # the (x-y+1)^2 + 2y^2 - 1 >= -1 bound
+print("grid min matches the algebra, and f >= -1 holds everywhere sampled.")
+```
+
+### 3.3 Least squares: normal equations vs. an independent solver
+
+We build the best-fit line two ways: from the **normal equations** derived above (assembled by hand from the sums), and from NumPy's `lstsq` (a different algorithm entirely — QR/SVD). Matching coefficients confirm the hand derivation.
+
+```{python}
+rng = np.random.default_rng(1)
+a_true, b_true, N = 2.3, -1.1, 40
+xd = np.sort(rng.uniform(0, 10, N))
+yd = a_true*xd + b_true + rng.normal(0, 1.5, N)
+
+# ---- normal equations (from the lecture) ----
+Sx, Sxx, Sy, Sxy, n = xd.sum(), (xd**2).sum(), yd.sum(), (xd*yd).sum(), N
+M   = np.array([[Sxx, Sx], [Sx, n]])
+rhs = np.array([Sxy, Sy])
+a_ne, b_ne = np.linalg.solve(M, rhs)
+
+# ---- independent solver ----
+a_np, b_np = np.linalg.lstsq(np.column_stack([xd, np.ones(N)]), yd, rcond=None)[0]
+
+print(f"normal equations : a = {a_ne:.5f}, b = {b_ne:.5f}")
+print(f"numpy lstsq (QR) : a = {a_np:.5f}, b = {b_np:.5f}")
+print(f"max coefficient difference: {max(abs(a_ne-a_np), abs(b_ne-b_np)):.2e}")
+assert max(abs(a_ne-a_np), abs(b_ne-b_np)) < 1e-9
+print("two independent methods agree ✓")
+```
+
+```{python}
+fig2, ax = plt.subplots(figsize=(6, 4))
+ax.scatter(xd, yd, s=22, label="data")
+xline = np.linspace(xd.min(), xd.max(), 100)
+ax.plot(xline, a_ne*xline + b_ne, "r-", label=f"fit: $y={a_ne:.2f}x{b_ne:+.2f}$")
+pad = 0.08*(yd.max() - yd.min())
+ax.set_ylim(yd.min() - pad, yd.max() + pad)
+ax.set_xlabel("x"); ax.set_ylabel("y")
+ax.set_title("Least-squares line via the normal equations")
+ax.legend(fontsize=8)
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: with no formulas, explain (a) what makes a point a "critical point," and (b) why fitting a straight line to scattered data is secretly the same kind of problem.
+
+**My target answer**: *A critical point is a spot where the landscape is momentarily level — set a marble down and it wouldn't know which way to roll. On a hill that happens at the very top (a peak), at the bottom of a valley, or at a mountain pass where the ground rises one way and falls the other. So "find the maximum or minimum" turns into "find where the ground is flat," which means both slopes — the one facing East and the one facing North — are zero at once. Line-fitting is the same game on a different landscape. Every possible line has some total error; imagine that error as an altitude plotted above all possible lines. The best line sits at the very bottom of that error-valley, where the ground is flat again — and setting those two slopes to zero gives two straightforward equations that hand you the line.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **The tangent plane needs both partials.** One slope tilts it East–West, the other North–South; drop either and the plane no longer touches the surface correctly.
+- **Critical point $\ne$ extremum.** $f_x=f_y=0$ is necessary, not sufficient — saddles satisfy it too. Never declare a max or min from the first derivatives alone (that's what Lecture 10 fixes).
+- **Completing the square is a legitimate classifier** when it works: if you can write $f$ as (sum of squares) $+$ const, you have a global min for free, no second-derivative test.
+- **Least squares minimizes *squared* residuals**, not the residuals themselves (which would cancel) nor their absolute values (which give a harder, non-smooth problem). Squaring is what makes the normal equations linear.
+- **The normal equations are just $f_x=f_y=0$ in disguise**, applied to the error function $D(a,b)$. Recognizing optimization *inside* a data problem is the transferable idea here.
+- **Log-linearize before fitting exponentials.** Fit $\ln y = \ln c + a x$ as a line; fitting $y=ce^{ax}$ directly is a nonlinear problem.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
