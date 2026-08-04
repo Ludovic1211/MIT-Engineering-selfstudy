@@ -1,0 +1,207 @@
+---
+title: "Lecture 8 — Level Curves, Partial Derivatives"
+subtitle: "MIT 18.02 · Part II: Partial Derivatives"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 8 ("Level curves; partial derivatives; tangent plane approximation").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-08.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Part II opens by trading one input for several. A **function of two variables** $f(x,y)$ attaches a number to each point of the plane — temperature over a map is the everyday picture. Two complementary ways to see it: the **graph** $z=f(x,y)$, a surface hovering over the $xy$-plane, and the **level curves** (contour plot), obtained by slicing that surface with horizontal planes $z=c$ and reading off the resulting map. To measure how $f$ changes, the **partial derivatives** $\partial f/\partial x$ and $\partial f/\partial y$ each freeze one variable and differentiate in the other — the slope of the surface along the two axis directions. Those two slopes are exactly the ingredients of the **tangent-plane approximation**, which we assemble next lecture.
+
+## 1. The concepts
+
+### 1.1 Functions of several variables
+
+A function of two variables takes a point $(x,y)$ and returns a number $f(x,y)$. As with one variable, the **domain** — where the formula makes sense — is part of the definition:
+
+| example | defined when |
+|---|---|
+| $f(x,y)=x^2+y^2$ | everywhere |
+| $f(x,y)=\sqrt{y}$ | $y\ge 0$ |
+| $f(x,y)=\dfrac{1}{x+y}$ | $x+y\neq 0$ |
+| $f(x,y)=\text{temperature at }(x,y)$ | (physical) |
+
+We will mostly work with $2$ or $3$ variables — enough to build real intuition without drowning in indices.
+
+### 1.2 Two ways to visualize: graph and level curves
+
+**The graph** is the surface $z=f(x,y)$.
+
+- $f(x,y)=-y$ gives the plane $z=-y$, a flat sheet tilted along the $y$-axis.
+- $f(x,y)=1-x^2-y^2$ gives a downward **paraboloid** — a hill peaking at the origin. Slicing it by coordinate planes gives 1-variable parabolas: set $x=0\Rightarrow z=1-y^2$; set $y=0\Rightarrow z=1-x^2$. It meets the $xy$-plane ($z=0$) where $1-x^2-y^2=0$, i.e. on the **unit circle** $x^2+y^2=1$.
+
+**The level curves** (contour plot) come from the opposite move: fix an *output* $z=c$ and look at every input giving it,
+$$
+\{(x,y)\ :\ f(x,y)=c\}.
+$$
+Drawing these for values of $c$ spaced at regular intervals produces a **topographic map** of the surface. For $f=1-x^2-y^2$, the level $c$ is the circle $x^2+y^2=1-c$: concentric circles, growing as $c$ decreases. For $f=-y$, the level curves are the horizontal lines $y=-c$. The reading rule that makes contour maps useful:
+
+> **closely-spaced contours = steep**, widely-spaced = nearly flat.
+
+### 1.3 Partial derivatives
+
+Recall the one-variable derivative — the slope of the tangent line — and its linear approximation:
+$$
+f'(x)=\frac{df}{dx}=\lim_{\Delta x\to 0}\frac{f(x+\Delta x)-f(x)}{\Delta x},
+\qquad
+f(x)\approx f(x_0)+f'(x_0)\,(x-x_0).
+$$
+
+To do the same for $f(x,y)$, we differentiate in **one variable at a time, holding the other fixed**:
+$$
+\frac{\partial f}{\partial x}(x_0,y_0)=\lim_{\Delta x\to 0}\frac{f(x_0+\Delta x,\,y_0)-f(x_0,y_0)}{\Delta x}
+\quad(\text{$y$ frozen}),
+$$
+$$
+\frac{\partial f}{\partial y}(x_0,y_0)=\lim_{\Delta y\to 0}\frac{f(x_0,\,y_0+\Delta y)-f(x_0,y_0)}{\Delta y}
+\quad(\text{$x$ frozen}).
+$$
+
+The curly $\partial$ (instead of $d$) is the reminder that *other variables are being held constant*. In practice you never take the limit by hand: you differentiate treating the other letter as a number. For $f=1-x^2-y^2$,
+$$
+f_x=\frac{\partial f}{\partial x}=-2x,\qquad f_y=\frac{\partial f}{\partial y}=-2y.
+$$
+
+**Geometric meaning.** Slicing the surface with the vertical plane $y=y_0$ leaves a 1-variable curve $x\mapsto f(x,y_0)$; $\partial f/\partial x$ is simply *its* slope. Likewise $\partial f/\partial y$ is the slope of the slice $x=x_0$. Two slopes, one per axis direction — and these are precisely what we need to fit a flat **tangent plane** to the surface (next lecture).
+
+## 2. The key intuition
+
+**Think of $f$ as elevation and read the contour map like a hiker.** The graph shows the full 3-D shape, but you rarely get to hold a surface in your hands; the level-curve map compresses it into a flat picture you can actually read — where the lines bunch up, the ground is steep; where they spread out, it is gentle. On that map, a partial derivative answers a very specific question: *if I take one step due-East (increasing $x$) or due-North (increasing $y$), how fast does my altitude change?* Those are two of the infinitely many directions you could walk — the reason a single number no longer suffices, and the seed of the gradient we meet later.
+
+## 3. Python demonstration
+
+We use Ludovic's own example, $f(x,y)=1-x^2-y^2$, throughout.
+
+### 3.1 The surface and its contour map
+
+The two views side by side: concentric circular level curves on the left, the paraboloid on the right. All axis bounds are computed from the data, so the code re-scales itself if you change the function.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x, y):
+    return 1 - x**2 - y**2
+
+R = 1.4                       # one radius drives every bound below
+n = 300
+xs = ys = np.linspace(-R, R, n)
+X, Y = np.meshgrid(xs, ys)
+Z = f(X, Y)
+
+fig = plt.figure(figsize=(11, 4.6))
+
+ax1 = fig.add_subplot(1, 2, 1)
+levels = np.linspace(Z.min(), Z.max(), 11)
+cf = ax1.contourf(X, Y, Z, levels=levels, cmap="viridis")
+cs = ax1.contour(X, Y, Z, levels=levels, colors="white", linewidths=0.6)
+ax1.clabel(cs, inline=True, fontsize=7, fmt="%.1f")
+ax1.set_aspect("equal")
+ax1.set_title(r"Level curves of $f(x,y)=1-x^2-y^2$")
+ax1.set_xlabel("x"); ax1.set_ylabel("y")
+fig.colorbar(cf, ax=ax1, shrink=0.85, label="f value")
+
+ax2 = fig.add_subplot(1, 2, 2, projection="3d")
+ax2.plot_surface(X, Y, Z, cmap="viridis", alpha=0.9, linewidth=0)
+ax2.set_title(r"Graph $z=f(x,y)$")
+ax2.set_xlabel("x"); ax2.set_ylabel("y"); ax2.set_zlabel("z")
+ax2.set_zlim(Z.min(), Z.max())
+
+plt.tight_layout()
+plt.show()
+```
+
+The level $c$ is the circle $x^2+y^2=1-c$: the contours *are* circles, tightest near the rim where the hill is steepest.
+
+### 3.2 Partial derivatives vs. an independent ground truth
+
+The rigour reflex from Part I still applies: a numerical check is only worth something if the yardstick is **independent** of what we test. So we compute each partial two ways that share no algebra:
+
+- **Numerically** by a central finite difference — this only ever *evaluates* $f$, never uses a derivative formula;
+- **Analytically** by the hand rules $f_x=-2x,\ f_y=-2y$.
+
+Agreement across a batch of random points is then a genuine confirmation.
+
+```{python}
+def fx_numeric(x, y, h=1e-5):        # only evaluates f
+    return (f(x + h, y) - f(x - h, y)) / (2 * h)
+
+def fy_numeric(x, y, h=1e-5):
+    return (f(x, y + h) - f(x, y - h)) / (2 * h)
+
+def fx_analytic(x, y): return -2 * x  # independent ground truth
+def fy_analytic(x, y): return -2 * y
+
+rng = np.random.default_rng(0)
+pts = rng.uniform(-2, 2, size=(6, 2))
+
+print(" point (x,y)      fx_num    fx_true    fy_num    fy_true")
+max_err = 0.0
+for x0, y0 in pts:
+    fxn, fxt = fx_numeric(x0, y0), fx_analytic(x0, y0)
+    fyn, fyt = fy_numeric(x0, y0), fy_analytic(x0, y0)
+    max_err = max(max_err, abs(fxn - fxt), abs(fyn - fyt))
+    print(f"({x0:+.2f},{y0:+.2f})   {fxn:+.4f}  {fxt:+.4f}   {fyn:+.4f}  {fyt:+.4f}")
+
+print(f"\nmax discrepancy (numeric vs analytic): {max_err:.2e}")
+assert max_err < 1e-4
+print("independent check PASSED ✓")
+```
+
+### 3.3 A partial derivative is the slope of a slice
+
+To make $\partial f/\partial x$ tangible: freeze $y=y_0$, keep only the curve $x\mapsto f(x,y_0)$, and draw the line whose slope is $f_x(x_0,y_0)$. It hugs the curve at the chosen point — the tangent of a genuine 1-variable problem hiding inside the surface.
+
+```{python}
+x0, y0 = 0.6, 0.4
+slope_x = fx_analytic(x0, y0)                 # slope of the y = y0 slice
+
+t = np.linspace(-R, R, 200)
+slice_curve = f(t, y0)                         # f along the line y = y0
+tangent     = f(x0, y0) + slope_x * (t - x0)
+
+fig2, ax = plt.subplots(figsize=(6, 4))
+ax.plot(t, slice_curve, label=fr"slice $y={y0}$:  $x\mapsto f(x,{y0})$")
+ax.plot(t, tangent, "--",
+        label=fr"tangent, slope $\partial f/\partial x={slope_x:+.1f}$")
+ax.plot([x0], [f(x0, y0)], "ko")
+pad = 0.1 * (slice_curve.max() - slice_curve.min())   # auto vertical bound
+ax.set_ylim(slice_curve.min() - pad, slice_curve.max() + pad)
+ax.set_xlabel("x"); ax.set_ylabel("f")
+ax.set_title(r"$\partial f/\partial x$ = slope of the $y=$ const slice")
+ax.legend(fontsize=8)
+plt.tight_layout()
+plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: with no formulas, explain what a *partial derivative* measures, and why a function of two variables needs **two** of them. Use the hill-and-contour-map picture.
+
+**My target answer**: *Picture the function as the height of a landscape: for every spot on the flat map below, it tells you the altitude above it. Standing at one spot, "how steep is it here?" has no single answer — it depends on which way you face. A partial derivative pins down two special directions: walk one step due-East and see how fast the ground rises or falls (that is the $x$-partial); do the same walking due-North (the $y$-partial). We need two numbers, not one, because a hillside can slope in completely different ways along those two directions — flat one way while dropping steeply the other. The contour map makes it visible: cross the packed contour lines and you climb fast; walk parallel to them and your altitude barely changes.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **A surface needs 3-D, but the contour map lives in 2-D** — and the map is usually the more practical tool. Learn to read altitude from line spacing rather than always reaching for a 3-D plot.
+- **Contour spacing encodes steepness**: bunched lines mean steep, spread-out lines mean flat. This is the single most useful habit from the lecture.
+- **"Partial" means *freeze the rest*.** $\partial f/\partial x$ treats $y$ as a constant. Forgetting to hold the other variable fixed is the classic first-week error.
+- **Use $\partial$, not $d$.** The curly symbol is a flag that other variables are being held constant; mixing them up hides that assumption.
+- **Two partials are not the whole picture.** They give slopes only along the $x$- and $y$-axes. Combining them into a slope for *every* direction is the job of the tangent plane (next lecture) and the gradient (later in Part II).
+- **Domain still bites.** $\sqrt{y}$ and $1/(x+y)$ are undefined on part of the plane — check where $f$ actually lives before differentiating.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::

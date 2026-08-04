@@ -34,4 +34,16 @@ The course is organized into four parts:
 | 5 | [Parametric Equations & Curves](lecture-05-parametric-equations.qmd) | ✅ Online |
 | 6 | [Velocity, Acceleration & Kepler's Second Law](lecture-06-velocity-acceleration-kepler.qmd) | ✅ Online |
 
-*(Parts II to IV will be added as I go.)*
+### Part II — Partial derivatives
+
+| # | Lecture | Status |
+|---|---------|--------|
+| 8 | [Level Curves & Partial Derivatives](lecture-08-level-curves-partial-derivatives.qmd) | ✅ Online |
+| 9 | Max-Min Problems & Least Squares | ⬜ Planned |
+| 10 | Second Derivative Test | ⬜ Planned |
+| 11 | Differentials & Chain Rule | ⬜ Planned |
+| 12 | Gradient & Directional Derivatives | ⬜ Planned |
+| 13 | Lagrange Multipliers | ⬜ Planned |
+| 14 | Non-Independent Variables | ⬜ Planned |
+
+*(Lecture 7 was an exam/review session, so it carries no content note. Parts III and IV will be added as I go.)*
