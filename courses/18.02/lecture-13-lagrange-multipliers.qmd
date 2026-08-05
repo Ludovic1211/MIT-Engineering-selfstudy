@@ -1,0 +1,206 @@
+---
+title: "Lecture 13 — Lagrange Multipliers"
+subtitle: "MIT 18.02 · Part II: Partial Derivatives"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 13 ("Lagrange multipliers").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-13.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+**Constrained** optimization: minimize or maximize $f$ when the variables are not free but tied together by a constraint $g(x,y,z)=c$. The geometric key: at a constrained extremum the level set of $f$ is **tangent** to the constraint — because sliding along the constraint can no longer change $f$ to first order. Tangent level sets have **parallel gradients**, so
+$$\nabla f = \lambda\,\nabla g$$
+for some scalar $\lambda$ (the *Lagrange multiplier*). Solve that together with the constraint to get candidate points, then compare $f$-values — Lagrange only flags candidates, it doesn't rank them. Worked example: the closest point to the origin on $xy=3$ is $(\sqrt3,\sqrt3)$ (and its mirror), pinned down by $\nabla f=\lambda\nabla g$.
+
+## 1. The concepts
+
+### 1.1 The problem
+
+Minimize/maximize $f(x,y,z)$ subject to $g(x,y,z)=c$. The constraint removes a degree of freedom, so the variables are **not independent** — the earlier "set all partials to zero" recipe no longer applies directly.
+
+**Running example.** Find the point closest to the origin on the hyperbola $xy=3$. Minimize the squared distance $f(x,y)=x^2+y^2$ subject to $g(x,y)=xy=3$.
+
+### 1.2 The geometric insight
+
+At the constrained minimum, the level curve of $f$ (a circle $x^2+y^2=\text{const}$) just **touches** the constraint curve $xy=3$ — they are tangent. If instead they crossed, you could slide a little along the constraint onto a *smaller* circle, so you weren't at the minimum. Tangency of the two level sets means their normals line up:
+$$
+\nabla f \parallel \nabla g \quad\Longleftrightarrow\quad \nabla f = \lambda\,\nabla g .
+$$
+
+### 1.3 Why it works (the perpendicularity argument)
+
+Along the constraint $g=c$, let $\hat u$ be any tangent direction. The rate of change of $f$ in that direction is $\frac{df}{ds}=\nabla f\cdot\hat u$. At a constrained extremum $f$ cannot increase or decrease to first order in any **allowed** direction, so
+$$
+\nabla f\cdot\hat u = 0 \quad\text{for every }\hat u\text{ tangent to }g=c .
+$$
+Thus $\nabla f\perp(\text{constraint tangent})$. But Lecture 12 already tells us $\nabla g\perp(\text{constraint tangent})$. Two vectors perpendicular to the same tangent line/plane are parallel, so $\nabla f\parallel\nabla g$, i.e. $\nabla f=\lambda\nabla g$.
+
+### 1.4 The Lagrange system (and a caution)
+
+Solve simultaneously
+$$
+\nabla f=\lambda\nabla g \quad\text{and}\quad g=c,
+\qquad\text{i.e.}\qquad
+f_x=\lambda g_x,\ \ f_y=\lambda g_y,\ (f_z=\lambda g_z,)\ \ g=c .
+$$
+
+::: {.callout-warning appearance="simple"}
+Lagrange yields **candidates only**. To find the actual min or max you must **compare $f$** at all solutions — and stay alert to boundaries and to degenerate cases where solutions appear only when a determinant vanishes.
+:::
+
+### 1.5 Worked example: closest point on $xy=3$
+
+With $f=x^2+y^2$ and $g=xy$: $\nabla f=\langle 2x,2y\rangle$, $\nabla g=\langle y,x\rangle$. The system is
+$$
+2x=\lambda y,\qquad 2y=\lambda x,\qquad xy=3 .
+$$
+Read the first two as a homogeneous linear system,
+$$
+\begin{pmatrix}2 & -\lambda\\ -\lambda & 2\end{pmatrix}\begin{pmatrix}x\\ y\end{pmatrix}=\begin{pmatrix}0\\0\end{pmatrix}.
+$$
+The constraint forbids $(x,y)=(0,0)$, so we need a **nontrivial** solution, which requires $\det=0$:
+$$
+4-\lambda^2=0 \ \Longrightarrow\ \lambda=\pm 2 .
+$$
+
+- $\lambda=2 \Rightarrow x=y$; with $xy=3$, $x^2=3$, giving $(\sqrt3,\sqrt3)$ and $(-\sqrt3,-\sqrt3)$. Here $f=6$, distance $\sqrt6$.
+- $\lambda=-2 \Rightarrow x=-y$; with $xy=3$, $-x^2=3$ — **no real solution**.
+
+So the nearest points are $(\pm\sqrt3,\pm\sqrt3)$ (same sign), distance $\sqrt6$. Reassuringly they lie on $y=x$, the symmetry axis of the hyperbola.
+
+### 1.6 Advanced example: the minimal-area pyramid
+
+Build a pyramid on a **given** triangular base with a **given** volume, minimizing the total lateral (side) area. Fixed base and volume force a fixed height $h$ (since $\text{Vol}=\tfrac13\,\text{Area(base)}\cdot h$). Let $u_1,u_2,u_3$ be the distances from the apex's foot to the three base edges (of lengths $\ell_1,\ell_2,\ell_3$). Then
+$$
+\text{lateral area } f=\tfrac12\sum_i \ell_i\sqrt{u_i^2+h^2},
+\qquad
+\text{base area } g=\tfrac12\sum_i \ell_i u_i=\text{const (constraint).}
+$$
+Lagrange $\partial f/\partial u_i=\lambda\,\partial g/\partial u_i$ gives, for each $i$,
+$$
+\frac{u_i}{\sqrt{u_i^2+h^2}}=\lambda,
+$$
+and since $u\mapsto u/\sqrt{u^2+h^2}$ is one-to-one, all $u_i$ are equal: $u_1=u_2=u_3$. The apex therefore sits over the **incenter** of the base (the point equidistant from all three sides). A clean, non-obvious answer that would be painful to reach by direct substitution.
+
+## 2. The key intuition
+
+**Push along the fence until you can't improve.** Picture the constraint as a fence you must stay on and $f$ as altitude. Walking the fence, you stop climbing (or descending) exactly where the fence runs **tangent** to a contour line of $f$ — there the contour and the fence kiss instead of crossing. "Contour tangent to fence" is the same statement as "their perpendiculars line up," i.e. $\nabla f$ and $\nabla g$ point along the same line. The multiplier $\lambda$ is just the ratio of their lengths — how hard the constraint must "push back" to hold you at the optimum. Everything collapses to one condition: at the best allowed point, the gradient of what you optimize is parallel to the gradient of what constrains you.
+
+## 3. Python demonstration
+
+### 3.1 The tangency picture, and Lagrange vs. an independent constrained search
+
+We solve the closest-point problem a second way that never uses $\nabla f=\lambda\nabla g$: **walk the constraint** as $(t,\,3/t)$ and minimize $f$ by scanning $t$. It should land on $(\sqrt3,\sqrt3)$, matching Lagrange, and the gradients should be parallel there ($\det[\nabla f;\nabla g]=0$).
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+f = lambda x, y: x**2 + y**2
+
+t = np.linspace(0.3, 6, 200001)               # walk the constraint (t, 3/t)
+F = f(t, 3.0/t)
+tmin = t[np.argmin(F)]
+print(f"constrained scan : ({tmin:.4f}, {3/tmin:.4f}),  f = {F.min():.4f}")
+print(f"Lagrange solution: (√3, √3) = ({np.sqrt(3):.4f}, {np.sqrt(3):.4f}),  f = 6")
+assert abs(tmin - np.sqrt(3)) < 1e-2 and abs(F.min() - 6) < 1e-2
+
+x0 = y0 = np.sqrt(3)
+print(f"parallel-gradient check: det[∇f; ∇g] = 2x²-2y² = {2*x0**2 - 2*y0**2:.2e} (≈ 0) ✓")
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(5.6, 5))
+xx = np.linspace(0.3, 6, 400)
+ax.plot(xx, 3/xx, "k-", lw=2, label="constraint  $xy=3$")
+ax.plot(-xx, -3/xx, "k-", lw=2)
+for c in [2, 4, 6, 9, 14]:
+    th = np.linspace(0, 2*np.pi, 200); r = np.sqrt(c)
+    ax.plot(r*np.cos(th), r*np.sin(th), color="0.7", lw=0.8)
+ax.plot(np.sqrt(3), np.sqrt(3), "r*", ms=15, label=r"$(\sqrt{3},\sqrt{3})$ tangent")
+ax.plot(-np.sqrt(3), -np.sqrt(3), "r*", ms=15)
+ax.set_xlim(-6, 6); ax.set_ylim(-6, 6); ax.set_aspect("equal")
+ax.set_title("Level circles of $f$ tangent to $xy=3$")
+ax.set_xlabel("x"); ax.set_ylabel("y"); ax.legend(fontsize=8, loc="upper left")
+plt.tight_layout(); plt.show()
+```
+
+### 3.2 Parallel gradients pinpoint the extremum
+
+Two independent characterizations of the same point: where $f$ is minimal along the constraint, and where the gradient misalignment $\det[\nabla f;\nabla g]=2(x^2-y^2)$ vanishes. They must coincide.
+
+```{python}
+tt = np.linspace(0.6, 4, 400)
+xf, yf = tt, 3.0/tt
+F_t   = f(xf, yf)
+cross = 2*(xf**2 - yf**2)                       # det[∇f; ∇g] along the constraint
+
+print(f"argmin f along constraint : t = {tt[np.argmin(F_t)]:.4f}")
+print(f"zero of det[∇f; ∇g]       : t = {tt[np.argmin(np.abs(cross))]:.4f}   (both √3 = {np.sqrt(3):.4f})")
+assert abs(tt[np.argmin(F_t)] - tt[np.argmin(np.abs(cross))]) < 2e-2
+
+fig, ax1 = plt.subplots(figsize=(6.2, 4))
+ax1.plot(tt, F_t, "b-", label=r"$f$ along constraint")
+ax1.set_xlabel(r"$t$  (point $(t,\,3/t)$ on $xy=3$)"); ax1.set_ylabel("f", color="b")
+ax2 = ax1.twinx()
+ax2.plot(tt, cross, "g--")
+ax2.axhline(0, color="0.6", lw=0.6); ax2.set_ylabel(r"$\det[\nabla f;\nabla g]$", color="g")
+ax1.axvline(np.sqrt(3), color="r", ls=":")
+ax1.set_title(r"$f$ minimal $\Leftrightarrow$ gradients parallel (at $t=\sqrt{3}$)")
+plt.tight_layout(); plt.show()
+```
+
+### 3.3 The pyramid: minimal area lands on the incenter
+
+For a $3$–$4$–$5$ base (area $6$, semiperimeter $s=6$, so inradius $r=\text{area}/s=1$) and a fixed height, we minimize the lateral area over the constraint plane $\tfrac12\sum\ell_i u_i=\text{area}$ by a direct grid search — no Lagrange. Independent ground truth: the inradius $r=1$ from plane geometry. The optimal $u_i$ should all equal $r$.
+
+```{python}
+l = np.array([3.0, 4.0, 5.0]); A_base = 6.0; s = l.sum()/2; r_geo = A_base/s
+h = 2.0
+lat = lambda u: 0.5*np.sum(l*np.sqrt(u**2 + h**2))
+
+best, bu = np.inf, None
+for u1 in np.linspace(0.2, 2.5, 400):
+    for u2 in np.linspace(0.2, 2.5, 400):
+        u3 = (2*A_base - l[0]*u1 - l[1]*u2) / l[2]     # solve the constraint for u3
+        if u3 <= 0:
+            continue
+        val = lat(np.array([u1, u2, u3]))
+        if val < best:
+            best, bu = val, (u1, u2, u3)
+
+print(f"numeric optimum u = ({bu[0]:.3f}, {bu[1]:.3f}, {bu[2]:.3f})")
+print(f"inradius r = area/s = {r_geo:.3f}   (Lagrange predicts u1 = u2 = u3 = r)")
+assert max(abs(bu[0]-r_geo), abs(bu[1]-r_geo), abs(bu[2]-r_geo)) < 0.03
+print("minimal-area apex sits over the incenter ✓")
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain, with the "walking along a fence" picture, why the minimum of $f$ on a constraint happens where the gradients of $f$ and of the constraint are parallel — and why setting all partials of $f$ to zero would be the *wrong* thing to do here.
+
+**My target answer**: *You're forced to stay on a fence (the constraint) while trying to reach the lowest altitude. As you walk, the only thing that matters is the slope felt along the fence; as long as the ground still tilts one way or the other along your path, you can keep going down, so you're not yet at the minimum. You stop exactly where the fence runs tangent to a contour line — where, for that instant, walking along the fence is walking level. "Fence tangent to contour" is the same as saying the two families' steepest-uphill arrows point along the same line, which is $\nabla f$ parallel to $\nabla g$. Setting every partial of $f$ to zero would hunt for a flat spot of the whole landscape, ignoring the fence — but the constrained minimum usually sits on a slope, where $f$ is not flat at all; it only looks flat if you restrict yourself to directions along the fence.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Don't zero the partials of $f$.** With a constraint, the extremum is generally *not* a critical point of $f$; use $\nabla f=\lambda\nabla g$ together with $g=c$, not $\nabla f=0$.
+- **Lagrange gives candidates, not the winner.** Always compare $f$-values across the solutions, and check boundaries — the method locates tangencies, it doesn't tell you which is the min and which the max.
+- **Count your equations.** In the plane you have three unknowns $x,y,\lambda$ and three equations ($f_x=\lambda g_x$, $f_y=\lambda g_y$, $g=c$); in space, four. A missing constraint equation is the usual mistake.
+- **Watch the degenerate case.** When $\nabla f=\lambda\nabla g$ becomes a homogeneous linear system (as in the $xy=3$ example), nontrivial solutions appear only when a determinant vanishes — that condition is what fixes $\lambda$.
+- **$\lambda$ has meaning.** It is the ratio of gradient lengths at the optimum and measures how sensitively the optimal $f$ responds to loosening the constraint level $c$ — the "shadow price."
+- **Symmetry is a shortcut.** Both the closest-point and the pyramid answers land on symmetric configurations ($y=x$; the incenter); expecting the symmetry can save a lot of algebra.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
