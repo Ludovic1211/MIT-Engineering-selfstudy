@@ -46,4 +46,17 @@ The course is organized into four parts:
 | 13 | [Lagrange Multipliers](lecture-13-lagrange-multipliers.qmd) | ✅ Online |
 | 14 | [Non-Independent Variables](lecture-14-non-independent-variables.qmd) | ✅ Online |
 
-*(Lecture 7 was an exam/review session, so it carries no content note. Parts III and IV will be added as I go.)*
+### Part III — Double integrals and line integrals in the plane
+
+| # | Lecture | Status |
+|---|---------|--------|
+| 16 | [Double Integrals](lecture-16-double-integrals.qmd) | ✅ Online |
+| 17 | Double Integrals in Polar Coordinates & Applications | ⬜ Planned |
+| 18 | Change of Variables | ⬜ Planned |
+| 19 | Vector Fields & Line Integrals in the Plane | ⬜ Planned |
+| 20 | Path Independence & Conservative Fields | ⬜ Planned |
+| 21 | Gradient Fields & Potential Functions | ⬜ Planned |
+| 22 | Green's Theorem | ⬜ Planned |
+| 23 | Flux & the Normal Form of Green's Theorem | ⬜ Planned |
+
+*(Lectures 7 and 15 were exam/review sessions, so they carry no content note. Part IV will be added as I go.)*
