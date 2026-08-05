@@ -44,6 +44,6 @@ The course is organized into four parts:
 | 11 | [Differentials & Chain Rule](lecture-11-differentials-chain-rule.qmd) | ✅ Online |
 | 12 | [Gradient & Directional Derivatives](lecture-12-gradient-directional-derivatives.qmd) | ✅ Online |
 | 13 | [Lagrange Multipliers](lecture-13-lagrange-multipliers.qmd) | ✅ Online |
-| 14 | Non-Independent Variables | ⬜ Planned |
+| 14 | [Non-Independent Variables](lecture-14-non-independent-variables.qmd) | ✅ Online |
 
 *(Lecture 7 was an exam/review session, so it carries no content note. Parts III and IV will be added as I go.)*

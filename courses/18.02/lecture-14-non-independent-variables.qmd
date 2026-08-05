@@ -1,0 +1,189 @@
+---
+title: "Lecture 14 — Non-Independent Variables"
+subtitle: "MIT 18.02 · Part II: Partial Derivatives"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 14 ("Non-independent variables").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-14.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+When the variables are tied by a constraint — an ideal gas obeys $PV=nRT$, or more generally $g(x,y,z)=c$ — they are no longer independent, and the innocent symbol $\partial f/\partial x$ turns **ambiguous**: its value depends on which other variable you hold fixed. Two tools settle everything. **Differentials**: write $dg=0$ and solve for the dependent differential, which yields implicit partials such as $(\partial z/\partial x)_y=-g_x/g_z$ without ever solving for $z$. The **chain rule** does the same bookkeeping. The subscript notation $(\partial f/\partial x)_y$ ("vary $x$, hold $y$") makes the choice explicit — and a triangle-area example produces **three different** correct answers for "the rate of change of $A$ with respect to $\theta$," one per constraint, computed three consistent ways.
+
+## 1. The concepts
+
+### 1.1 When the variables aren't independent
+
+Physically, a gas has state $(P,V,T)$ but they satisfy $PV=nRT$, so only two are free. Mathematically, a constraint $g(x,y,z)=c$ lets you — in principle — solve one variable in terms of the others, say $z=z(x,y)$. The practical question: get $\partial z/\partial x$ and $\partial z/\partial y$ **without** actually solving for $z$.
+
+### 1.2 Implicit partial derivatives via differentials
+
+Differentiate the constraint and set it to zero (staying on $g=c$):
+$$
+dg = g_x\,dx + g_y\,dy + g_z\,dz = 0
+\ \Longrightarrow\
+dz = -\frac{g_x}{g_z}\,dx - \frac{g_y}{g_z}\,dy .
+$$
+Reading off the coefficients,
+$$
+\left(\frac{\partial z}{\partial x}\right)_{\!y} = -\frac{g_x}{g_z},
+\qquad
+\left(\frac{\partial z}{\partial y}\right)_{\!x} = -\frac{g_y}{g_z}.
+$$
+
+**Example.** $x^2+yz+z^3=8$ at $(2,3,1)$. The differential is $2x\,dx + z\,dy + (y+3z^2)\,dz=0$, i.e. at $(2,3,1)$,
+$$
+4\,dx + dy + 6\,dz = 0 \ \Longrightarrow\ dz = -\tfrac16(4\,dx + dy),
+$$
+so $\left(\dfrac{\partial z}{\partial x}\right)_y=-\dfrac{4}{6}=-\dfrac23$ and $\left(\dfrac{\partial z}{\partial y}\right)_x=-\dfrac16$ — no explicit solving required.
+
+### 1.3 The notation trap: $\partial f/\partial x$ is ambiguous
+
+Let $f=x+y$, so "$\partial f/\partial x=1$" with $y$ held fixed. Now change coordinates $x=u,\ y=u+v$; then $f=2u+v$ and "$\partial f/\partial u=2$" with $v$ held fixed. Even though $u$ *is* $x$, the two derivatives differ — because holding $y$ fixed is not the same as holding $v$ fixed.
+
+::: {.callout-important appearance="simple"}
+Always say **what is held constant**. Write $\left(\dfrac{\partial f}{\partial x}\right)_y$ for "differentiate in $x$ with $y$ fixed." The bare $\partial f/\partial x$ is only safe when the independent variables are unambiguous.
+:::
+
+### 1.4 The triangle: one derivative, three answers
+
+A triangle with sides $a,b$ and included angle $\theta$ has area $A=\tfrac12 ab\sin\theta$. Suppose it must stay a **right** triangle, which imposes the constraint $a=b\cos\theta$. Now "the rate of change of $A$ with respect to $\theta$" depends on what is held fixed:
+
+- $\left(\dfrac{\partial A}{\partial\theta}\right)_{a,b}$ — treat $a,b,\theta$ as free (ignore the constraint) $=\tfrac12 ab\cos\theta$;
+- $\left(\dfrac{\partial A}{\partial\theta}\right)_{a}$ — hold $a$, let $b$ adjust to keep the right angle;
+- $\left(\dfrac{\partial A}{\partial\theta}\right)_{b}$ — hold $b$, let $a$ adjust.
+
+These are genuinely different numbers; the subscript is not decoration.
+
+### 1.5 Three ways to compute $\left(\partial A/\partial\theta\right)_a$ — all agree
+
+**Method 0 — substitute.** The constraint gives $b=a\sec\theta$, so $A=\tfrac12 a(a\sec\theta)\sin\theta=\tfrac12 a^2\tan\theta$, hence
+$$
+\left(\frac{\partial A}{\partial\theta}\right)_a=\tfrac12 a^2\sec^2\theta .
+$$
+
+**Method ① — differentials.** Keep $a$ fixed, so $da=0$. Differentiate the constraint: $da=\cos\theta\,db-b\sin\theta\,d\theta=0\Rightarrow db=b\tan\theta\,d\theta$. Differentiate the area and impose $da=0$:
+$$
+dA=\tfrac12 b\sin\theta\,da+\tfrac12 a\sin\theta\,db+\tfrac12 ab\cos\theta\,d\theta
+=\tfrac12 ab\big(\sin\theta\tan\theta+\cos\theta\big)\,d\theta=\tfrac12 ab\sec\theta\,d\theta,
+$$
+so $\left(\partial A/\partial\theta\right)_a=\tfrac12 ab\sec\theta$ — the same value ($=\tfrac12 a^2\sec^2\theta$ once $a=b\cos\theta$).
+
+**Method ② — chain rule.** With $b=b(a,\theta)$,
+$$
+\left(\frac{\partial A}{\partial\theta}\right)_a
+= A_a\underbrace{\left(\tfrac{\partial a}{\partial\theta}\right)_a}_{0} + A_b\left(\tfrac{\partial b}{\partial\theta}\right)_a + A_\theta\underbrace{\left(\tfrac{\partial\theta}{\partial\theta}\right)_a}_{1},
+$$
+and $(\partial b/\partial\theta)_a=b\tan\theta$ from the constraint gives the same $\tfrac12 ab\sec\theta$.
+
+::: {.callout-note appearance="simple"}
+**The recipe.** (1) Write $dA$ in terms of $da,db,d\theta$. (2) Set the held variable's differential to $0$. (3) Differentiate the constraint to express the dependent differential via $d\theta$, then substitute.
+:::
+
+## 2. The key intuition
+
+**"With respect to $\theta$" is only half a sentence.** On a table of linked quantities, asking "how does $A$ change as $\theta$ changes?" is meaningless until you name what you are clamping. Clamp $a$ and let $b$ float, or clamp $b$ and let $a$ float, and the triangle deforms in two different ways as $\theta$ turns — so $A$ changes at two different rates. The subscript in $(\partial A/\partial\theta)_a$ *is* that clamp. Once it is named, all roads agree: eliminate the dependent variable by hand, or track differentials with the clamped one frozen, or run the chain rule — they must land on the same number, because they describe the same physical deformation.
+
+## 3. Python demonstration
+
+### 3.1 Implicit partials without solving
+
+For $g=x^2+yz+z^3=8$ at $(2,3,1)$, the differential formula predicts $(\partial z/\partial x)_y=-g_x/g_z=-\tfrac23$ and $(\partial z/\partial y)_x=-\tfrac16$. Independent ground truth: actually solve $g=8$ for $z(x,y)$ **numerically** (Newton on the cubic) and finite-difference it — a route that never uses $-g_x/g_z$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+gx = lambda x, y, z: 2*x
+gy = lambda x, y, z: z
+gz = lambda x, y, z: y + 3*z**2
+
+x0, y0, z0 = 2.0, 3.0, 1.0
+zx_formula = -gx(x0, y0, z0)/gz(x0, y0, z0)     # (dz/dx)_y
+zy_formula = -gy(x0, y0, z0)/gz(x0, y0, z0)     # (dz/dy)_x
+
+def z_of(x, y, z=1.0):                            # Newton: z^3 + y z + (x^2 - 8) = 0
+    for _ in range(60):
+        z -= (z**3 + y*z + (x**2 - 8)) / (3*z**2 + y)
+    return z
+
+d = 1e-6
+zx_num = (z_of(x0+d, y0) - z_of(x0-d, y0)) / (2*d)
+zy_num = (z_of(x0, y0+d) - z_of(x0, y0-d)) / (2*d)
+print(f"(dz/dx)_y : formula {zx_formula:+.5f}   numeric solve {zx_num:+.5f}   (= -2/3)")
+print(f"(dz/dy)_x : formula {zy_formula:+.5f}   numeric solve {zy_num:+.5f}   (= -1/6)")
+assert abs(zx_formula - zx_num) < 1e-5 and abs(zy_formula - zy_num) < 1e-5
+print("implicit-differentiation formula matches the numeric implicit solve ✓")
+```
+
+### 3.2 One derivative, three answers
+
+Right triangle $A=\tfrac12 ab\sin\theta$ with $a=b\cos\theta$, evaluated at a point on the constraint. The three formulas give three different numbers; each *constrained* one is checked against a finite difference that enforces the constraint numerically.
+
+```{python}
+b0, th0 = 3.0, 0.6
+a0 = b0*np.cos(th0)                               # constraint holds at the base point
+
+dd_free = 0.5*a0*b0*np.cos(th0)                   # (dA/dth)_{a,b}
+dd_a    = 0.5*a0**2/np.cos(th0)**2               # (dA/dth)_a  = 1/2 a^2 sec^2 th
+dd_b    = 0.5*b0**2*np.cos(2*th0)                # (dA/dth)_b  = 1/2 b^2 cos 2th
+print(f"(dA/dth)_(a,b) free   = {dd_free:+.5f}")
+print(f"(dA/dth)_a  (a fixed) = {dd_a:+.5f}")
+print(f"(dA/dth)_b  (b fixed) = {dd_b:+.5f}")
+assert len({round(dd_free,3), round(dd_a,3), round(dd_b,3)}) == 3   # all different
+
+d = 1e-6
+Aa = lambda th: 0.5*a0**2*np.tan(th)             # a fixed: b = a sec th
+Ab = lambda th: 0.5*b0**2*np.sin(th)*np.cos(th)  # b fixed: a = b cos th
+fd_a = (Aa(th0+d) - Aa(th0-d)) / (2*d)
+fd_b = (Ab(th0+d) - Ab(th0-d)) / (2*d)
+print(f"check a fixed: formula {dd_a:+.5f} vs constrained finite diff {fd_a:+.5f}")
+print(f"check b fixed: formula {dd_b:+.5f} vs constrained finite diff {fd_b:+.5f}")
+assert abs(dd_a - fd_a) < 1e-4 and abs(dd_b - fd_b) < 1e-4
+print("each constrained formula matches its constrained finite difference ✓")
+```
+
+```{python}
+th = np.linspace(0.15, 1.2, 300)
+A0 = 0.5*a0*b0*np.sin(th0)
+curves = [(0.5*a0*b0*np.sin(th),         "a,b fixed (free)", dd_free),
+          (0.5*a0**2*np.tan(th),          "a fixed",         dd_a),
+          (0.5*b0**2*np.sin(th)*np.cos(th),"b fixed",        dd_b)]
+fig, ax = plt.subplots(figsize=(6.6, 4.2))
+for c, lab, slope in curves:
+    line, = ax.plot(th, c, label=f"{lab}:  slope = {slope:+.2f}")
+    ax.plot(th, A0 + slope*(th - th0), ":", color=line.get_color(), lw=1)
+ax.plot([th0], [A0], "ko")
+ax.set_ylim(0, 3.2); ax.set_xlabel(r"$\theta$"); ax.set_ylabel("A")
+ax.set_title(r"One point, three constraints, three slopes of $A(\theta)$")
+ax.legend(fontsize=8); plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: your friend writes "$\partial A/\partial\theta$" for the triangle and asks for its value. Explain why that question, as written, has no single answer — and how naming what's held fixed makes it well-posed. Use the "clamp" picture.
+
+**My target answer**: *The trouble is that the triangle's parts are chained together by the right-angle rule, so you can't turn $\theta$ without something else moving too — but you get to choose what. If you clamp side $a$ and let side $b$ stretch to keep the corner square, the triangle grows one way as $\theta$ increases; if instead you clamp $b$ and let $a$ change, it grows a different way. Two different motions mean two different rates for the area, so "$\partial A/\partial\theta$" on its own is like asking "how fast is it changing?" without saying which knobs you're holding still. Writing $(\partial A/\partial\theta)_a$ names the clamp — hold $a$ — and only then is there one honest answer. And no matter how you compute it (substitute the constraint, chase differentials with $a$ frozen, or use the chain rule), you get the same number, because you've described one and the same deformation of the triangle.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Name the clamp.** With a constraint, $\partial f/\partial x$ is incomplete; always write $(\partial f/\partial x)_y$ so the held variable is explicit. Most "paradoxes" here are just an unnamed clamp.
+- **Implicit differentiation beats solving.** From $g=c$ you get $(\partial z/\partial x)_y=-g_x/g_z$ directly; you rarely need (or can) solve $z=z(x,y)$ in closed form.
+- **Mind the dependent differential.** In the recipe, the constraint converts $d(\text{dependent})$ into a multiple of the free differentials — forgetting that term is the classic error, and it silently gives the *free* (wrong-clamp) answer.
+- **Same setup, one number.** Substitute / differentials / chain rule are three routes to the *same* constrained derivative; if they disagree you've changed the clamp somewhere.
+- **The gas-law reflex.** Whenever a relation like $PV=nRT$ links your variables, treat only the free ones as independent and carry the constraint as $dg=0$; thermodynamics is full of $(\partial \cdot/\partial \cdot)_{\text{held}}$ for exactly this reason.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
