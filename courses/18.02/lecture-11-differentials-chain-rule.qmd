@@ -1,0 +1,228 @@
+---
+title: "Lecture 11 — Differentials, Chain Rule"
+subtitle: "MIT 18.02 · Part II: Partial Derivatives"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 11 ("Differentials; chain rule").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-11.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Differentials turn "a small change" into an **algebra you can compute with**. The total differential
+$$df = f_x\,dx + f_y\,dy + f_z\,dz$$
+packages every partial rate into one object. Crucially it is **not** the actual change $\Delta f$ — it is a linear stand-in that can be read three ways: it *records* how $f$ depends on its variables, it *becomes* the approximation $\Delta f\approx f_x\Delta x+\cdots$ for small steps, and — when the variables ride along a path $x(t),y(t),z(t)$ — it can be *divided by $dt$* to give the **chain rule** $\frac{df}{dt}=f_x x'+f_y y'+f_z z'$. Pushed to several independent variables ($x,y$ depending on $u,v$) the same bookkeeping yields $\frac{\partial w}{\partial u}=f_x x_u+f_y y_u$. As a bonus it re-derives the product and quotient rules and converts derivatives into polar coordinates.
+
+## 1. The concepts
+
+### 1.1 Differentials, and implicit differentiation
+
+For one variable $y=f(x)$, the differential is $dy=f'(x)\,dx$: $dx$ is a formal infinitesimal step and $dy$ the matching step along the tangent line. Treating $dx,dy$ as manipulable symbols makes **implicit differentiation** clean. Take $y=\arcsin x$; rewrite it as $x=\sin y$, differentiate:
+$$
+dx = \cos y\,dy \ \Longrightarrow\ \frac{dy}{dx}=\frac{1}{\cos y}=\frac{1}{\sqrt{1-x^2}},
+$$
+using $\cos y=\sqrt{1-\sin^2 y}=\sqrt{1-x^2}$. No inverse-function gymnastics — just algebra on differentials.
+
+### 1.2 The total differential (and why $df \neq \Delta f$)
+
+For $f(x,y,z)$,
+$$
+df = f_x\,dx + f_y\,dy + f_z\,dz = \frac{\partial f}{\partial x}dx+\frac{\partial f}{\partial y}dy+\frac{\partial f}{\partial z}dz .
+$$
+
+::: {.callout-important appearance="simple"}
+$df$ is **NOT** $\Delta f$. $df$ is a *linear formula* in the symbols $dx,dy,dz$ — a machine, not a number — while $\Delta f$ is the true change. They coincide only in the infinitesimal limit; for a finite step, $df$ is the first-order approximation to $\Delta f$.
+:::
+
+Three ways to put $df$ to work:
+
+1. **Encode dependence** — the coefficients *are* the partials, so $df$ reads off how hard each variable pulls on $f$.
+2. **Approximate** — replace the $d$'s by small $\Delta$'s: $\ \Delta f \approx f_x\,\Delta x + f_y\,\Delta y + f_z\,\Delta z$.
+3. **Divide by $dt$** — if $x,y,z$ all depend on $t$, then $\dfrac{df}{dt}=f_x\dfrac{dx}{dt}+f_y\dfrac{dy}{dt}+f_z\dfrac{dz}{dt}$: the chain rule.
+
+### 1.3 The chain rule (one independent variable)
+
+If $x=x(t),\,y=y(t),\,z=z(t)$, then
+$$
+\boxed{\ \frac{df}{dt}=f_x\,x'(t)+f_y\,y'(t)+f_z\,z'(t)\ }.
+$$
+
+Two justifications, matching the handwritten page:
+
+- **Formal.** Substitute $dx=x'(t)\,dt$, $dy=y'(t)\,dt$, $dz=z'(t)\,dt$ into $df$ and divide by $dt$.
+- **Rigorous.** Over a small $\Delta t$, $\Delta f\approx f_x\Delta x+f_y\Delta y+f_z\Delta z$; divide by $\Delta t$ and let $\Delta t\to0$, so $\Delta x/\Delta t\to x'(t)$ and the "$\approx$" becomes "$=$".
+
+**Example.** $w=x^2y+z$ with $x=t,\ y=e^t,\ z=\sin t$. The chain rule gives
+$$
+\frac{dw}{dt}=2xy\cdot 1 + x^2\cdot e^t + 1\cdot\cos t = 2t\,e^t + t^2 e^t + \cos t .
+$$
+Substituting first, $w(t)=t^2e^t+\sin t$, and differentiating directly gives the same $2t e^t+t^2e^t+\cos t$. ✓
+
+### 1.4 Application: the product and quotient rules for free
+
+View a product as a two-variable function $f(u,v)=uv$ with $u,v$ depending on $t$; the chain rule gives
+$$
+\frac{d(uv)}{dt}=f_u u'+f_v v'=v\,u'+u\,v' \quad\text{(product rule)}.
+$$
+Likewise $g(u,v)=u/v$ gives
+$$
+\frac{d}{dt}\!\left(\frac{u}{v}\right)=\frac1v\,u'+\left(-\frac{u}{v^2}\right)v'=\frac{u'v-uv'}{v^2}\quad\text{(quotient rule)}.
+$$
+The elementary rules are just the multivariable chain rule in disguise.
+
+### 1.5 Chain rule with several independent variables
+
+Now let $w=f(x,y)$ with $x=x(u,v),\ y=y(u,v)$. Feeding the inner differentials into $dw$,
+$$
+dw = f_x\,dx + f_y\,dy = f_x(x_u\,du+x_v\,dv)+f_y(y_u\,du+y_v\,dv),
+$$
+and collecting the $du$ and $dv$ coefficients reads off
+$$
+\frac{\partial w}{\partial u}=f_x\,x_u+f_y\,y_u,\qquad
+\frac{\partial w}{\partial v}=f_x\,x_v+f_y\,y_v .
+$$
+
+**Example — polar coordinates.** With $x=r\cos\theta,\ y=r\sin\theta$ (so $x_r=\cos\theta,\ y_r=\sin\theta$),
+$$
+\frac{\partial f}{\partial r}=f_x\cos\theta+f_y\sin\theta,
+\qquad
+\frac{\partial f}{\partial \theta}=-f_x\,r\sin\theta+f_y\,r\cos\theta .
+$$
+The differential machinery converts Cartesian partials into polar ones automatically.
+
+## 2. The key intuition
+
+**Differentials are the grammar of "how a nudge propagates."** Picture $f$ as a dashboard readout fed by several dials $x,y,z$. The total differential is the wiring diagram: nudge each dial a hair and $df$ tells you how the readout jumps, weighting each dial by its partial. The chain rule is what happens when the dials are *not* independent but are all being turned by one master knob $t$ (or a couple of knobs $u,v$): you simply add each dial's contribution, "how fast the dial turns $\times$ how sensitive $f$ is to it." Nothing genuinely new happens between the three uses of $df$ — the *same* formula is read as an encoding, an approximation, or a rate.
+
+## 3. Python demonstration
+
+### 3.1 Single-variable chain rule vs. direct differentiation
+
+For $w=x^2y+z$ with $x=t,\,y=e^t,\,z=\sin t$, we compute $dw/dt$ two independent ways: the **chain-rule** combination $f_x x'+f_y y'+f_z z'$, and — as ground truth — a **finite difference of the fully-composed** $w(t)$, which never touches a partial derivative.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def w_of_t(t):                              # the composed scalar function
+    x, y, z = t, np.exp(t), np.sin(t)
+    return x**2 * y + z
+
+def dwdt_chain(t):                          # f_x x' + f_y y' + f_z z'
+    x, y = t, np.exp(t)
+    fx, fy, fz = 2*x*y, x**2, 1.0
+    xp, yp, zp = 1.0, np.exp(t), np.cos(t)
+    return fx*xp + fy*yp + fz*zp
+
+def dwdt_direct(t, h=1e-6):                 # independent: only evaluates w(t)
+    return (w_of_t(t+h) - w_of_t(t-h)) / (2*h)
+
+ts = np.linspace(-1, 2, 13)
+err = max(abs(dwdt_chain(t) - dwdt_direct(t)) for t in ts)
+print(f"max |chain - direct| over t in [-1,2] = {err:.2e}")
+assert err < 1e-5
+print("chain rule matches direct differentiation ✓")
+
+tt = np.linspace(-1, 2, 200)
+fig, ax = plt.subplots(figsize=(6.5, 4))
+ax.plot(tt, [dwdt_chain(t) for t in tt], label=r"chain rule  $f_x x'+f_y y'+f_z z'$")
+ax.plot(ts, [dwdt_direct(t) for t in ts], "o", ms=5, label=r"direct $dw/dt$ (finite diff)")
+ax.set_xlabel("t"); ax.set_ylabel(r"$dw/dt$")
+ax.set_title(r"$w=x^2y+z$,  $x=t,\ y=e^t,\ z=\sin t$")
+ax.legend(fontsize=8); plt.tight_layout(); plt.show()
+```
+
+### 3.2 Multivariable chain rule — polar coordinates
+
+Take $f(x,y)=x^2y$ and the polar substitution $x=r\cos\theta,\ y=r\sin\theta$. The chain rule predicts $\partial f/\partial r=f_x\cos\theta+f_y\sin\theta$. Independently, substitute to get $g(r,\theta)=f(r\cos\theta,r\sin\theta)$ and finite-difference it in $r$ — a route that uses no partials of $f$.
+
+```{python}
+f  = lambda x, y: x**2 * y
+fx = lambda x, y: 2*x*y
+fy = lambda x, y: x**2
+
+def dfdr_chain(r, T):
+    x, y = r*np.cos(T), r*np.sin(T)
+    return fx(x, y)*np.cos(T) + fy(x, y)*np.sin(T)
+
+def dfdr_direct(r, T, h=1e-6):              # independent substitution route
+    g = lambda rr: f(rr*np.cos(T), rr*np.sin(T))
+    return (g(r+h) - g(r-h)) / (2*h)
+
+print("   r     θ      chain      direct")
+maxe = 0.0
+for r, T in [(1.0, 0.3), (2.0, 1.1), (0.7, 2.4), (1.5, -0.8)]:
+    c, d = dfdr_chain(r, T), dfdr_direct(r, T)
+    maxe = max(maxe, abs(c - d))
+    print(f"  {r:.1f}  {T:+.2f}   {c:+.4f}   {d:+.4f}")
+print(f"max discrepancy = {maxe:.2e}")
+assert maxe < 1e-5
+print("multivariable chain rule matches substitution ✓")
+```
+
+```{python}
+T0, r0 = 1.1, 1.3
+rr = np.linspace(0.2, 2.4, 200)
+g  = f(rr*np.cos(T0), rr*np.sin(T0))
+slope = dfdr_chain(r0, T0)
+tang  = f(r0*np.cos(T0), r0*np.sin(T0)) + slope*(rr - r0)
+fig2, ax = plt.subplots(figsize=(6.5, 4))
+ax.plot(rr, g, label=fr"$f$ along the ray $\theta={T0}$")
+ax.plot(rr, tang, "--", label=fr"slope $\partial f/\partial r={slope:.2f}$ (chain rule)")
+ax.plot([r0], [f(r0*np.cos(T0), r0*np.sin(T0))], "ko")
+pad = 0.1*(g.max() - g.min()); ax.set_ylim(g.min() - pad, g.max() + pad)
+ax.set_xlabel("r"); ax.set_ylabel("f"); ax.legend(fontsize=8)
+ax.set_title(r"$\partial f/\partial r$ = slope of $f$ along a fixed-$\theta$ ray")
+plt.tight_layout(); plt.show()
+```
+
+### 3.3 Product and quotient rules recovered from the chain rule
+
+A quick confirmation of §1.4: with $u=t^2+1,\ v=t+2$, the chain-rule formulas $v u'+u v'$ and $(u'v-uv')/v^2$ should match a direct finite difference of $uv$ and $u/v$.
+
+```{python}
+u,  v  = lambda t: t**2 + 1.0, lambda t: t + 2.0
+up, vp = lambda t: 2*t,        lambda t: 1.0
+ts = np.linspace(0, 3, 7)
+
+prod_chain = lambda t: v(t)*up(t) + u(t)*vp(t)
+prod_dir   = lambda t, h=1e-6: (u(t+h)*v(t+h) - u(t-h)*v(t-h)) / (2*h)
+quot_chain = lambda t: (up(t)*v(t) - u(t)*vp(t)) / v(t)**2
+quot_dir   = lambda t, h=1e-6: (u(t+h)/v(t+h) - u(t-h)/v(t-h)) / (2*h)
+
+ep = max(abs(prod_chain(t) - prod_dir(t)) for t in ts)
+eq = max(abs(quot_chain(t) - quot_dir(t)) for t in ts)
+print(f"product  rule max err = {ep:.2e}")
+print(f"quotient rule max err = {eq:.2e}")
+assert ep < 1e-5 and eq < 1e-5
+print("both elementary rules fall out of the chain rule ✓")
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain, without heavy formulas, what the total differential $df$ *is* (and what it is not), and how "dividing by $dt$" turns it into the chain rule. Use the dials-and-dashboard picture.
+
+**My target answer**: *Think of $f$ as a dashboard number driven by a few dials. The total differential is the dashboard's wiring rule: give each dial a tiny twist and $df$ adds up the resulting jump in the readout, each dial weighted by how sensitive the readout is to it. It is a bookkeeping formula about tiny twists, not the actual finite change — that is why $df$ isn't $\Delta f$; they only agree when the twists shrink to nothing. Now suppose all the dials are being turned by a single master crank labelled time. Ask how fast the readout changes per turn of the crank: each dial contributes "how fast this dial turns" times "how sensitive the readout is to this dial," and you sum them. That sum is the chain rule — it is literally the wiring rule with everything divided by a little step of time.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **$df$ is a formula, $\Delta f$ is a number.** Keep them apart: $df$ lives in the symbols $dx,dy,dz$ and gives the *first-order* estimate of the real change $\Delta f$.
+- **Chain rule = "sum over paths in."** Each independent variable contributes (its rate of change) $\times$ (the partial of $f$ with respect to it); add them. Forgetting a term is the classic slip.
+- **Match the derivative symbol to the setup.** One independent variable ($t$) gives an ordinary $df/dt$ with a single total rate; several ($u,v$) give partials $\partial w/\partial u,\ \partial w/\partial v$, one equation per independent variable.
+- **Product/quotient rules aren't separate laws** — they are the chain rule applied to $uv$ and $u/v$. Recognizing this cuts the number of rules to memorize.
+- **Changing coordinates is a chain-rule computation.** Polar partials $\partial f/\partial r,\ \partial f/\partial\theta$ come straight from feeding $x=r\cos\theta,\ y=r\sin\theta$ into $df$ — no need to re-derive from scratch.
+- **Implicit differentiation is easiest through differentials.** For an inverse like $\arcsin$, differentiate the *easy* relation ($x=\sin y$) and solve for $dy/dx$.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
