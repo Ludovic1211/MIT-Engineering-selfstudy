@@ -1,0 +1,202 @@
+---
+title: "Lecture 10 — Second Derivative Test"
+subtitle: "MIT 18.02 · Part II: Partial Derivatives"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 10 ("Second derivative test; boundaries and infinity").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-10.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Lecture 9 found critical points but left them **unclassified** — $f_x=f_y=0$ marks a peak, a valley, or a mountain pass without saying which. This lecture supplies the test. The idea: near a critical point Taylor's formula makes $f$ look like a pure quadratic $ax^2+bxy+cy^2$, and quadratics are easy to sort by **completing the square**. Writing $A=f_{xx}$, $B=f_{xy}$, $C=f_{yy}$ at the critical point, the discriminant $AC-B^2$ decides: $>0$ with $A>0$ is a **local min**, $>0$ with $A<0$ a **local max**, $<0$ a **saddle**, and $=0$ is inconclusive (higher-order terms take over). One caveat the title flags: a *global* extremum can also sit on the **boundary or at infinity**, so a complete hunt checks the critical points *and* the edges of the domain.
+
+## 1. The concepts
+
+### 1.1 The question, and where extrema live
+
+At a critical point three things can happen — **local min**, **local max**, or **saddle point** — and the first derivatives, both zero, cannot tell them apart. Separately, a **global** max or min over a region occurs either at an interior critical point **or on the boundary / at infinity**. Both places must be examined; this lecture handles the first with a clean test and the second by inspection.
+
+### 1.2 Warm-up: classifying a pure quadratic
+
+Start with $w = ax^2+bxy+cy^2$ (e.g. $x^2+2xy+3y^2=(x+y)^2+2y^2$). Completing the square when $a\neq 0$,
+$$
+w = a\left(x+\tfrac{b}{2a}y\right)^2 + \left(c-\tfrac{b^2}{4a}\right)y^2
+  = \frac{1}{4a}\Bigl[(2ax+by)^2 + (4ac-b^2)\,y^2\Bigr].
+$$
+Everything hinges on the sign of $4ac-b^2$:
+
+| $4ac-b^2$ | shape | reason |
+|---|---|---|
+| $<0$ | **saddle** | the two squared terms carry opposite signs → $w$ takes both signs |
+| $>0$ | **definite** → min if $a>0$, max if $a<0$ | both terms share $a$'s sign |
+| $=0$ | **degenerate** | a whole line of zeros; the quadratic alone can't decide |
+
+An equivalent "quadratic-formula" view: $w = y^2\bigl[a(x/y)^2+b(x/y)+c\bigr]$, and the bracket's discriminant $b^2-4ac$ says whether that one-variable quadratic keeps a fixed sign or crosses zero. Note $4ac-b^2$ and $b^2-4ac$ are the same quantity with opposite sign — two ways of reading the same test.
+
+### 1.3 The second derivative test
+
+For a general $f$, the relevant data are the **second** partials $f_{xx}$, $f_{xy}$ (equal to $f_{yx}$ for well-behaved $f$), and $f_{yy}$. At a critical point $(x_0,y_0)$ set
+$$
+A=f_{xx}(x_0,y_0),\quad B=f_{xy}(x_0,y_0),\quad C=f_{yy}(x_0,y_0).
+$$
+
+::: {.callout-note appearance="simple"}
+**Second derivative test.**
+
+- $AC-B^2 > 0$ and $A>0$ → **local minimum**
+- $AC-B^2 > 0$ and $A<0$ → **local maximum**
+- $AC-B^2 < 0$ → **saddle point**
+- $AC-B^2 = 0$ → **inconclusive** (higher-order derivatives decide)
+:::
+
+**Why it is the same test.** Near a critical point the first-order term vanishes ($f_x=f_y=0$), so Taylor to second order gives
+$$
+\Delta f \approx \tfrac12 f_{xx}\,(\Delta x)^2 + f_{xy}\,\Delta x\,\Delta y + \tfrac12 f_{yy}\,(\Delta y)^2,
+$$
+a pure quadratic with $(a,b,c)=(\tfrac12 A,\,B,\,\tfrac12 C)$. Its discriminant $4ac-b^2$ equals $AC-B^2$, so **classifying $f$ near the critical point is classifying that quadratic** — the general case reduces to the warm-up. (In the degenerate case $AC-B^2=0$ the quadratic is flat in some direction and the outcome depends on higher-order terms.)
+
+Consistency check on $w=ax^2+bxy+cy^2$: $w_x=2ax+by$, $w_y=bx+2cy$, so $w_{xx}=2a$, $w_{xy}=b$, $w_{yy}=2c$, giving $A=2a,B=b,C=2c$ and $AC-B^2=4ac-b^2$. ✓
+
+### 1.4 Example on an open domain — the boundary/infinity half
+
+$$
+f(x,y)=xy+\frac1x+\frac1y \qquad (x,y>0).
+$$
+**Critical points.** $f_x=y-\dfrac{1}{x^2}=0$ and $f_y=x-\dfrac{1}{y^2}=0$ give $x^2y=1$ and $xy^2=1$; dividing, $x=y$, then $x^3=1$, so the only critical point is $(1,1)$.
+
+**Classify.** $f_{xx}=\dfrac{2}{x^3},\ f_{xy}=1,\ f_{yy}=\dfrac{2}{y^3}$; at $(1,1)$, $A=2,\ B=1,\ C=2$, so $AC-B^2=3>0$ with $A>0$ → **local minimum**, value $f(1,1)=3$.
+
+**Global?** The domain $x,y>0$ is open, so also inspect its edges. As $x\to0^+$ or $y\to0^+$ the term $\frac1x$ or $\frac1y\to+\infty$; as $x\to\infty$ or $y\to\infty$ the term $xy\to+\infty$. Since $f\to+\infty$ on *every* approach to the boundary or to infinity and $(1,1)$ is the sole interior critical point, that local minimum is in fact the **global** minimum. This is exactly the "boundaries and infinity" reasoning the title promises.
+
+## 2. The key intuition
+
+**Zoom in and it's a quadratic.** At a critical point the tangent plane is flat, so the *first-order* picture is useless for telling a peak from a pass — the information lives in the **curvature**, the second-order term. To second order every smooth function looks like one of three quadratic shapes: a bowl, a dome, or a saddle. The discriminant $AC-B^2$ is simply the test for which: it measures whether the surface curves the *same* way in all directions (definite → bowl or dome) or curves up one way and down another (indefinite → saddle). And a *local* verdict is not a *global* one — to be sure you have the lowest point overall, you still have to look at where the domain runs out.
+
+## 3. Python demonstration
+
+### 3.1 The three shapes, and $AC-B^2$ as the classifier
+
+The three canonical quadratics, each labelled with its $AC-B^2$. As an independent check, we classify each one a second way — by **sampling the sign** of $w$ on a small circle around the origin (min → all positive, max → all negative, saddle → mixed). That sampling never touches the discriminant, so agreement is a real confirmation.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def classify_by_discriminant(a, b, c):
+    A, B, C = 2*a, b, 2*c            # w = a x^2 + b xy + c y^2
+    d = A*C - B**2
+    if d < -1e-12: return "saddle"
+    if d >  1e-12: return "min" if A > 0 else "max"
+    return "degenerate"
+
+def classify_by_sampling(a, b, c):   # independent: only evaluates w
+    th = np.linspace(0, 2*np.pi, 720, endpoint=False)
+    x, y = np.cos(th), np.sin(th)
+    w = a*x**2 + b*x*y + c*y**2
+    pos, neg = (w > 1e-9).any(), (w < -1e-9).any()
+    if pos and neg: return "saddle"
+    return "min" if pos else "max"
+
+cases = [("bowl (min)", 1, 0, 1), ("dome (max)", -1, 0, -1), ("saddle", 1, 0, -1)]
+print("quadratic       AC-B^2   discriminant   sign-sampling")
+for name, a, b, c in cases:
+    d = 2*a*2*c - b**2
+    cd, cs = classify_by_discriminant(a,b,c), classify_by_sampling(a,b,c)
+    print(f"{name:12s}  {d:+6.1f}     {cd:10s}     {cs:10s}")
+    assert cd == cs
+print("both methods agree on all three shapes ✓")
+```
+
+```{python}
+R = 1.3
+X, Y = np.meshgrid(np.linspace(-R, R, 80), np.linspace(-R, R, 80))
+fig = plt.figure(figsize=(12, 3.8))
+for k, (name, a, b, c) in enumerate(cases, 1):
+    ax = fig.add_subplot(1, 3, k, projection="3d")
+    ax.plot_surface(X, Y, a*X**2 + b*X*Y + c*Y**2, cmap="coolwarm", linewidth=0, alpha=0.9)
+    ax.set_title(f"{name}\n$AC-B^2={2*a*2*c-b**2:+.0f}$", fontsize=10)
+    ax.set_xlabel("x"); ax.set_ylabel("y")
+plt.tight_layout(); plt.show()
+```
+
+### 3.2 The example: numeric Hessian vs. analytic, and a global check
+
+For $f=xy+\frac1x+\frac1y$, algebra gives the critical point $(1,1)$ with $A=2,B=1,C=2$. Independent confirmations: a **finite-difference Hessian** (which only evaluates $f$) should reproduce those numbers; a **grid search** should land on $(1,1)$ with value $3$; and evaluating $f$ toward the edges should blow up, certifying the global minimum.
+
+```{python}
+def f(x, y):
+    return x*y + 1.0/x + 1.0/y
+
+x0 = y0 = 1.0; h = 1e-4
+A_num = (f(x0+h,y0) - 2*f(x0,y0) + f(x0-h,y0)) / h**2
+C_num = (f(x0,y0+h) - 2*f(x0,y0) + f(x0,y0-h)) / h**2
+B_num = (f(x0+h,y0+h) - f(x0+h,y0-h) - f(x0-h,y0+h) + f(x0-h,y0-h)) / (4*h**2)
+print(f"Hessian at (1,1)  finite diff: A={A_num:.4f} B={B_num:.4f} C={C_num:.4f}"
+      f"  AC-B^2={A_num*C_num-B_num**2:.4f}")
+print(f"                  analytic   : A=2.0000 B=1.0000 C=2.0000  AC-B^2=3.0000")
+assert abs(A_num-2)<1e-3 and abs(B_num-1)<1e-3 and abs(C_num-2)<1e-3
+
+xs = ys = np.linspace(0.2, 3.0, 1401)
+FX, FY = np.meshgrid(xs, ys); F = f(FX, FY)
+i = np.unravel_index(np.argmin(F), F.shape)
+print(f"grid-search min : ({FX[i]:.3f},{FY[i]:.3f}), f={F[i]:.4f}   (algebra: (1,1), f=3)")
+assert abs(FX[i]-1)<0.02 and abs(FY[i]-1)<0.02 and abs(F[i]-3)<1e-2
+
+edges = [(0.01,1),(1,0.01),(100,1),(1,100)]
+print("toward the edges:", ", ".join(f"f{e}={f(*e):.0f}" for e in edges))
+assert min(f(*e) for e in edges) > 3
+print("f -> +inf on every edge => (1,1) is the GLOBAL minimum ✓")
+```
+
+### 3.3 A picture of the single well
+
+```{python}
+xs = ys = np.linspace(0.3, 3.0, 300)
+GX, GY = np.meshgrid(xs, ys); G = f(GX, GY)
+fig = plt.figure(figsize=(11, 4.4))
+ax1 = fig.add_subplot(1, 2, 1)
+lv = np.linspace(G.min(), np.percentile(G, 85), 12)
+cf = ax1.contourf(GX, GY, G, levels=lv, cmap="viridis")
+ax1.contour(GX, GY, G, levels=lv, colors="white", linewidths=0.5)
+ax1.plot(1, 1, "r*", ms=14)
+ax1.set_title(r"Level curves of $f=xy+\frac{1}{x}+\frac{1}{y}$")
+ax1.set_xlabel("x"); ax1.set_ylabel("y"); ax1.set_aspect("equal")
+fig.colorbar(cf, ax=ax1, shrink=0.85)
+ax2 = fig.add_subplot(1, 2, 2, projection="3d")
+Gc = np.clip(G, None, np.percentile(G, 90))     # clip the walls so the well is visible
+ax2.plot_surface(GX, GY, Gc, cmap="viridis", alpha=0.9, linewidth=0)
+ax2.scatter([1], [1], [f(1,1)], color="red", s=40)
+ax2.set_title("The single well at (1,1)")
+ax2.set_xlabel("x"); ax2.set_ylabel("y"); ax2.set_zlabel("f")
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: a friend has found a point where both slopes are zero and asks "is it a maximum?". Explain, without formulas, what extra information you need and how the "bowl / dome / saddle" idea answers it — and why finding a low point locally still might not be the lowest point overall.
+
+**My target answer**: *Zero slope only says the ground is momentarily level — that happens at a hilltop, at the bottom of a bowl, and at a mountain pass alike, so it can't be the whole story. The missing information is how the ground bends: does it curve upward in every direction (a bowl → minimum), downward in every direction (a dome → maximum), or up one way and down another (a pass → saddle)? That's curvature, not slope, which is why we need the second derivatives. The discriminant is just a bookkeeping number that reads off which of the three we're in. And "lowest around here" isn't "lowest anywhere": the true global minimum might sit out at the edge of the allowed region or off at infinity, so after checking the flat spots you still have to look at where the domain runs out.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **$AC-B^2$, not $A$ alone.** A single second derivative is not enough — a saddle can have $f_{xx}>0$ yet plunge in another direction. The cross term $B=f_{xy}$ is what catches that, which is exactly why $B^2$ appears.
+- **$A$ only breaks the tie *after* $AC-B^2>0$.** The sign of $A$ (min vs. max) is meaningful only once the discriminant has certified a definite shape; when $AC-B^2<0$ it's a saddle regardless of $A$'s sign.
+- **$AC-B^2=0$ decides nothing.** The quadratic is flat in some direction; you must go to higher-order terms (or another argument) — the test genuinely fails here.
+- **Local $\ne$ global.** The test is purely local. Always check the **boundary and infinity** separately; on this lecture's example, that check is what upgraded the local min to a global one.
+- **The test *is* the quadratic warm-up.** $AC-B^2$ is $4ac-b^2$ for the second-order Taylor quadratic. Seeing that connection makes the rule memorable instead of arbitrary.
+- **Symmetry of mixed partials.** $f_{xy}=f_{yx}$ for the smooth functions here, so there is a single $B$; don't compute two different cross terms.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::

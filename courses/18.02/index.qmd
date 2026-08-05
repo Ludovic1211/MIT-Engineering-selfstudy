@@ -40,7 +40,7 @@ The course is organized into four parts:
 |---|---------|--------|
 | 8 | [Level Curves & Partial Derivatives](lecture-08-level-curves-partial-derivatives.qmd) | ✅ Online |
 | 9 | [Max-Min Problems & Least Squares](lecture-09-max-min-least-squares.qmd) | ✅ Online |
-| 10 | Second Derivative Test | ⬜ Planned |
+| 10 | [Second Derivative Test](lecture-10-second-derivative-test.qmd) | ✅ Online |
 | 11 | Differentials & Chain Rule | ⬜ Planned |
 | 12 | Gradient & Directional Derivatives | ⬜ Planned |
 | 13 | Lagrange Multipliers | ⬜ Planned |
