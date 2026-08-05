@@ -42,7 +42,7 @@ The course is organized into four parts:
 | 9 | [Max-Min Problems & Least Squares](lecture-09-max-min-least-squares.qmd) | ✅ Online |
 | 10 | [Second Derivative Test](lecture-10-second-derivative-test.qmd) | ✅ Online |
 | 11 | [Differentials & Chain Rule](lecture-11-differentials-chain-rule.qmd) | ✅ Online |
-| 12 | Gradient & Directional Derivatives | ⬜ Planned |
+| 12 | [Gradient & Directional Derivatives](lecture-12-gradient-directional-derivatives.qmd) | ✅ Online |
 | 13 | Lagrange Multipliers | ⬜ Planned |
 | 14 | Non-Independent Variables | ⬜ Planned |
 

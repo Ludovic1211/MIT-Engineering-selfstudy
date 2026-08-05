@@ -1,0 +1,216 @@
+---
+title: "Lecture 12 — Gradient, Directional Derivatives"
+subtitle: "MIT 18.02 · Part II: Partial Derivatives"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 12 ("Gradient; directional derivatives; tangent plane").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-12.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+The **gradient** $\nabla w=\langle w_x,w_y,w_z\rangle$ collects the partials into one vector, and it turns the chain rule into a **dot product**: $\frac{dw}{dt}=\nabla w\cdot\frac{d\vec R}{dt}$. Two deep facts drop out. First, $\nabla w$ is **perpendicular to the level sets** of $w$, so it is the normal to a level surface — handing you the tangent plane for free. Second, the rate of change of $w$ as you step in a unit direction $\hat u$ is the **directional derivative** $\frac{dw}{ds}=\nabla w\cdot\hat u=|\nabla w|\cos\theta$. So $\nabla w$ points in the direction of **steepest increase**, its length $|\nabla w|$ *is* that steepest rate, and stepping perpendicular to $\nabla w$ (along a level curve) changes nothing. One vector encodes the entire local picture.
+
+## 1. The concepts
+
+### 1.1 The gradient, and the chain rule as a dot product
+
+Define, at each point, the gradient vector
+$$
+\nabla w = \langle w_x,\,w_y,\,w_z\rangle .
+$$
+The multivariable chain rule from Lecture 11 then reads as a single dot product against the velocity $\frac{d\vec R}{dt}=\langle x',y',z'\rangle$:
+$$
+\frac{dw}{dt}=w_x x'+w_y y'+w_z z' = \nabla w\cdot\frac{d\vec R}{dt}.
+$$
+The gradient carries the "sensitivity" of $w$; the velocity carries the "motion"; their dot product is the rate.
+
+### 1.2 Theorem: $\nabla w \perp$ level sets
+
+::: {.callout-note appearance="simple"}
+**Theorem.** At each point, $\nabla w$ is perpendicular to the level surface $\{w=\text{const}\}$ through that point.
+:::
+
+**Proof.** Let $\vec R(t)$ trace *any* curve that stays on the level set $w=c$. Its velocity $\vec v=\frac{d\vec R}{dt}$ is tangent to that level set. Since $w(\vec R(t))=c$ is constant, $\frac{dw}{dt}=0$; but $\frac{dw}{dt}=\nabla w\cdot\vec v$, so
+$$
+\nabla w\cdot\vec v = 0 .
+$$
+This holds for every tangent direction $\vec v$, so $\nabla w$ is perpendicular to the whole tangent space — it is the normal. $\blacksquare$
+
+Two examples:
+
+- **Linear $w=a_1x+a_2y+a_3z$.** Then $\nabla w=\langle a_1,a_2,a_3\rangle$ (constant), and the level sets are the planes $a_1x+a_2y+a_3z=c$ — whose normal is exactly $\langle a_1,a_2,a_3\rangle$. ✓
+- **$w=x^2+y^2$.** Then $\nabla w=\langle 2x,2y\rangle$ points radially outward; the level sets are circles, and radial $\perp$ circle. ✓
+
+### 1.3 Tangent plane to a level surface (gradient = normal)
+
+Since $\nabla w$ is the normal to $\{w=c\}$, the tangent plane at $P_0$ is
+$$
+\nabla w(P_0)\cdot(\vec R-P_0)=0 .
+$$
+
+::: {.callout-important appearance="simple"}
+**Don't confuse the two tangent planes.** Here the surface is a **level set** $g(x,y,z)=c$ in 3-D, and the plane's normal is $\nabla g$. In Lecture 9 the surface was a **graph** $z=f(x,y)$, and the plane came from $f_x,f_y$. Same word, different setup.
+:::
+
+**Example.** Tangent plane to $x^2+y^2-z^2=4$ at $(2,1,1)$. With $w=x^2+y^2-z^2$, $\nabla w=\langle 2x,2y,-2z\rangle=\langle 4,2,-2\rangle$, so
+$$
+4(x-2)+2(y-1)-2(z-1)=0 \ \Longleftrightarrow\ 4x+2y-2z=8 .
+$$
+The same result via **differentials**: $dw=2x\,dx+2y\,dy-2z\,dz=4\,\Delta x+2\,\Delta y-2\,\Delta z$ at the point; staying on the level set means $dw=0$, giving $4\Delta x+2\Delta y-2\Delta z=0$ — the same plane.
+
+### 1.4 Directional derivatives
+
+Partial derivatives measure change along $\hat x$ and $\hat y$ only. To move in an arbitrary **unit** direction $\hat u$, walk along the straight line $\vec R(s)=P_0+s\,\hat u$, where $s$ is arclength so that $\frac{d\vec R}{ds}=\hat u$.
+
+::: {.callout-note appearance="simple"}
+**Definition.** The **directional derivative** $\dfrac{dw}{ds}\Big|_{\hat u}$ is the rate of change of $w$ along $\hat u$ — the slope of the slice of the graph cut by the vertical plane containing $\hat u$.
+:::
+
+The chain rule evaluates it instantly:
+$$
+\frac{dw}{ds}\Big|_{\hat u} = \nabla w\cdot\frac{d\vec R}{ds}=\nabla w\cdot\hat u,
+$$
+the **component of $\nabla w$ along $\hat u$**. Check: for $\hat u=\hat x=\langle 1,0\rangle$ this returns $w_x$ — an ordinary partial is just the directional derivative along an axis.
+
+### 1.5 Geometry of the gradient
+
+Writing $\theta$ for the angle between $\hat u$ and $\nabla w$,
+$$
+\frac{dw}{ds}\Big|_{\hat u}=\nabla w\cdot\hat u=|\nabla w|\,\cos\theta .
+$$
+
+- **Steepest ascent** — maximal at $\cos\theta=1$ ($\theta=0$): $\hat u$ points along $\nabla w$, and the maximum rate is $|\nabla w|$. So $\nabla w$ points uphill fastest and its length measures the steepness.
+- **Steepest descent** — minimal at $\cos\theta=-1$ ($\theta=180^\circ$): $\hat u$ along $-\nabla w$.
+- **Level direction** — zero at $\cos\theta=0$ ($\theta=90^\circ$): $\hat u\perp\nabla w$, so moving along a level curve changes nothing — consistent with the perpendicularity theorem.
+
+## 2. The key intuition
+
+**The gradient is the "uphill arrow."** At any point on a hilly landscape, $\nabla w$ is the single arrow pointing straight uphill, and its length says how steep that steepest climb is. Everything else reads off by a dot product: walk in some direction $\hat u$ and your rate of climb is how much of the uphill arrow lies along your path ($\nabla w\cdot\hat u$). Walk perpendicular to it and you stay level — which is precisely why the uphill arrow is perpendicular to the contour lines, and why it hands you the normal (hence the tangent plane) of any level surface. Direction of fastest increase, rate in every direction, and the geometry of the level sets — all packed into one vector.
+
+## 3. Python demonstration
+
+### 3.1 The cosine law: $\dfrac{dw}{ds}=\nabla w\cdot\hat u=|\nabla w|\cos\theta$
+
+We measure the directional derivative **directly** — a finite difference of $w$ along the line $P+s\hat u$, using no partials — at every direction angle $\theta$, and overlay $\nabla w\cdot\hat u$. From the directly-measured curve alone we then read off steepest ascent (its peak) and the level direction (its zero).
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def w(x, y):    return x**2 + 2*y**2
+def grad(x, y): return np.array([2*x, 4*y])
+
+P = np.array([1.0, 0.5])
+g = grad(*P); gnorm = np.linalg.norm(g); gang = np.arctan2(g[1], g[0])
+
+def DD_direct(theta, h=1e-6):                  # only evaluates w along the ray
+    u = np.array([np.cos(theta), np.sin(theta)])
+    return (w(*(P + h*u)) - w(*(P - h*u))) / (2*h)
+
+def DD_grad(theta):                            # grad . u
+    u = np.array([np.cos(theta), np.sin(theta)])
+    return g @ u
+
+ths = np.linspace(0, 2*np.pi, 361)
+dd_dir  = np.array([DD_direct(t) for t in ths])
+dd_grad = np.array([DD_grad(t)   for t in ths])
+print(f"max |direct - grad.u| over all angles = {np.abs(dd_dir - dd_grad).max():.2e}")
+assert np.abs(dd_dir - dd_grad).max() < 1e-4
+
+imax = int(np.argmax(dd_dir))
+print(f"steepest-ascent angle (measured) = {np.degrees(ths[imax]):.1f} deg"
+      f"   |   gradient angle = {np.degrees(gang) % 360:.1f} deg")
+print(f"max directional derivative = {dd_dir[imax]:.4f}   |   |grad w| = {gnorm:.4f}")
+assert abs(dd_dir[imax] - gnorm) < 1e-3
+print("directional-derivative identity, steepest ascent and |grad w| all confirmed ✓")
+
+fig, ax = plt.subplots(figsize=(6.2, 4))
+ax.plot(np.degrees(ths), dd_grad, label=r"$\nabla w\cdot\hat u$")
+ax.plot(np.degrees(ths[::12]), dd_dir[::12], "o", ms=4, label="direct finite diff")
+ax.axvline(np.degrees(gang) % 360, color="r", ls=":", label="gradient direction")
+ax.axhline(0, color="k", lw=0.5)
+ax.set_xlabel(r"direction angle $\theta$ (deg)"); ax.set_ylabel(r"$dw/ds$")
+ax.set_title(r"Directional derivative $=|\nabla w|\cos\theta$")
+ax.legend(fontsize=8); plt.tight_layout(); plt.show()
+```
+
+### 3.2 Tangent plane to a level surface
+
+For $x^2+y^2-z^2=4$ at $(2,1,1)$, the gradient normal is $\langle 4,2,-2\rangle$. Independent tangency check: sample points that genuinely lie **on** the surface near $P_0$ (via $z=\sqrt{x^2+y^2-4}$, which never uses the gradient) and confirm their distance to the candidate plane shrinks like the **square** of the step — the signature of true tangency.
+
+```{python}
+P0 = np.array([2.0, 1.0, 1.0])
+n  = np.array([4.0, 2.0, -2.0])                       # gradient normal
+on_surface = lambda x, y: np.sqrt(x**2 + y**2 - 4.0)  # upper sheet
+plane_dist = lambda Pt: abs(n @ (Pt - P0)) / np.linalg.norm(n)
+
+print("   h        max dist to plane     ratio / h^2")
+phis = np.linspace(0, 2*np.pi, 60, endpoint=False)
+for h in [0.2, 0.1, 0.05, 0.025]:
+    dmax = 0.0
+    for phi in phis:                                  # circle of radius h around (2,1)
+        x, y = 2 + h*np.cos(phi), 1 + h*np.sin(phi)
+        dmax = max(dmax, plane_dist(np.array([x, y, on_surface(x, y)])))
+    print(f"  {h:6.3f}      {dmax:.3e}         {dmax/h**2:7.4f}")
+print("distance ~ h^2  =>  the gradient really gives the tangent plane ✓")
+```
+
+```{python}
+fig = plt.figure(figsize=(6, 5)); ax = fig.add_subplot(111, projection="3d")
+uu, vv = np.meshgrid(np.linspace(1.5, 2.6, 60), np.linspace(0.4, 1.7, 60))
+arg = uu**2 + vv**2 - 4.0
+zz = np.where(arg > 0, np.sqrt(np.abs(arg)), np.nan)  # mask the off-surface region
+ax.plot_surface(uu, vv, zz, cmap="viridis", alpha=0.85, linewidth=0)
+px, py = np.meshgrid(np.linspace(1.5, 2.6, 2), np.linspace(0.4, 1.7, 2))
+pz = 1 + (4*(px - 2) + 2*(py - 1)) / 2.0              # 4(x-2)+2(y-1)-2(z-1)=0 solved for z
+ax.plot_surface(px, py, pz, color="orange", alpha=0.45)
+ax.scatter([2], [1], [1], color="red", s=40)
+ax.set_zlim(0, 2.4); ax.view_init(elev=18, azim=-60)
+ax.set_title(r"Tangent plane to $x^2+y^2-z^2=4$ at (2,1,1)")
+ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_zlabel("z")
+plt.tight_layout(); plt.show()
+```
+
+### 3.3 The gradient field is perpendicular to the level curves
+
+```{python}
+xs = ys = np.linspace(-2, 2, 400)
+X, Y = np.meshgrid(xs, ys); W = w(X, Y)
+fig, ax = plt.subplots(figsize=(5.6, 5))
+ax.contour(X, Y, W, levels=np.linspace(0.2, W.max(), 10), cmap="viridis")
+gx, gy = np.meshgrid(np.linspace(-2, 2, 11), np.linspace(-2, 2, 11))
+ax.quiver(gx, gy, 2*gx, 4*gy, color="crimson", alpha=0.8, width=0.004)
+ax.set_aspect("equal"); ax.set_xlabel("x"); ax.set_ylabel("y")
+ax.set_title(r"$\nabla w\perp$ level curves of $w=x^2+2y^2$")
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: your friend knows $\partial w/\partial x$ and $\partial w/\partial y$ but wants to know how fast $w$ changes if they walk in some *other* direction, and which direction climbs fastest. Explain, with the "uphill arrow" picture, how one vector answers both — and why that same arrow is perpendicular to the contour lines.
+
+**My target answer**: *Bundle the two partials into a single arrow — the gradient — that points straight uphill, with a length equal to the steepest slope there. To find the rate in any direction you like, just project your intended step onto that arrow: the more your path lines up with "uphill," the faster you climb, and if you walk exactly along the arrow you get the maximum rate, its full length. Walk at a right angle to it and the projection is zero — you're neither climbing nor descending, which means you're moving along a contour line. That's the same statement as "the uphill arrow is perpendicular to the contours": the no-change directions are precisely the level directions, and they sit at ninety degrees to the gradient. So one arrow tells you the fastest way up, the rate for every other direction, and the shape of the contour map, all at once.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **The gradient is a vector, not a rate.** $\nabla w$ has a direction (steepest ascent) and a length (the steepest rate). A directional derivative is the *scalar* you get by dotting it with a unit direction.
+- **Use a unit vector for directional derivatives.** $\frac{dw}{ds}=\nabla w\cdot\hat u=|\nabla w|\cos\theta$ only holds when $|\hat u|=1$; forgetting to normalize rescales the answer.
+- **Two different "tangent planes."** Level surface $g=c$ → normal is $\nabla g$ (this lecture). Graph $z=f(x,y)$ → built from $f_x,f_y$ (Lecture 9). Keep the setups straight.
+- **$\nabla w\perp$ level sets is the through-line.** It gives the surface normal, explains why moving along a contour costs no change, and underlies the tangent-plane formula — one fact, many uses.
+- **Partials are just axis directional derivatives.** $w_x=\nabla w\cdot\hat x$. Nothing special about the axes; the gradient treats all directions on equal footing.
+- **Fastest increase, not "outward."** For $w=x^2+y^2$ the gradient happens to point outward, but in general it points along $\nabla w$, which need not be radial — let the vector, not intuition about the picture, tell you the steepest direction.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
