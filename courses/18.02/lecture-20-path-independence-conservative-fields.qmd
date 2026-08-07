@@ -1,0 +1,193 @@
+---
+title: "Lecture 20 — Path Independence & Conservative Fields"
+subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 20 ("Path independence and conservative fields").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-20.pdf) these notes were rewritten from *(two pages: the theorem and its consequences, then the summary of equivalent properties)*.
+:::
+
+## In brief
+
+Line integrals in general depend on the whole path taken. This lecture is about the special, hugely important fields where they **don't** — where the work between two points is the same no matter which route you take. These are exactly the **gradient fields** $\mathbf{F}=\nabla f$, and $f$ is called a **potential**. For them, a **fundamental theorem of calculus for line integrals** holds: $\int_C \nabla f\cdot d\mathbf{r}=f(P_1)-f(P_0)$ — the work depends only on the endpoints, like altitude gained on a hike depends only on where you start and finish, not the trail. Three consequences follow immediately: the integral is **path-independent**, every **closed loop** integral is **zero**, and (in physics) work equals the drop in potential energy. Such fields are called **conservative** — you can't extract energy from them "for free," so total energy is conserved. The lecture closes with the four **equivalent** ways to say a field is conservative, and a pointed counterexample: the swirl $\langle -y,x\rangle$ has $\oint=2\pi\neq 0$, so it is *not* conservative and has no potential.
+
+## 1. The concepts
+
+### 1.1 A closed loop that comes out to zero
+
+Take $\mathbf{F}=\langle y,x\rangle$ and the closed boundary $C=C_1+C_2+C_3$ of the pie-slice sector of the unit disk ($0\le\theta\le\tfrac{\pi}{4}$). We need $\oint_C y\,dx+x\,dy$, piece by piece.
+
+- **$C_1$ (the $x$-axis, $(0,0)\to(1,0)$):** $y=0,\ dy=0$, so $\int_{C_1}y\,dx+x\,dy=0$.
+- **$C_2$ (arc, $x=\cos\theta,\ y=\sin\theta,\ 0\le\theta\le\tfrac{\pi}{4}$):** with $dx=-\sin\theta\,d\theta,\ dy=\cos\theta\,d\theta$,
+$$
+\int_{C_2}=\int_0^{\pi/4}(\cos^2\theta-\sin^2\theta)\,d\theta=\int_0^{\pi/4}\cos 2\theta\,d\theta=\Big[\tfrac12\sin 2\theta\Big]_0^{\pi/4}=\tfrac12 .
+$$
+- **$C_3$ (line back to origin, from $(\tfrac1{\sqrt2},\tfrac1{\sqrt2})$ to $(0,0)$):** easiest to run it *backwards* as $x=t,\ y=t,\ 0\le t\le\tfrac1{\sqrt2}$, giving $\int_{-C_3}(t+t)\,dt=\big[t^2\big]_0^{1/\sqrt2}=\tfrac12$, so $\int_{C_3}=-\tfrac12$.
+
+**Total:** $\oint_C = 0+\tfrac12-\tfrac12 = 0$. That zero is not a coincidence — it is the first clue that $\langle y,x\rangle$ is special.
+
+### 1.2 Gradient fields and the fundamental theorem for line integrals
+
+A field is a **gradient field** if $\mathbf{F}=\nabla f=\langle f_x,f_y\rangle$ for some scalar function $f$, the **potential**. For these, work collapses to a difference of potential values:
+$$
+\boxed{\;\int_C \nabla f\cdot d\mathbf{r}=f(P_1)-f(P_0)\;}
+$$
+**Why.** Along $\mathbf{r}(t)=\langle x(t),y(t)\rangle$, the chain rule says $\frac{d}{dt}f(x(t),y(t))=f_x\frac{dx}{dt}+f_y\frac{dy}{dt}$, which is exactly $\nabla f\cdot\frac{d\mathbf{r}}{dt}$. So
+$$
+\int_C \nabla f\cdot d\mathbf{r}=\int_{t_0}^{t_1}\frac{d}{dt}f(x(t),y(t))\,dt=\big[f\big]_{t_0}^{t_1}=f(P_1)-f(P_0).
+$$
+It is the ordinary fundamental theorem of calculus, one dimension up: integrating a derivative ($\nabla f$) recovers the difference of the original ($f$). Concretely, $\langle y,x\rangle=\nabla(xy)$, so the arc $C_2$ integral is just $f(\tfrac1{\sqrt2},\tfrac1{\sqrt2})-f(0,0)=\tfrac12-0=\tfrac12$ — matching §1.1 with no integration at all.
+
+::: {.callout-warning appearance="simple"}
+This shortcut applies **only** when $\mathbf{F}$ is a gradient field. For a general field you must actually integrate along the path.
+:::
+
+### 1.3 Three consequences
+
+Because the answer depends only on the endpoints $P_0,P_1$:
+
+1. **Path independence.** Any two paths from $P_0$ to $P_1$ give the same integral: $\int_{C}\nabla f\cdot d\mathbf{r}$ doesn't care which route.
+2. **Closed loops vanish.** If the path returns to its start ($P_1=P_0$), then $\oint_C \nabla f\cdot d\mathbf{r}=f(P_0)-f(P_0)=0$.
+3. **Physics — energy is conserved.** If a force is $\mathbf{F}=\nabla f$, the work it does equals the change in the potential $f$. Gravity has a gravitational potential; the electric field has an electric potential. You cannot gain net energy by moving around a closed loop — hence **conservative**.
+
+### 1.4 The four equivalent properties of a conservative field
+
+Conservativeness means **no energy can be extracted from the field "for free"** — go around any loop and you break even. Four statements say the *same thing*; each implies the others (on a region without holes):
+
+1. $\mathbf{F}$ is **conservative**: $\displaystyle\oint_C \mathbf{F}\cdot d\mathbf{r}=0$ for **all** closed curves $C$.
+2. $\displaystyle\int_C \mathbf{F}\cdot d\mathbf{r}$ is **path-independent** (depends only on endpoints).
+3. $\mathbf{F}$ is a **gradient field**: $\mathbf{F}=\nabla f=\langle f_x,f_y\rangle$ for some potential $f$.
+4. $M\,dx+N\,dy$ is an **exact differential** $df$.
+
+The logic: (3) $\Rightarrow$ (1) and (2) is the fundamental theorem above. And (1)/(2) $\Rightarrow$ (3) is *constructive* — path-independence is precisely what lets you *define* the potential $f(P)=\int_{P_0}^{P}\mathbf{F}\cdot d\mathbf{r}$ unambiguously (the next lecture builds it). Statement (4) is the same fact dressed in differential notation.
+
+### 1.5 A field that is *not* conservative
+
+Not every field is a gradient field. The swirl $\mathbf{F}=\langle -y,x\rangle$ around the unit circle gives
+$$
+\oint_C \mathbf{F}\cdot d\mathbf{r}=2\pi\neq 0
+$$
+(on the unit circle $\mathbf{F}\parallel\mathbf{T}$ and $|\mathbf{F}|=1$, so the integral is the circumference $2\pi$). A nonzero loop integral **violates property (1)**, so this field is not conservative, is not path-independent, and has **no potential**. It genuinely circulates — you *can* gain energy going around it, which is why it can't be a gradient.
+
+## 2. The key intuition
+
+**A conservative field is a landscape, and its potential is altitude.** If $\mathbf{F}=\nabla f$, then $f$ is a height map and the field arrows point straight uphill. Walking a path and tallying $\mathbf{F}\cdot d\mathbf{r}$ is nothing but measuring your **net change in altitude** — and net altitude change depends only on where you start and where you finish, never on the trail you took between them. That is path independence in one sentence. Loop back to your starting point and your net climb is exactly zero, no matter how scenic the loop — that is why closed integrals vanish. The swirl field $\langle -y,x\rangle$ fails precisely because it is *not* a landscape: try to assign an altitude and you find that circling the origin once forces you to end up $2\pi$ higher than you started while standing in the same spot — a contradiction, so no consistent height map exists. That impossibility is what "no potential" means, and it is why some fields let you extract energy on a loop (a whirlpool, a magnetic effect) while conservative ones (gravity) never do.
+
+## 3. Python demonstration
+
+### 3.1 A gradient field: same work on every path, zero on every loop
+
+$\mathbf{F}=\langle y,x\rangle=\nabla(xy)$. The fundamental theorem predicts the work between $P_0=(0,0)$ and $P_1=(1,1)$ is $f(P_1)-f(P_0)=1$, for **any** path. We test four very different routes with a raw $\sum\mathbf{F}\cdot\Delta\mathbf{r}$ sum — straight, parabola, a sine wiggle, an L-shaped staircase — and a closed loop.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def work(field, xs, ys):
+    """Σ F(midpoint)·Δr along the polyline through (xs, ys)."""
+    dx, dy = np.diff(xs), np.diff(ys)
+    xm, ym = (xs[:-1]+xs[1:])/2, (ys[:-1]+ys[1:])/2
+    Fx, Fy = field(xm, ym)
+    return np.sum(Fx*dx + Fy*dy)
+
+grad  = lambda x, y: (y, x)     # ⟨y,x⟩ = ∇(xy), potential f = xy
+swirl = lambda x, y: (-y, x)    # ⟨-y,x⟩, NOT a gradient field
+
+f = lambda x, y: x*y
+FTC = f(1, 1) - f(0, 0)                         # fundamental-theorem prediction = 1
+N = 20000
+t = np.linspace(0, 1, N)
+paths = {
+    "straight":    (t, t),
+    "parabola":    (t, t**2),
+    "sine wiggle": (t, t + 0.3*np.sin(2*np.pi*t)),
+    "staircase":   (np.concatenate([t, np.ones(N)]),
+                    np.concatenate([np.zeros(N), t])),
+}
+for name, (xs, ys) in paths.items():
+    w = work(grad, xs, ys)
+    print(f"gradient ⟨y,x⟩  {name:12s}: {w:.5f}   (f(P1)-f(P0) = {FTC:.5f})")
+    assert abs(w - FTC) < 2e-3
+loop = work(grad, np.cos(np.linspace(0, 2*np.pi, N)), np.sin(np.linspace(0, 2*np.pi, N)))
+print(f"gradient closed loop: {loop:.5f}   (expected 0)")
+assert abs(loop) < 1e-2
+print("gradient field → path-independent, every loop = 0 ✓")
+```
+
+### 3.2 A non-conservative field: the work *does* depend on the path
+
+$\mathbf{F}=\langle -y,x\rangle$. We go from $(1,0)$ to $(-1,0)$ two ways — over the top and under the bottom — and around the full circle. If the work differs, the field cannot be conservative.
+
+```{python}
+N = 20000
+th  = np.linspace(0,  np.pi, N)
+upper = work(swirl, np.cos(th),  np.sin(th))       # (1,0) → (-1,0) over the top
+lower = work(swirl, np.cos(-th), np.sin(-th))      # (1,0) → (-1,0) under the bottom
+full  = work(swirl, np.cos(np.linspace(0, 2*np.pi, N)),
+                    np.sin(np.linspace(0, 2*np.pi, N)))
+print(f"swirl ⟨-y,x⟩  upper path (1,0)->(-1,0): {upper:.5f}   (= +π)")
+print(f"swirl ⟨-y,x⟩  lower path (1,0)->(-1,0): {lower:.5f}   (= -π)")
+print(f"swirl ⟨-y,x⟩  full loop              : {full:.5f}   (= 2π ≠ 0)")
+assert abs(upper - np.pi) < 1e-2 and abs(lower + np.pi) < 1e-2 and abs(full - 2*np.pi) < 1e-2
+print("same endpoints, different work (π vs −π); loop = 2π ≠ 0 → NOT conservative ✓")
+```
+
+The two pictures are the whole lecture: a genuine landscape on the left, an impossible one on the right.
+
+```{python}
+fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.6, 4.6))
+
+# left: potential f = xy as an altitude map; gradient arrows point uphill; two paths agree
+gx, gy = np.meshgrid(np.linspace(-0.2, 1.2, 300), np.linspace(-0.2, 1.2, 300))
+axL.contourf(gx, gy, gx*gy, levels=20, cmap="viridis", alpha=.85)
+qx, qy = np.meshgrid(np.linspace(0, 1.2, 8), np.linspace(0, 1.2, 8))
+axL.quiver(qx, qy, qy, qx, color="white", alpha=.75, width=.005, scale=22)
+axL.plot(t, t, "r-", lw=2, label="straight")
+axL.plot(t, t**2, "r--", lw=2, label="parabola")
+axL.plot([0, 1], [0, 1], "k.", ms=10)
+axL.annotate(r"$P_0$", (0, 0), xytext=(-0.15, -0.13), fontsize=11)
+axL.annotate(r"$P_1$", (1, 1), xytext=(1.02, 0.98), fontsize=11)
+axL.set_title(r"gradient $\langle y,x\rangle=\nabla(xy)$: both paths gain $\Delta f=1$", fontsize=9.5)
+axL.legend(loc="upper left", fontsize=8); axL.set_aspect("equal")
+axL.set_xlim(-0.2, 1.25); axL.set_ylim(-0.2, 1.25)
+
+# right: swirl field circulates around the loop — no altitude map can exist
+gx2, gy2 = np.meshgrid(np.linspace(-1.6, 1.6, 15), np.linspace(-1.6, 1.6, 15))
+axR.quiver(gx2, gy2, -gy2, gx2, color="#1f6fb2", alpha=.7, width=.004, scale=30)
+cc = np.linspace(0, 2*np.pi, 200)
+axR.plot(np.cos(cc), np.sin(cc), "k-", lw=2)
+axR.annotate("", xy=(-0.05, 1.02), xytext=(0.35, 0.96),
+             arrowprops=dict(arrowstyle="->", color="k", lw=1.6))
+axR.set_title(r"swirl $\langle -y,x\rangle$: $\oint=2\pi\neq0$ (no potential exists)", fontsize=9.5)
+axR.set_aspect("equal"); axR.set_xlim(-1.6, 1.6); axR.set_ylim(-1.6, 1.6)
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain to a friend what makes a vector field "conservative," using the idea of a hiker and altitude. Why does a gradient field give the same work on every path between two points and zero around any loop — and why does the swirl $\langle -y,x\rangle$ fail to have any potential at all?
+
+**My target answer** *(to be rewritten in my own words)*: *A conservative field is one that behaves like a hilly landscape: there's a height function — the potential — and the field points straight uphill everywhere. Doing the line integral of such a field along a path is just measuring your net gain in altitude, and altitude gained depends only on your start and end points, not on the trail — so every path between the same two points gives the same work (path independence), and any loop that returns you home gives exactly zero because you end at the height you began. That's why gravity, which has a potential, can't be milked for free energy on a loop. The swirl field $\langle -y,x\rangle$ isn't a landscape at all: it circulates around the origin, and its integral around the unit circle comes out to $2\pi$ instead of $0$. If some height map existed, that loop would have to bring me back to the same spot yet $2\pi$ higher — impossible. A nonzero loop is the smoking gun: no potential can exist, so the field is not conservative and its work genuinely depends on the path you take.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **The shortcut is gradient-only.** $\int_C\mathbf{F}\cdot d\mathbf{r}=f(P_1)-f(P_0)$ holds **iff** $\mathbf{F}=\nabla f$. Use it on a non-gradient field and you'll get nonsense — a field like $\langle -y,x\rangle$ has no $f$ to evaluate.
+- **The four properties travel together.** Conservative $\Leftrightarrow$ path-independent $\Leftrightarrow$ gradient field $\Leftrightarrow$ exact differential. Establish any one and you have them all.
+- **A single nonzero loop kills conservativeness.** You don't need to check every path — one closed curve with $\oint\neq 0$ proves the field is not conservative. That's the fastest disqualifier.
+- **Path-independence is what *builds* the potential.** When it holds, $f(P)=\int_{P_0}^{P}\mathbf{F}\cdot d\mathbf{r}$ is well-defined (the endpoint alone fixes it). This is the machinery of the next lecture.
+- **Reverse orientation flips the sign.** $\int_{-C}=-\int_{C}$. That's how the $C_3$ leg above was computed by running it backwards.
+- **"Conservative" is about energy, not carefulness.** The name means energy is *conserved* — no free lunch on a loop. It is a physical statement first, a computational convenience second.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
