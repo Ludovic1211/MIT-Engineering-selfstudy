@@ -53,7 +53,7 @@ The course is organized into four parts:
 | 16 | [Double Integrals](lecture-16-double-integrals.qmd) | ✅ Online |
 | 17 | [Double Integrals in Polar Coordinates & Applications](lecture-17-polar-coordinates-applications.qmd) | ✅ Online |
 | 18 | [Change of Variables](lecture-18-change-of-variables.qmd) | ✅ Online |
-| 19 | Vector Fields & Line Integrals in the Plane | ⬜ Planned |
+| 19 | [Vector Fields & Line Integrals in the Plane](lecture-19-vector-fields-line-integrals.qmd) | ✅ Online |
 | 20 | Path Independence & Conservative Fields | ⬜ Planned |
 | 21 | Gradient Fields & Potential Functions | ⬜ Planned |
 | 22 | Green's Theorem | ⬜ Planned |

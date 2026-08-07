@@ -1,0 +1,187 @@
+---
+title: "Lecture 19 — Vector Fields & Line Integrals in the Plane"
+subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 19 ("Vector fields and line integrals in the plane").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-19.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+This lecture opens a new chapter. So far a "field" meant a number attached to each point (a scalar function $f(x,y)$); now we attach a **vector** — a magnitude *and* a direction — giving a **vector field** $\mathbf{F}=\langle M,N\rangle$. Think wind maps, fluid velocity, or force. The central new object is the **line integral** $\int_C \mathbf{F}\cdot d\mathbf{r}$, which measures the **work** a field does on something moving along a path $C$: at each step you take the piece of the force pointing *along* your motion, $\mathbf{F}\cdot d\mathbf{r}$, and add it up. Concretely you compute it either as $\int \mathbf{F}\cdot\frac{d\mathbf{r}}{dt}\,dt$ or as $\int M\,dx+N\,dy$, by writing everything in terms of one parameter. Two facts anchor the whole topic: the integral depends on the **oriented curve, not on how you parametrize it**, and its geometric meaning is $\int (\mathbf{F}\cdot\mathbf{T})\,ds$ — the tangential component of the field summed over arc length. Two circle examples make it vivid: a purely **radial** field does *zero* work going around a circle (it always points across your path), while a **rotational** field does $2\pi a^2$ (it always points along it).
+
+## 1. The concepts
+
+### 1.1 What a vector field is
+
+A vector field assigns a vector to every point of the plane:
+$$
+\mathbf{F}(x,y)=M(x,y)\,\mathbf{i}+N(x,y)\,\mathbf{j}=\langle M,N\rangle ,
+$$
+where $M$ and $N$ are ordinary scalar functions. At each point $(x,y)$ you draw an arrow $\langle M,N\rangle$. Three canonical examples to keep in your head:
+
+- **Constant field** $\mathbf{F}=\langle 2,1\rangle$: every arrow identical (a uniform wind).
+- **Radial field** $\mathbf{F}=\langle x,y\rangle$: arrows point straight out from the origin, growing with distance.
+- **Rotational field** $\mathbf{F}=\langle -y,x\rangle$: every arrow is the point's position turned $90^\circ$ counterclockwise — this is the velocity field of a rigid rotation at unit angular speed.
+
+Physically these are wind velocities, fluid flow, gravitational or electric force — anything with a direction at every point.
+
+### 1.2 Work along a path
+
+Recall work from physics: for a constant force over a straight displacement, $W=\mathbf{F}\cdot\Delta\mathbf{r}$ (only the component of force *along* the motion counts). Along a curved path $C$ with a varying field, chop the path into tiny displacements $\Delta\mathbf{r}$ and add:
+$$
+W=\lim_{\Delta\mathbf{r}\to 0}\sum \mathbf{F}\cdot\Delta\mathbf{r}=\int_C \mathbf{F}\cdot d\mathbf{r}.
+$$
+If the path is traced by $\mathbf{r}(t)=\langle x(t),y(t)\rangle$, factor each step as $\Delta\mathbf{r}\approx\frac{d\mathbf{r}}{dt}\Delta t$, and the sum becomes an ordinary one-variable integral in $t$:
+$$
+\boxed{\;W=\int_C \mathbf{F}\cdot d\mathbf{r}=\int_{t_0}^{t_1}\mathbf{F}\cdot\frac{d\mathbf{r}}{dt}\,dt\;}
+$$
+
+### 1.3 Two equivalent ways to compute it
+
+Writing $\mathbf{F}=\langle M,N\rangle$ and $d\mathbf{r}=\langle dx,dy\rangle$, the dot product is
+$$
+\int_C \mathbf{F}\cdot d\mathbf{r}=\int_C M\,dx+N\,dy .
+$$
+Either form works; the **method is always the same**: express $x$ and $y$ in terms of a single parameter and substitute.
+
+**Worked example.** $\mathbf{F}=\langle -y,x\rangle$ along $C:\ x=t,\ y=t^2,\ 0\le t\le 1$. Then $\frac{d\mathbf{r}}{dt}=\langle 1,2t\rangle$ and $\mathbf{F}=\langle -t^2,\,t\rangle$, so
+$$
+\int_C \mathbf{F}\cdot d\mathbf{r}
+=\int_0^1 \langle -t^2,t\rangle\cdot\langle 1,2t\rangle\,dt
+=\int_0^1(-t^2+2t^2)\,dt=\int_0^1 t^2\,dt=\frac13 .
+$$
+The $M\,dx+N\,dy$ form gives the same thing: $dx=dt,\ dy=2t\,dt$, so $\int -y\,dx+x\,dy=\int_0^1(-t^2+2t^2)\,dt=\tfrac13$.
+
+### 1.4 It depends on the curve, not the parametrization
+
+$\int_C \mathbf{F}\cdot d\mathbf{r}$ depends on the **oriented geometric curve** $C$ — its shape and the direction of travel — but **not** on how you parametrize it. The same parabola from $(0,0)$ to $(1,1)$ traced by $x=\sin\theta,\ y=\sin^2\theta$ ($0\le\theta\le\tfrac{\pi}{2}$) gives the identical $\tfrac13$. This is what lets us pick whatever parametrization makes the algebra easiest. (Reversing the *orientation* flips the sign — that part does matter.)
+
+### 1.5 The geometric form, and the two circle examples
+
+Since $\frac{d\mathbf{r}}{dt}=\mathbf{T}\,\frac{ds}{dt}$ (unit tangent $\mathbf{T}$ times speed), $d\mathbf{r}=\mathbf{T}\,ds$, and
+$$
+\int_C \mathbf{F}\cdot d\mathbf{r}=\int_C M\,dx+N\,dy=\int_C (\mathbf{F}\cdot\mathbf{T})\,ds .
+$$
+So a line integral is the **tangential component of the field, summed over arc length**. This makes two computations immediate for $C=$ circle of radius $a$, counterclockwise:
+
+- **Radial field $\mathbf{F}=\langle x,y\rangle$.** It points straight out; the circle's tangent points sideways. So $\mathbf{F}\perp\mathbf{T}$, meaning $\mathbf{F}\cdot\mathbf{T}=0$ everywhere, and $\displaystyle\int_C \mathbf{F}\cdot d\mathbf{r}=0$. No work — you never push along the motion.
+- **Rotational field $\mathbf{F}=\langle -y,x\rangle$.** It points exactly along the tangent, and $|\mathbf{F}|=\sqrt{x^2+y^2}=a$ on the circle. So $\mathbf{F}\cdot\mathbf{T}=a$ everywhere, and $\displaystyle\int_C \mathbf{F}\cdot d\mathbf{r}=\int_C a\,ds=a\cdot(2\pi a)=2\pi a^2.$
+
+The direct computation confirms it: with $x=a\cos\theta,\ y=a\sin\theta$, $\int_0^{2\pi}(a^2\sin^2\theta+a^2\cos^2\theta)\,d\theta=2\pi a^2$.
+
+## 2. The key intuition
+
+**A line integral is a walk through a field of arrows, tallying how much they help or fight your steps.** At each little step $d\mathbf{r}$, the dot product $\mathbf{F}\cdot d\mathbf{r}$ keeps only the part of the arrow pointing *along* your direction of travel — a tailwind adds, a headwind subtracts, a crosswind counts for nothing. Sum those contributions over the whole path and you get the total work. That "crosswind counts for nothing" is the entire content of the two circle examples: the radial field is pure crosswind on a circle (always pointing outward while you move sideways), so it does zero work; the rotational field is pure tailwind (always pointing exactly where you're going), so it does the most work it possibly can — its constant strength $a$ times the distance walked $2\pi a$. And because only *along-the-path* matters, it can't matter how fast or how joltingly you walk — reshuffling the parametrization changes the pace, not the path, so the tally is unchanged.
+
+## 3. Python demonstration
+
+### 3.1 The Riemann sum becomes the line integral — and ignores the parametrization
+
+We build the line integral from its definition — a sum $\sum \mathbf{F}\cdot\Delta\mathbf{r}$ over tiny straight steps — with no calculus. Then we trace the **same** curve $y=x^2$ three different ways (three parametrizations that bunch the points differently) and confirm all three land on the analytic $\tfrac13$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def line_integral(field, xs, ys):
+    """Riemann sum  Σ F(midpoint)·Δr  along the polyline through (xs, ys)."""
+    dx, dy = np.diff(xs), np.diff(ys)
+    xm, ym = (xs[:-1] + xs[1:]) / 2, (ys[:-1] + ys[1:]) / 2   # segment midpoints
+    Fx, Fy = field(xm, ym)
+    return np.sum(Fx * dx + Fy * dy)
+
+rot = lambda x, y: (-y, x)          # rotational field ⟨-y, x⟩
+rad = lambda x, y: (x, y)           # radial field    ⟨x, y⟩
+
+analytic = 1/3
+N = 20000
+t  = np.linspace(0, 1, N)                        # (a) uniform in t : x=t,  y=t²
+uu = np.linspace(0, 1, N) ** 0.5                 # (b) x=√u          : points bunch near x=1
+ph = np.linspace(0, np.pi/2, N); x3 = np.sin(ph) # (c) x=sinφ, y=sin²φ
+s1 = line_integral(rot, t,  t**2)
+s2 = line_integral(rot, uu, uu**2)
+s3 = line_integral(rot, x3, x3**2)
+print(f"(a) uniform t : {s1:.5f}")
+print(f"(b) x=√u      : {s2:.5f}")
+print(f"(c) x=sinφ    : {s3:.5f}   (analytic 1/3 = {analytic:.5f})")
+for s in (s1, s2, s3):
+    assert abs(s - analytic) < 1e-3
+print("Σ F·Δr → the line integral, SAME value for every parametrization ✓")
+```
+
+### 3.2 Radial does zero work; rotational does $2\pi a^2$
+
+Around a circle of radius $a$, we compute both integrals from the raw polyline sum (method-independent), then confirm the *geometric* reason with the pointwise tangential component $\mathbf{F}\cdot\mathbf{T}$: it is $0$ everywhere for the radial field and constant $=a$ for the rotational one.
+
+```{python}
+a = 1.4
+th = np.linspace(0, 2*np.pi, 300000)
+xc, yc = a*np.cos(th), a*np.sin(th)
+
+val_rad = line_integral(rad, xc, yc)
+val_rot = line_integral(rot, xc, yc)
+print(f"radial ⟨x,y⟩   around circle: {val_rad:.5f}   (expected 0)")
+print(f"rotor  ⟨-y,x⟩  around circle: {val_rot:.5f}   (expected 2πa² = {2*np.pi*a**2:.5f})")
+assert abs(val_rad) < 1e-2 and abs(val_rot - 2*np.pi*a**2) < 1e-2
+
+# geometric check — tangential component F·T on the circle (T = ⟨-sinθ, cosθ⟩, ccw)
+s = np.linspace(0, 2*np.pi, 9)
+Tx, Ty = -np.sin(s), np.cos(s)
+FdotT_rad = (a*np.cos(s))*Tx + (a*np.sin(s))*Ty       # radial · T
+FdotT_rot = (-a*np.sin(s))*Tx + (a*np.cos(s))*Ty      # rotor  · T
+print(f"radial F·T : max|F·T| = {np.max(np.abs(FdotT_rad)):.2e}   (≈ 0 everywhere → ⟂)")
+print(f"rotor  F·T : constant  = {FdotT_rot[0]:.3f}            (= a everywhere → ∥)")
+assert np.allclose(FdotT_rad, 0, atol=1e-9) and np.allclose(FdotT_rot, a, atol=1e-9)
+print("radial ⟂ T ⇒ W=0 ;  rotor ∥ T ⇒ W = a·(2πa) = 2πa² ✓")
+```
+
+Seeing it makes it obvious — the radial arrows pierce the circle, the rotational arrows ride along it:
+
+```{python}
+gx, gy = np.meshgrid(np.linspace(-2, 2, 15), np.linspace(-2, 2, 15))
+circ = np.linspace(0, 2*np.pi, 200)
+fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.4, 4.6))
+panels = [(axL, rad, r"radial $\langle x,y\rangle$:  $\mathbf{F}\perp\mathbf{T}\Rightarrow W=0$", "#c8641e"),
+          (axR, rot, r"rotor $\langle -y,x\rangle$:  $\mathbf{F}\parallel\mathbf{T}\Rightarrow W=2\pi a^2$", "#1f6fb2")]
+for ax, field, title, col in panels:
+    Fx, Fy = field(gx, gy)
+    ax.quiver(gx, gy, Fx, Fy, color=col, alpha=.7, width=.004, scale=40)
+    ax.plot(a*np.cos(circ), a*np.sin(circ), "k-", lw=1.6)             # the circle C
+    sp = np.linspace(0, 2*np.pi, 12, endpoint=False)                 # tangent arrows T
+    ax.quiver(a*np.cos(sp), a*np.sin(sp), -np.sin(sp), np.cos(sp),
+              color="k", alpha=.5, width=.005, scale=20)
+    ax.set_title(title, fontsize=9.5); ax.set_aspect("equal")
+    ax.set_xlim(-2, 2); ax.set_ylim(-2, 2)
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain to a friend what a line integral $\int_C \mathbf{F}\cdot d\mathbf{r}$ *measures*, using a "walking through wind" picture. Then answer without computing: why does a field pointing straight out from the origin do **zero** work as you walk once around a circle, while a field that swirls around the origin does the **most**?
+
+**My target answer** *(to be rewritten in my own words)*: *A vector field is an arrow at every point — wind, say. A line integral is what you get by walking along a path and, at each step, keeping only the part of the wind that's blowing in your direction of travel: a tailwind adds to the tally, a headwind subtracts, a pure crosswind adds nothing. Sum that over the whole walk and you have the total "work" the field did on you — the along-the-path push, accumulated. Now the circle: a radial field points straight out from the center, but walking around a circle you're always moving sideways relative to that — the field is pure crosswind the entire loop, so every step contributes zero and the total is zero. A swirling field $\langle -y,x\rangle$ is the opposite: it points exactly along the circle at every point, so it's pure tailwind the whole way, and you rack up the maximum — its constant strength times the full distance around, which is $a\cdot 2\pi a=2\pi a^2$. And none of this depends on how I pace the walk, because only direction-along-the-path enters, not speed — so re-parametrizing the curve can't change the answer.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Only the tangential part counts.** $\mathbf{F}\cdot d\mathbf{r}$ discards whatever component of the field is perpendicular to your motion. "Perpendicular field ⇒ zero work" is the whole radial-circle example.
+- **One parameter, then substitute.** Whether you use $\int \mathbf{F}\cdot\frac{d\mathbf{r}}{dt}dt$ or $\int M\,dx+N\,dy$, reduce everything to a single variable first. Don't leave $x$ and $y$ independent.
+- **Orientation matters; parametrization doesn't.** The value is fixed by the curve and its direction. Traversing $C$ backwards negates the integral; re-timing the same forward traversal leaves it unchanged.
+- **$d\mathbf{r}=\langle dx,dy\rangle=\mathbf{T}\,ds$.** The three notations $\int \mathbf{F}\cdot d\mathbf{r}=\int M\,dx+N\,dy=\int \mathbf{F}\cdot\mathbf{T}\,ds$ are the *same* integral — use whichever is convenient.
+- **Sanity-check with geometry.** Before grinding an integral, ask whether the field is mostly along or across the path. On a circle, $\langle x,y\rangle\to 0$ and $\langle -y,x\rangle\to 2\pi a^2$ without any real computation.
+- **This is the runway to Green's theorem.** Line integrals around *closed* curves (like these circles) are about to connect to double integrals over the region inside — that's where Part III is heading.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
