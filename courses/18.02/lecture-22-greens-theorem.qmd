@@ -1,0 +1,198 @@
+---
+title: "Lecture 22 — Green's Theorem"
+subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 22 ("Green's theorem").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-22.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+This is the summit of Part III — the theorem that ties together everything we've built. **Green's theorem** says the circulation of a field *around* a closed curve equals the total curl *inside* it:
+$$
+\oint_C M\,dx+N\,dy=\iint_R (N_x-M_y)\,dA .
+$$
+A one-dimensional integral over the *boundary* equals a two-dimensional integral over the *region* — the two great kinds of integral in this course, welded together. It is enormously useful in both directions: a nasty closed line integral can become an easy area integral (our example turns a fearsome $\oint y\,e^x\,dx+\dots$ into $\iint x\,dA=2\pi$ via a center-of-mass trick), and conversely an area integral can be read off the boundary. It also finally *proves* the claim from Lecture 21 — that $\operatorname{curl}\mathbf{F}=0$ everywhere forces conservativeness — because then the right side is zero for *every* loop. One caution towers over all others: Green's theorem needs $\mathbf{F}$ defined and differentiable on the **whole** region $R$. Puncture $R$ with a singularity and it breaks — a vortex field can have zero curl yet circulate $2\pi$ around a hole.
+
+## 1. The concepts
+
+### 1.1 The theorem
+
+Let $C$ be a **closed** curve traversed **counterclockwise**, enclosing a region $R$, and let $\mathbf{F}=\langle M,N\rangle$ be defined and continuously differentiable on all of $R$. Then
+$$
+\boxed{\;\oint_C \mathbf{F}\cdot d\mathbf{r}=\oint_C M\,dx+N\,dy=\iint_R (N_x-M_y)\,dA=\iint_R \operatorname{curl}\mathbf{F}\,dA\;}
+$$
+
+::: {.callout-warning appearance="simple"}
+**Only for closed curves**, only counterclockwise (clockwise flips the sign), and only when $\mathbf{F}$ is defined *everywhere inside* $C$.
+:::
+
+### 1.2 The worked example — and a center-of-mass trick
+
+Evaluate $\displaystyle\oint_C y\,e^{x}\,dx+\big(\tfrac12 x^2+e^{x}\big)\,dy$ where $C$ is the circle of radius $1$ centered at $(2,0)$, counterclockwise.
+
+*Directly* you would set $x=2+\cos\theta,\ y=\sin\theta$ and grind through an ugly $\theta$-integral. *Green's theorem* is far kinder. With $M=y\,e^{x}$ and $N=\tfrac12 x^2+e^{x}$, the exponentials **cancel** in the curl:
+$$
+N_x-M_y=(x+e^{x})-e^{x}=x .
+$$
+So the whole line integral collapses to
+$$
+\oint_C M\,dx+N\,dy=\iint_R x\,dA .
+$$
+Now the punchline: $\iint_R x\,dA$ is exactly $\bar x\cdot\operatorname{area}(R)$ from the center-of-mass formula $\bar x=\tfrac{1}{\operatorname{area}}\iint_R x\,dA$. The disk's centroid is its center, so $\bar x=2$ and $\operatorname{area}=\pi$:
+$$
+\iint_R x\,dA=\bar x\cdot\operatorname{area}(R)=2\cdot\pi=2\pi .
+$$
+No integration at all — geometry finished the job.
+
+### 1.3 Special case: zero curl ⇒ conservative
+
+Lecture 21 asserted that $\operatorname{curl}\mathbf{F}=0$ makes $\mathbf{F}$ conservative; Green's theorem is the proof. If $\operatorname{curl}\mathbf{F}=N_x-M_y=0$ throughout $R$, then for **any** closed curve there,
+$$
+\oint_C \mathbf{F}\cdot d\mathbf{r}=\iint_R \operatorname{curl}\mathbf{F}\,dA=\iint_R 0\,dA=0 .
+$$
+Every loop integral vanishes — which is exactly property (1) of a conservative field. **Consequence:** if $\mathbf{F}$ is defined on the *whole* plane and $\operatorname{curl}\mathbf{F}=0$, then $\mathbf{F}$ is conservative.
+
+### 1.4 The singularity caveat
+
+"Defined on the whole region" is not fine print — it is load-bearing. Take the vortex $\mathbf{F}=\dfrac{\langle -y,\,x\rangle}{x^2+y^2}$. Away from the origin its curl is **identically zero**. Yet around a circle enclosing the origin,
+$$
+\oint_C \mathbf{F}\cdot d\mathbf{r}=2\pi\neq 0 .
+$$
+Green's theorem does **not** apply, because $\mathbf{F}$ blows up at the origin — there is a hole in $R$, so $\operatorname{curl}=0$ inside doesn't force the loop to vanish. (Around a loop that *avoids* the origin, curl-zero does give $\oint=0$, and Green is fine.) This is precisely the problem-set trap: you cannot apply Green's theorem when $C$ encloses a point where the field is undefined.
+
+### 1.5 Why it's true — sketch of the proof
+
+The full statement splits and reassembles:
+
+1. **Split the field.** It's enough to prove the two halves $\displaystyle\oint_C M\,dx=\iint_R(-M_y)\,dA$ and $\displaystyle\oint_C N\,dy=\iint_R N_x\,dA$ separately; adding them gives Green's theorem.
+2. **Cut into simple pieces.** Any region decomposes into **vertically simple** pieces $a\le x\le b,\ f_1(x)\le y\le f_2(x)$. When two pieces share a cut, its boundary is traversed **twice in opposite directions**, so those contributions cancel — only the outer boundary survives.
+3. **The one-piece computation.** On a vertically simple region, the boundary's vertical sides contribute nothing to $\oint M\,dx$ (there $dx=0$). The bottom ($y=f_1$) and top ($y=f_2$) give
+$$
+\oint_C M\,dx=\int_a^b\!\big[M(x,f_1(x))-M(x,f_2(x))\big]\,dx .
+$$
+Meanwhile the area side, by the fundamental theorem on the inner integral,
+$$
+\iint_R(-M_y)\,dA=-\int_a^b\!\!\int_{f_1(x)}^{f_2(x)}\!M_y\,dy\,dx=-\int_a^b\!\big[M(x,f_2)-M(x,f_1)\big]\,dx ,
+$$
+which is the **same** expression. The two match, proving the $M$-half; a mirror argument (horizontally simple pieces) does the $N$-half.
+
+## 2. The key intuition
+
+**Green's theorem is a lake, and curl is how hard the water swirls at each spot.** *(This is the picture I wrote in my own notes.)* Imagine the vector field is the surface current of a lake, and at every point the curl measures the local vorticity — how fast a tiny leaf dropped there would spin. Green's theorem says: **add up all that little spinning over the entire surface of the lake, and you get exactly the net current circulating along the shoreline.** All the interior swirling either cancels against its neighbors (where two eddies meet, their shared edge is pushed both ways at once) or, at the boundary, has nothing to cancel against and shows up as flow along the shore. That cancellation is literally the proof: chop the lake into cells, and every internal edge is shared by two cells that traverse it in opposite directions, so it drops out — leaving only the outer rim. It also makes the singularity caveat obvious: if there's a drain (a point where the current is undefined), the "swirl inside" bookkeeping is missing a piece, and the shoreline current no longer has to match — which is exactly why the punctured vortex circulates $2\pi$ even though its curl is zero everywhere the water actually flows.
+
+## 3. Python demonstration
+
+### 3.1 Green's theorem: boundary circulation = interior curl
+
+The two sides of Green's theorem are genuinely different computations — a 1-D march around the boundary versus a 2-D sweep over the interior — so their agreement is a real test. We compute the example both ways and confirm both give $2\pi$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def loop_integral(M, N, xs, ys):
+    dx, dy = np.diff(xs), np.diff(ys)
+    xm, ym = (xs[:-1]+xs[1:])/2, (ys[:-1]+ys[1:])/2
+    return np.sum(M(xm, ym)*dx + N(xm, ym)*dy)
+
+# field chosen so the exponentials cancel: M = y e^x, N = ½x² + e^x  ⇒  curl = x
+M = lambda x, y: y*np.exp(x)
+N = lambda x, y: 0.5*x**2 + np.exp(x)
+
+th = np.linspace(0, 2*np.pi, 200000)
+xc, yc = 2 + np.cos(th), np.sin(th)                  # circle radius 1 at (2,0), ccw
+lhs = loop_integral(M, N, xc, yc)                    # LINE-integral side (1-D boundary)
+
+rng = np.random.default_rng(0)                       # DOUBLE-integral side (2-D interior)
+K = 4_000_000
+px = rng.uniform(1, 3, K); py = rng.uniform(-1, 1, K)
+inside = (px-2)**2 + py**2 <= 1
+rhs = px[inside].sum()/K * 4.0                        # ∬_R curl dA = ∬_R x dA, box area = 4
+
+print(f"Green LHS  ∮ (M dx + N dy)  = {lhs:.5f}")
+print(f"Green RHS  ∬ curl dA = ∬ x dA = {rhs:.5f}")
+print(f"center-of-mass  x̄·Area = 2·π = {2*np.pi:.5f}")
+assert abs(lhs - 2*np.pi) < 1e-2 and abs(rhs - 2*np.pi) < 2e-2
+print("boundary circulation = interior curl total = 2π ✓")
+```
+
+### 3.2 The caveat: zero curl but nonzero loop around a singularity
+
+The vortex $\langle -y,x\rangle/r^2$ has curl $0$ everywhere it is defined, yet it circulates $2\pi$ around the origin. Green's theorem doesn't apply there because the field is undefined at $O$ — a hole in the region.
+
+```{python}
+Mv = lambda x, y: -y/(x**2 + y**2)                   # vortex ⟨-y,x⟩ / r²
+Nv = lambda x, y:  x/(x**2 + y**2)
+h = 1e-6
+def curl(M, N, x, y):
+    return (N(x+h, y)-N(x-h, y))/(2*h) - (M(x, y+h)-M(x, y-h))/(2*h)
+
+for x, y in [(1, 0.5), (2, -1), (-0.7, 0.3)]:
+    assert abs(curl(Mv, Nv, x, y)) < 1e-4
+print("vortex ⟨-y,x⟩/r² : curl = 0 everywhere away from the origin ✓")
+
+enclosing = loop_integral(Mv, Nv, np.cos(th), np.sin(th))              # traps the origin
+missing   = loop_integral(Mv, Nv, 3 + 0.5*np.cos(th), 0.5*np.sin(th))  # avoids the origin
+print(f"loop trapping origin : ∮ = {enclosing:.5f}   (= 2π ≠ 0, though curl=0!)")
+print(f"loop missing  origin : ∮ = {missing:.5f}   (≈ 0, Green applies here)")
+assert abs(enclosing - 2*np.pi) < 1e-2 and abs(missing) < 1e-3
+print("Green FAILS when C traps the singularity — F must be defined on ALL of R ✓")
+```
+
+Left: the theorem in action. Right: the trap.
+
+```{python}
+fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.8, 4.6))
+
+xx = np.linspace(0.8, 3.2, 300); yy = np.linspace(-1.2, 1.2, 300)
+GX, GY = np.meshgrid(xx, yy)
+cf = np.where((GX-2)**2 + GY**2 <= 1, GX, np.nan)    # curl = x, shown only inside R
+axL.contourf(GX, GY, cf, levels=20, cmap="RdBu_r")
+axL.plot(2+np.cos(th), np.sin(th), "k-", lw=2)
+axL.annotate("", xy=(1.97, 1.0), xytext=(2.32, 0.94), arrowprops=dict(arrowstyle="->", lw=1.7))
+axL.set_title(r"Green: $\oint_C=\iint_R \operatorname{curl}dA=\iint_R x\,dA=2\pi$", fontsize=9)
+axL.set_aspect("equal"); axL.set_xlim(0.8, 3.2); axL.set_ylim(-1.2, 1.2)
+
+gx, gy = np.meshgrid(np.linspace(-2, 4, 22), np.linspace(-2.2, 2.2, 16))
+r = np.hypot(gx, gy) + 1e-9
+U, V = -gy/r**2, gx/r**2; Ln = np.hypot(U, V) + 1e-9
+axR.quiver(gx, gy, U/Ln, V/Ln, color="#1f6fb2", alpha=.6, width=.004, scale=32)
+axR.plot(np.cos(th), np.sin(th), "r-", lw=2, label=r"traps O: $\oint=2\pi$")
+axR.plot(3+0.5*np.cos(th), 0.5*np.sin(th), "g-", lw=2, label=r"misses O: $\oint=0$")
+axR.plot(0, 0, "kx", ms=11, mew=2.5)
+axR.set_title(r"vortex $\langle -y,x\rangle/r^2$: $\operatorname{curl}=0$, hole at O", fontsize=9)
+axR.legend(loc="upper right", fontsize=7); axR.set_aspect("equal")
+axR.set_xlim(-2, 4.3); axR.set_ylim(-2.3, 2.3)
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: state Green's theorem in words and explain *why* it's true using the "lake and swirling water" picture. Then answer: why does the punctured vortex field have zero curl everywhere yet circulate $2\pi$ around the origin — what breaks?
+
+**My target answer** *(to be rewritten in my own words)*: *Green's theorem says the total swirl inside a closed curve equals the net flow around its edge: $\oint_C M\,dx+N\,dy=\iint_R(N_x-M_y)\,dA$. Picture the field as the surface current of a lake and the curl as how hard the water spins at each point. If I add up all that local spinning over the whole surface, I get exactly the current running along the shore. The reason is cancellation: chop the lake into tiny cells, and every internal edge is shared by two neighboring cells whose little circulations push it in opposite directions, so all the interior edges cancel and only the outer boundary is left — that sum is the shoreline current. This also shows why the theorem is a two-way street: a horrible loop integral can be swapped for an easy area integral of the curl, and vice versa. The vortex breaks it because it has a drain at the origin where the current is undefined. Its curl is genuinely zero everywhere the water flows, but the "add up the interior swirl" step is missing the piece at the hole, so it no longer has to equal the shoreline current — and a loop around the drain really does circulate $2\pi$. Green needs the field defined on the whole region; punch a hole and the bookkeeping fails.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Closed, counterclockwise, defined everywhere.** All three conditions are required. An open curve, a clockwise one (sign flips), or a field with a singularity inside all break the theorem.
+- **It's a bridge, used both ways.** Hard line integral $\to$ easy area integral (the example), or area integral $\to$ boundary integral. Reach for whichever side is simpler.
+- **$\operatorname{curl}=0 \Rightarrow$ conservative — *on a hole-free region*.** Green supplies the proof, but only where the field is defined throughout. The vortex is the standing warning.
+- **Watch for cancellation in the curl.** Choosing $M,N$ so the messy terms drop out (the two $e^x$) is what made the example trivial. Compute $N_x-M_y$ *before* despairing at the integrand.
+- **Center-of-mass shortcuts.** $\iint_R x\,dA=\bar x\cdot\operatorname{area}$ and $\iint_R y\,dA=\bar y\cdot\operatorname{area}$ turn many area integrals into a glance at the centroid.
+- **The interior cancellation is the proof.** Shared edges between sub-regions are traversed twice in opposite directions and cancel; only the outer boundary survives. That single idea powers the whole theorem — and the flux version coming next.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
