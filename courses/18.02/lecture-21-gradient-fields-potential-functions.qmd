@@ -1,0 +1,210 @@
+---
+title: "Lecture 21 — Gradient Fields & Potential Functions"
+subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 21 ("Gradient fields and potential functions").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-21.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Last lecture told us that gradient (conservative) fields are wonderful but didn't say how to **recognize** one or how to **find** its potential. This lecture cashes both promises. The test is startlingly simple: $\mathbf{F}=\langle M,N\rangle$ is a gradient field exactly when $M_y=N_x$ (over a region without holes). The reason is just the equality of mixed partials — if $\mathbf{F}=\nabla f$ then $M_y=f_{xy}=f_{yx}=N_x$. Once a field passes, there are **two systematic ways to build the potential $f$**: integrate the field along a convenient path (an L-shaped one), or take antiderivatives of $M$ and $N$ and reconcile them. Both give the same $f$. Finally the test gets a name and a meaning: the quantity $N_x-M_y$ is the **curl**, and $\operatorname{curl}\mathbf{F}=0$ is the conservativeness test. Curl is not just bookkeeping — for a velocity field it measures how fast a little paddlewheel would spin (twice the angular velocity), and for a force field it measures the torque on a test object.
+
+## 1. The concepts
+
+### 1.1 The test: $M_y = N_x$
+
+Suppose $\mathbf{F}=\nabla f=\langle f_x,f_y\rangle$, so $M=f_x$ and $N=f_y$. Differentiate crosswise:
+$$
+M_y=f_{xy},\qquad N_x=f_{yx}.
+$$
+Mixed partials of a nice function are equal, so a gradient field **must** satisfy
+$$
+\boxed{\,M_y=N_x\,}
+$$
+The converse is the useful half: **if** $\mathbf{F}=\langle M,N\rangle$ is defined and differentiable everywhere on the plane (or any region with no holes) **and** $M_y=N_x$, **then** $\mathbf{F}$ *is* a gradient field. So one derivative check decides it.
+
+### 1.2 The test in action
+
+**Fails.** $\mathbf{F}=\langle -y,\,x\rangle$: here $M=-y,\ N=x$, so $M_y=-1$ and $N_x=+1$. Since $-1\neq 1$, this is **not** a gradient field — exactly the swirl we saw circulate last lecture.
+
+**Passes (for one value of $a$).** $\mathbf{F}=\big\langle 6x^2+a\,xy,\ \ 3y^2+4x^2\big\rangle$. Then $M_y=a\,x$ and $N_x=8x$. These match iff $a=8$. So with $a=8$,
+$$
+\mathbf{F}=\big\langle 6x^2+8xy,\ \ 3y^2+4x^2\big\rangle
+$$
+is a gradient field. We'll find its potential two ways.
+
+### 1.3 Finding the potential — method ①: integrate along a path
+
+Since the field is conservative, $\int_C \mathbf{F}\cdot d\mathbf{r}=f(x_1,y_1)-f(0,0)$, and path-independence lets us choose the **easiest** path from $(0,0)$ to $(x_1,y_1)$: go straight along the $x$-axis, then straight up.
+
+- **$C_1$: $(0,0)\to(x_1,0)$**, so $y=0,\ dy=0$:
+$$
+\int_{C_1}\mathbf{F}\cdot d\mathbf{r}=\int_0^{x_1}6x^2\,dx=2x_1^3 .
+$$
+- **$C_2$: $(x_1,0)\to(x_1,y_1)$**, so $x=x_1,\ dx=0$:
+$$
+\int_{C_2}\mathbf{F}\cdot d\mathbf{r}=\int_0^{y_1}\big(3y^2+4x_1^2\big)\,dy=\big[y^3+4x_1^2\,y\big]_0^{y_1}=y_1^3+4x_1^2y_1 .
+$$
+
+Adding, and dropping subscripts,
+$$
+f(x,y)=2x^3+4x^2y+y^3+C .
+$$
+
+### 1.4 Finding the potential — method ②: antiderivatives, then reconcile
+
+Solve the two defining equations directly:
+$$
+f_x=6x^2+8xy\quad(\text{A}),\qquad f_y=3y^2+4x^2\quad(\text{B}).
+$$
+Integrate (A) in $x$ (the "constant" of integration is any function of $y$):
+$$
+f=\int(6x^2+8xy)\,dx=2x^3+4x^2y+\underbrace{g(y)}_{\text{unknown}} .
+$$
+Differentiate this in $y$ and force it to equal (B):
+$$
+f_y=4x^2+g'(y)\ \overset{!}{=}\ 3y^2+4x^2\ \Rightarrow\ g'(y)=3y^2\ \Rightarrow\ g(y)=y^3+C .
+$$
+So $f=2x^3+4x^2y+y^3+C$ — **identical** to method ①. (The $4x^2$ appearing in both $f_y$ and $N$ must cancel; if it didn't, the field would have failed the $M_y=N_x$ test.)
+
+### 1.5 Curl: naming the test, and what it means
+
+Give the test quantity a name — the (2-D, scalar) **curl**:
+$$
+\boxed{\ \operatorname{curl}\mathbf{F}=N_x-M_y\ },\qquad
+\mathbf{F}\ \text{conservative}\iff \operatorname{curl}\mathbf{F}=0 .
+$$
+So $\operatorname{curl}\mathbf{F}=0$ is precisely $M_y=N_x$. Its **sign** tells the direction of rotation (counterclockwise positive). And it is genuinely physical:
+
+- **Velocity field.** Curl measures the rotational part of the flow — *twice* the angular velocity a tiny paddlewheel dropped in the flow would acquire. Uniform flow $\langle a,b\rangle$: $\operatorname{curl}=0$. Pure radial $\langle x,y\rangle$: $\operatorname{curl}=0$ (it stretches but doesn't spin). Pure swirl $\langle -y,x\rangle$: $\operatorname{curl}=1-(-1)=2$ — it spins.
+- **Force field.** Curl measures the **torque** exerted on a test object placed in the field (the rotational analogue of how the field pushes it linearly).
+
+## 2. The key intuition
+
+**The test $M_y=N_x$ asks: does this field secretly come from a hill?** If $\mathbf{F}=\nabla f$, the field is the slope of some landscape $f$, and slopes have a consistency condition — how the eastward slope changes as you walk north must equal how the northward slope changes as you walk east (both are the same mixed partial $f_{xy}=f_{yx}$). That single equation is $M_y=N_x$. When it holds you can reconstruct the hill, and the two methods are two natural ways to do it: method ① *walks* from a base point to $(x,y)$ accumulating altitude, and because the field is conservative the walk's total is the height regardless of route, so you pick the easiest route; method ② *guesses* the hill's formula from its two slopes and stitches the guesses together. **Curl** is what the test measures when it *fails*: it's the leftover twist — the amount by which the field circulates rather than climbs. Zero curl means pure climbing (a potential exists); nonzero curl means genuine swirl (a paddlewheel spins, no potential can exist). That is why "$\operatorname{curl}=0$" and "conservative" are the same statement seen from two sides.
+
+## 3. Python demonstration
+
+### 3.1 The curl test predicts conservativeness
+
+We compute $\operatorname{curl}=N_x-M_y$ by finite differences for both fields, then confirm — independently — that curl-zero lines up with loop-zero: the $a=8$ field has $\operatorname{curl}=0$ and closes loops at $0$; the swirl has $\operatorname{curl}=2$ and closes loops at $2\pi$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def work(field, xs, ys):
+    dx, dy = np.diff(xs), np.diff(ys)
+    xm, ym = (xs[:-1]+xs[1:])/2, (ys[:-1]+ys[1:])/2
+    Fx, Fy = field(xm, ym)
+    return np.sum(Fx*dx + Fy*dy)
+
+M = lambda x, y: 6*x**2 + 8*x*y          # the a = 8 field  F = ⟨6x²+8xy, 3y²+4x²⟩
+N = lambda x, y: 3*y**2 + 4*x**2
+Fgrad = lambda x, y: (M(x, y), N(x, y))
+swirl = lambda x, y: (-y, x)             # ⟨-y,x⟩, not a gradient field
+
+h = 1e-6
+def curl(field, x, y):                   # N_x - M_y via central differences
+    N_x = (field(x+h, y)[1] - field(x-h, y)[1]) / (2*h)
+    M_y = (field(x, y+h)[0] - field(x, y-h)[0]) / (2*h)
+    return N_x - M_y
+
+print("curl F = N_x - M_y   (0 ⟺ gradient / conservative):")
+for x, y in [(0.4, -0.3), (1.0, 0.7), (-0.5, 0.9)]:
+    cg, cs = curl(Fgrad, x, y), curl(swirl, x, y)
+    print(f"  at ({x:>4},{y:>4}):  a=8 field curl = {cg:+.5f}   swirl curl = {cs:+.5f}")
+    assert abs(cg) < 1e-4 and abs(cs - 2) < 1e-4
+
+th = np.linspace(0, 2*np.pi, 40000)
+loop_grad  = work(Fgrad, 1.3*np.cos(th), 1.3*np.sin(th))
+loop_swirl = work(swirl, np.cos(th),     np.sin(th))
+print(f"loop integral: a=8 field = {loop_grad:.5f} (≈ 0)   swirl = {loop_swirl:.5f} (= 2π ≠ 0)")
+assert abs(loop_grad) < 1e-2 and abs(loop_swirl - 2*np.pi) < 1e-2
+print("curl = 0  ⟺  loop = 0  ⟺  gradient/conservative ✓")
+```
+
+### 3.2 Both methods give the same potential — and it really is one
+
+Method ① (line integral) gave $f=2x^3+y^3+4x^2y$; method ② (antiderivatives) gave $f=2x^3+4x^2y+y^3$. Same function. We then check it *independently*: its numerical gradient $\nabla f$ must reproduce $\mathbf{F}$, and $f(P_1)-f(P_0)$ must equal a raw line integral along an arbitrary wiggly path.
+
+```{python}
+f1 = lambda x, y: 2*x**3 + y**3 + 4*x**2*y      # method ① (line integral)
+f2 = lambda x, y: 2*x**3 + 4*x**2*y + y**3      # method ② (antiderivatives)
+xs = np.linspace(-1, 1, 7); ys = np.linspace(-1, 1, 7)
+assert all(abs(f1(x, y) - f2(x, y)) < 1e-12 for x in xs for y in ys)
+print("method ① and method ② give the SAME potential ✓")
+
+# independent check A: ∇f (finite differences) must equal F
+def grad_num(f, x, y):
+    return (f(x+h, y) - f(x-h, y))/(2*h), (f(x, y+h) - f(x, y-h))/(2*h)
+maxerr = max(max(abs(grad_num(f2, x, y)[0] - M(x, y)),
+                 abs(grad_num(f2, x, y)[1] - N(x, y))) for x in xs for y in ys)
+print(f"independent: max|∇f − F| over grid = {maxerr:.2e}   → ∇f = F ✓")
+assert maxerr < 1e-3
+
+# independent check B: fundamental theorem  f(P1)-f(P0) == raw line integral (wiggly path)
+P0, P1 = (-0.8, 0.5), (0.9, -0.6)
+tt = np.linspace(0, 1, 40000)
+xs_p = P0[0] + (P1[0]-P0[0])*tt + 0.25*np.sin(np.pi*tt)
+ys_p = P0[1] + (P1[1]-P0[1])*tt + 0.25*np.sin(2*np.pi*tt)
+li = work(Fgrad, xs_p, ys_p)
+print(f"fundamental theorem: f(P1)-f(P0) = {f2(*P1)-f2(*P0):.5f}   line integral = {li:.5f}")
+assert abs((f2(*P1) - f2(*P0)) - li) < 1e-2
+print("recovered potential satisfies  ∫ F·dr = f(P1) − f(P0) ✓")
+```
+
+Left: the field really is the gradient of the recovered potential (arrows climb the hill). Right: the swirl's curl is nonzero, so a paddlewheel spins and no hill exists.
+
+```{python}
+fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.6, 4.6))
+
+gx, gy = np.meshgrid(np.linspace(-1.3, 1.3, 400), np.linspace(-1.3, 1.3, 400))
+axL.contourf(gx, gy, f2(gx, gy), levels=25, cmap="viridis", alpha=.85)
+qx, qy = np.meshgrid(np.linspace(-1.2, 1.2, 12), np.linspace(-1.2, 1.2, 12))
+U, V = M(qx, qy), N(qx, qy); Ln = np.hypot(U, V) + 1e-9
+axL.quiver(qx, qy, U/Ln, V/Ln, color="white", alpha=.8, width=.004, scale=28)
+axL.set_title(r"potential $f=2x^3+4x^2y+y^3$, arrows $=\mathbf{F}=\nabla f$", fontsize=9)
+axL.set_aspect("equal"); axL.set_xlim(-1.3, 1.3); axL.set_ylim(-1.3, 1.3)
+
+gx2, gy2 = np.meshgrid(np.linspace(-1.6, 1.6, 15), np.linspace(-1.6, 1.6, 15))
+axR.quiver(gx2, gy2, -gy2, gx2, color="#1f6fb2", alpha=.7, width=.004, scale=30)
+for cx, cy in [(-0.8, 0.8), (0.8, -0.8), (0.0, 0.0)]:          # little paddlewheels
+    axR.plot(cx, cy, "o", color="#c8641e", ms=6)
+    aa = np.linspace(0, 1.5*np.pi, 30)
+    axR.plot(cx + 0.22*np.cos(aa), cy + 0.22*np.sin(aa), color="#c8641e", lw=1.5)
+axR.set_title(r"$\operatorname{curl}\langle -y,x\rangle=2\neq0$: it spins (not a gradient)", fontsize=9)
+axR.set_aspect("equal"); axR.set_xlim(-1.6, 1.6); axR.set_ylim(-1.6, 1.6)
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: your friend has a field $\langle M,N\rangle$ and asks two things — "how do I know if it's a gradient field?" and "if it is, how do I find the potential?" Give the one-line test and *why* it works, sketch the two ways to find $f$, and say what "curl" is measuring when the test fails.
+
+**My target answer** *(to be rewritten in my own words)*: *The test is $M_y=N_x$: differentiate $M$ with respect to $y$, differentiate $N$ with respect to $x$, and check they're equal. It works because if the field is the gradient of some hill $f$, then $M$ and $N$ are the two slopes $f_x$ and $f_y$, and there's a consistency law for slopes — the mixed second derivatives $f_{xy}$ and $f_{yx}$ are the same — which is exactly $M_y=N_x$. If the test passes, I can rebuild the hill two ways. One: walk from the origin to the point along the easiest route (across, then up), adding up the field's push as I go; since the field is conservative the total is the height and the route doesn't matter. Two: I know $f_x=M$ and $f_y=N$, so I integrate $M$ in $x$ to get $f$ up to an unknown function of $y$, then differentiate in $y$ and match $N$ to pin that function down. Both give the same $f$. When the test fails, the leftover $N_x-M_y$ is the curl — the amount the field swirls instead of climbs. Zero curl means it's pure slope and a potential exists; nonzero curl means a paddlewheel dropped in it would actually spin, so no consistent hill can exist.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **The test is $M_y=N_x$, not $M_x=N_y$.** You differentiate each component by the *other* variable. Mixing this up is the classic slip.
+- **The converse needs a hole-free region.** $M_y=N_x$ guarantees a gradient field only where $\mathbf{F}$ is defined everywhere without holes. On a domain with a puncture the test can pass locally yet the field still fail to be conservative (a subtlety that returns with Green's theorem).
+- **Don't forget $g(y)$ (or $h(x)$).** In method ②, the "constant" of integration after integrating in $x$ is a whole *function of $y$*. Treating it as a plain constant loses the $y^3$ term.
+- **Cross-check the two methods.** They must agree; if they don't, you either mis-set the limits (method ①) or dropped the arbitrary function (method ②).
+- **$\operatorname{curl}=N_x-M_y$ is the same test with a name.** $\operatorname{curl}\mathbf{F}=0\Leftrightarrow$ conservative $\Leftrightarrow$ gradient $\Leftrightarrow$ path-independent. Curl is scalar in 2-D and its sign encodes rotation direction.
+- **Curl is physical, not formal.** It's twice the local angular velocity of a paddlewheel in a flow, or the torque in a force field. Radial fields have zero curl (they expand, not spin); the swirl has curl $2$.
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
