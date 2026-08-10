@@ -57,6 +57,6 @@ The course is organized into four parts:
 | 20 | [Path Independence & Conservative Fields](lecture-20-path-independence-conservative-fields.qmd) | ✅ Online |
 | 21 | [Gradient Fields & Potential Functions](lecture-21-gradient-fields-potential-functions.qmd) | ✅ Online |
 | 22 | [Green's Theorem](lecture-22-greens-theorem.qmd) | ✅ Online |
-| 23 | Flux & the Normal Form of Green's Theorem | ⬜ Planned |
+| 23 | [Flux & the Normal Form of Green's Theorem](lecture-23-flux-normal-form-green.qmd) | ✅ Online |
 
-*(Lectures 7 and 15 were exam/review sessions, so they carry no content note. Part IV will be added as I go.)*
+*(Lectures 7 and 15 were exam/review sessions, so they carry no content note. **Part III is now complete** — Part IV will be added as I go.)*

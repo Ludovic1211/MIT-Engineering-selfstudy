@@ -1,0 +1,206 @@
+---
+title: "Lecture 23 — Flux & the Normal Form of Green's Theorem"
+subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 23 ("Flux; normal form of Green's theorem").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-23.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Everything in this lecture is the **twin** of the last two. Work summed the **tangential** component $\mathbf{F}\cdot\mathbf{T}$ *along* a curve; **flux** sums the **normal** component $\mathbf{F}\cdot\mathbf{n}$ *across* it — how much stuff passes *through* the curve rather than flows along it. For a velocity field, $\oint_C \mathbf{F}\cdot\mathbf{n}\,ds$ is literally the rate at which fluid crosses $C$. In components it's a small twist on the work integral: since the normal is the tangent rotated $90^\circ$ clockwise, $\mathbf{n}\,ds=\langle dy,-dx\rangle$, so flux $=\oint_C -Q\,dx+P\,dy$. And Green's theorem has a matching twin — the **normal (divergence) form**:
+$$
+\oint_C \mathbf{F}\cdot\mathbf{n}\,ds=\iint_R \operatorname{div}\mathbf{F}\,dA,\qquad \operatorname{div}\langle P,Q\rangle=P_x+Q_y .
+$$
+Where curl measured swirl, **divergence measures spreading** — in an incompressible flow it is the source/sink density, the rate at which fluid is created or destroyed per unit area. The circulation/curl story and the flux/divergence story are the same mathematics wearing two hats.
+
+## 1. The concepts
+
+### 1.1 Flux: the "across" integral
+
+Given a curve $C$ and a field $\mathbf{F}$, the **flux** of $\mathbf{F}$ across $C$ is
+$$
+\oint_C \mathbf{F}\cdot\mathbf{n}\,ds,
+$$
+where $\mathbf{n}$ is the unit normal to $C$, taken $90^\circ$ **clockwise** from the tangent $\mathbf{T}$ (so for a counterclockwise loop, $\mathbf{n}$ points **outward**). Break $C$ into little segments of length $\Delta s$: what crosses one segment in unit time fills a little parallelogram of area $\Delta s\cdot(\mathbf{F}\cdot\mathbf{n})$, and
+$$
+\text{flux}=\lim_{\Delta s\to 0}\sum \mathbf{F}\cdot\mathbf{n}\,\Delta s .
+$$
+For a velocity field this is the **rate fluid passes through $C$**; crossing left-to-right counts positive, right-to-left negative. Side by side with last week:
+$$
+\underbrace{\oint_C \mathbf{F}\cdot d\mathbf{r}=\oint_C \mathbf{F}\cdot\mathbf{T}\,ds}_{\text{work: tangential}},
+\qquad
+\underbrace{\oint_C \mathbf{F}\cdot\mathbf{n}\,ds}_{\text{flux: normal}} .
+$$
+
+### 1.2 The two circle examples (swapped from last time)
+
+Let $C$ be the circle of radius $a$ about the origin, counterclockwise — so $\mathbf{n}$ points radially outward.
+
+- **Radial $\mathbf{F}=\langle x,y\rangle$.** It points straight out, *along* $\mathbf{n}$, with $|\mathbf{F}|=a$ on the circle. So $\mathbf{F}\cdot\mathbf{n}=a$ everywhere and
+$$
+\oint_C \mathbf{F}\cdot\mathbf{n}\,ds=\oint_C a\,ds=a\cdot 2\pi a=2\pi a^2 .
+$$
+- **Rotational $\mathbf{F}=\langle -y,x\rangle$.** It points *along the tangent*, perpendicular to $\mathbf{n}$, so $\mathbf{F}\cdot\mathbf{n}=0$ and the flux is $0$.
+
+Note the exact reversal from Lecture 19: the radial field had zero *circulation* but full *flux*; the rotor had full circulation but zero flux. Tangential and normal see opposite things.
+
+### 1.3 Flux in components
+
+Since $d\mathbf{r}=\mathbf{T}\,ds=\langle dx,dy\rangle$ and $\mathbf{n}$ is $\mathbf{T}$ rotated $90^\circ$ clockwise, rotating $\langle dx,dy\rangle$ gives
+$$
+\mathbf{n}\,ds=\langle dy,\,-dx\rangle .
+$$
+So for $\mathbf{F}=\langle P,Q\rangle$,
+$$
+\boxed{\;\oint_C \mathbf{F}\cdot\mathbf{n}\,ds=\oint_C \langle P,Q\rangle\cdot\langle dy,-dx\rangle=\oint_C -Q\,dx+P\,dy\;}
+$$
+Compare with work $\oint P\,dx+Q\,dy$: same ingredients, shuffled — a clean sign of the tangential/normal duality.
+
+### 1.4 Green's theorem, normal (divergence) form
+
+Convert the flux integral to an area integral exactly as before. Applying the *tangential* Green's theorem to the relabeled field $M=-Q,\ N=P$:
+$$
+\oint_C -Q\,dx+P\,dy=\iint_R\big(N_x-M_y\big)\,dA=\iint_R\big(P_x+Q_y\big)\,dA .
+$$
+That last integrand is the **divergence**, giving the normal form:
+$$
+\boxed{\;\oint_C \mathbf{F}\cdot\mathbf{n}\,ds=\iint_R \operatorname{div}\mathbf{F}\,dA,\qquad \operatorname{div}\langle P,Q\rangle=P_x+Q_y\;}
+$$
+It is *literally the same theorem* as Lecture 22, seen through the $M=-Q,\ N=P$ relabeling — curl becomes divergence, circulation becomes flux.
+
+### 1.5 The divergence example, and what it means
+
+**Example.** $\mathbf{F}=\langle x,y\rangle$, $C$ the circle of radius $a$. Then $\operatorname{div}\mathbf{F}=\tfrac{\partial}{\partial x}(x)+\tfrac{\partial}{\partial y}(y)=1+1=2$, so
+$$
+\oint_C \mathbf{F}\cdot\mathbf{n}\,ds=\iint_R 2\,dA=2\cdot\operatorname{area}(R)=2\pi a^2 ,
+$$
+matching §1.2 with no boundary work at all.
+
+**Physical meaning.** In an incompressible fluid flow, **divergence measures source/sink density** — how much fluid is being *added to* (or removed from) the flow per unit area per unit time. Positive divergence is a spring bubbling up; negative is a drain. Green's normal form then reads: the net fluid crossing the boundary equals the total of all the springs and drains inside.
+
+## 2. The key intuition
+
+**Flux is throughput, and divergence is how much the field is a source.** Circulation asked "how much does the field run *along* my loop?"; flux asks "how much does it pass *through* my loop?" — the difference between paddling with the current and water pouring across a net. The normal $\mathbf{n}$ is just the tangent turned a quarter-turn, which is why the flux integral is the work integral with $dx$ and $dy$ swapped and a sign flipped: measuring the "across" part instead of the "along" part. And the normal form of Green's theorem is the conservation-of-stuff statement: whatever crosses the boundary of a region must have been produced (or swallowed) inside it, and **divergence is the local production rate**. A field with zero divergence is *incompressible* — no springs, no drains — so exactly as much flows out of any loop as flows in, and the net flux is zero. This is the perfect mirror of "zero curl means no swirl": zero divergence means no spreading. Curl and divergence are the two independent things a flow can do at a point — **spin** and **spread** — and Green's theorem, in its two forms, ties each one to what happens on the boundary.
+
+## 3. Python demonstration
+
+### 3.1 The circulation/flux duality, and Green's normal form
+
+We compute *both* the circulation ($\oint\mathbf{F}\cdot\mathbf{T}$) and the flux ($\oint\mathbf{F}\cdot\mathbf{n}$) for the radial and rotor fields — the two are perfect opposites — then confirm the boundary flux equals the interior $\iint\operatorname{div}\mathbf{F}\,dA$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def circulation(P, Q, xs, ys):     # ∮ F·T ds = ∮ P dx + Q dy
+    dx, dy = np.diff(xs), np.diff(ys)
+    xm, ym = (xs[:-1]+xs[1:])/2, (ys[:-1]+ys[1:])/2
+    return np.sum(P(xm, ym)*dx + Q(xm, ym)*dy)
+
+def flux(P, Q, xs, ys):            # ∮ F·n ds = ∮ -Q dx + P dy   (n ds = ⟨dy, -dx⟩)
+    dx, dy = np.diff(xs), np.diff(ys)
+    xm, ym = (xs[:-1]+xs[1:])/2, (ys[:-1]+ys[1:])/2
+    return np.sum(-Q(xm, ym)*dx + P(xm, ym)*dy)
+
+radP, radQ = (lambda x, y: x), (lambda x, y: y)     # ⟨x,y⟩  : div=2, curl=0
+rotP, rotQ = (lambda x, y: -y), (lambda x, y: x)    # ⟨-y,x⟩ : div=0, curl=2
+
+a = 1.3
+th = np.linspace(0, 2*np.pi, 200000)
+xc, yc = a*np.cos(th), a*np.sin(th)
+
+print(f"{'field':9s}{'circulation ∮F·T':>20s}{'flux ∮F·n':>14s}")
+for name, P, Q in [("<x,y>", radP, radQ), ("<-y,x>", rotP, rotQ)]:
+    print(f"{name:9s}{circulation(P,Q,xc,yc):>20.5f}{flux(P,Q,xc,yc):>14.5f}")
+print(f"(2πa² = {2*np.pi*a**2:.5f})")
+assert abs(circulation(radP, radQ, xc, yc)) < 1e-2
+assert abs(flux(radP, radQ, xc, yc) - 2*np.pi*a**2) < 1e-2
+assert abs(circulation(rotP, rotQ, xc, yc) - 2*np.pi*a**2) < 1e-2
+assert abs(flux(rotP, rotQ, xc, yc)) < 1e-2
+
+# Green's normal form (independent): boundary flux == ∬ div dA over the disk
+rng = np.random.default_rng(0); K = 4_000_000
+px = rng.uniform(-a, a, K); py = rng.uniform(-a, a, K)
+inside = px**2 + py**2 <= a**2
+green_rhs = 2.0 * (inside.mean() * (2*a)*(2*a))      # ∬ div⟨x,y⟩ dA = ∬ 2 dA = 2·area
+print(f"radial: boundary flux = {flux(radP,radQ,xc,yc):.5f}   ∬ div dA = {green_rhs:.5f}")
+assert abs(flux(radP, radQ, xc, yc) - green_rhs) < 3e-2
+print("Work↔circulation↔curl   |   Flux↔throughput↔divergence — perfect twins ✓")
+```
+
+### 3.2 Divergence is the local source density
+
+The physical *definition* of divergence is the flux out of a shrinking loop, divided by its area. We measure that geometrically for $\mathbf{F}=\langle x^2,y\rangle$ and confirm it equals the analytic $\operatorname{div}=2x+1$ — an independent check that never differentiates the formula.
+
+```{python}
+P = lambda x, y: x**2                                # F = ⟨x², y⟩  ⇒  div = 2x + 1
+Q = lambda x, y: y
+rho = 0.01
+tt = np.linspace(0, 2*np.pi, 4000)
+print("divergence  =  lim (flux out) / (area)  around a tiny circle:")
+for a0, b0 in [(1, 0.5), (-0.7, 0.3), (2, -1)]:
+    xs = a0 + rho*np.cos(tt); ys = b0 + rho*np.sin(tt)
+    measured = flux(P, Q, xs, ys) / (np.pi*rho**2)
+    print(f"  at ({a0:>4},{b0:>4}): flux/area = {measured:.4f}   div = 2x+1 = {2*a0+1:.4f}")
+    assert abs(measured - (2*a0 + 1)) < 1e-2
+assert abs(flux(rotP, rotQ, xc, yc)) < 1e-2          # div-free rotor → zero net flux
+print("div = local flux-out per unit area; divergence-free ⇒ zero net flux ✓")
+```
+
+Radial arrows pierce the circle (they carry flux); rotor arrows graze it (they don't). The black arrows are the outward normal $\mathbf{n}$.
+
+```{python}
+gx, gy = np.meshgrid(np.linspace(-2, 2, 15), np.linspace(-2, 2, 15))
+cc = np.linspace(0, 2*np.pi, 200); sp = np.linspace(0, 2*np.pi, 12, endpoint=False)
+fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.4, 4.6))
+
+axL.quiver(gx, gy, gx, gy, color="#c8641e", alpha=.7, width=.004, scale=42)
+axL.plot(a*np.cos(cc), a*np.sin(cc), "k-", lw=1.6)
+axL.quiver(a*np.cos(sp), a*np.sin(sp), np.cos(sp), np.sin(sp), color="k", alpha=.55, width=.005, scale=18)
+axL.set_title(r"radial $\langle x,y\rangle$: $\mathbf{F}\parallel\mathbf{n}$, flux$=2\pi a^2$ (circ 0)", fontsize=9)
+axL.set_aspect("equal"); axL.set_xlim(-2, 2); axL.set_ylim(-2, 2)
+
+axR.quiver(gx, gy, -gy, gx, color="#1f6fb2", alpha=.7, width=.004, scale=42)
+axR.plot(a*np.cos(cc), a*np.sin(cc), "k-", lw=1.6)
+axR.quiver(a*np.cos(sp), a*np.sin(sp), np.cos(sp), np.sin(sp), color="k", alpha=.55, width=.005, scale=18)
+axR.set_title(r"rotor $\langle -y,x\rangle$: $\mathbf{F}\perp\mathbf{n}$, flux$=0$ (circ $2\pi a^2$)", fontsize=9)
+axR.set_aspect("equal"); axR.set_xlim(-2, 2); axR.set_ylim(-2, 2)
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain the difference between *circulation* and *flux* using a flowing river and a net, then say what *divergence* measures and how Green's normal form ($\oint\mathbf{F}\cdot\mathbf{n}\,ds=\iint\operatorname{div}\mathbf{F}\,dA$) is a statement about conservation of stuff.
+
+**My target answer** *(to be rewritten in my own words)*: *Drop a loop into a flowing river. Circulation asks how much the water runs* along *the loop — how much it would push you if you paddled around the edge. Flux asks how much water passes* through *the loop — how much would pour through if the loop were a net. They're independent: a field that swirls around a circle has lots of circulation but nothing crosses it (zero flux), while a field spraying straight outward pours through the circle (lots of flux) without running along it (zero circulation). To measure flux you use the normal direction — the tangent turned a quarter-turn — which is why the flux integral is just the work integral with the roles of $dx$ and $dy$ swapped. Divergence is the local source rate: how much new fluid appears (a spring) or disappears (a drain) at each point, per unit area. Green's normal form is then conservation of stuff: the total amount of fluid crossing the boundary of a region equals the sum of all the springs and drains inside it. If there are no sources — divergence zero, an incompressible flow — then whatever flows in must flow back out, and the net flux through any closed loop is zero.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Flux uses the normal, work uses the tangent.** $\oint\mathbf{F}\cdot\mathbf{n}\,ds$ (across) vs $\oint\mathbf{F}\cdot\mathbf{T}\,ds$ (along). Ask "through or along?" before setting up.
+- **$\mathbf{n}\,ds=\langle dy,-dx\rangle$.** The normal is the tangent rotated $90^\circ$ *clockwise*; the flux integral is $\oint -Q\,dx+P\,dy$. Getting the sign/rotation wrong flips inflow and outflow.
+- **Two forms of Green, one theorem.** Tangential: $\oint P\,dx+Q\,dy=\iint(\operatorname{curl})\,dA$. Normal: $\oint\mathbf{F}\cdot\mathbf{n}\,ds=\iint(\operatorname{div})\,dA$. They're related by the relabeling $M=-Q,\ N=P$ — not two theorems to memorize.
+- **Curl vs divergence: spin vs spread.** $\operatorname{curl}=N_x-M_y$ measures rotation; $\operatorname{div}=P_x+Q_y$ measures expansion. A field can have one without the other (rotor: curl only; radial: div only).
+- **Same singularity caveat.** The normal form also needs $\mathbf{F}$ defined on all of $R$; a source/sink inside breaks it just as the vortex broke the tangential form.
+- **Divergence-free = incompressible.** $\operatorname{div}\mathbf{F}=0$ means no net flux through any loop — the flow neither piles up nor thins out anywhere.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Part III complete.** With flux and the normal form of Green's theorem, the "Double Integrals & Line Integrals in the Plane" arc closes: double integrals and their change of variables, then line integrals, work, conservative fields and potentials, and finally Green's theorem in both its circulation (curl) and flux (divergence) forms — the two-dimensional prelude to the vector calculus of 3-D.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
