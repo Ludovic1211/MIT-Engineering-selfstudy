@@ -1,0 +1,286 @@
+---
+title: "Lecture 25 — Triple Integrals in Rectangular & Cylindrical Coordinates"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 25 ("Triple integrals in rectangular and cylindrical coordinates").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-25.pdf) these notes were rewritten from.
+:::
+
+*Part IV opens here.* The plane is behind us: from now on we integrate over **solid regions in space**, and the payoff at the end of the arc is the great vector-calculus theorems (divergence, Stokes). This first lecture is the natural sequel to double integrals — same idea, one more dimension — plus the coordinate system built for round things: **cylindrical coordinates**.
+
+## In brief
+
+A **triple integral** $\iiint_R f\,dV$ sums a function over a solid region $R$, exactly as a double integral summed over a flat region. In rectangular coordinates the volume element is $dV=dx\,dy\,dz$. The setup is always the same geometric move: the **inner integral is vertical** — for each $(x,y)$, integrate in $z$ from the *bottom* surface up to the *top* surface — and the remaining double integral sweeps over the **shadow** of the region in the $xy$-plane. You find the shadow by asking where the bottom is below the top. When that shadow is a disk (or the integrand depends on $x^2+y^2$), rectangular coordinates get ugly and you switch to **cylindrical coordinates** $(r,\theta,z)$:
+$$
+x=r\cos\theta,\qquad y=r\sin\theta,\qquad z=z,\qquad\boxed{\,dV=r\,dr\,d\theta\,dz\,}.
+$$
+That extra factor $r$ is not new — it is the same polar-area factor $r\,dr\,d\theta$ from double integrals, now carried straight up through $dz$. Setting $f=1$ gives **volume**; $f=\delta$ (a density) gives **mass**; and the same $\iiint$ template delivers averages, centers of mass, and **moments of inertia** $I_z=\iiint(x^2+y^2)\,\delta\,dV$. In 3-D the integration itself is routine — the real skill is *reading off the geometry*: top surface, bottom surface, shadow.
+
+## 1. The concepts
+
+### 1.1 The triple integral and the volume element
+
+$$
+\iiint_R f(x,y,z)\,dV,\qquad dV=dx\,dy\,dz .
+$$
+Chop the solid $R$ into tiny boxes of volume $\Delta V$, form $\sum f\cdot\Delta V$, and take the limit as $\Delta V\to 0$. Two readings dominate: with $f=1$ the sum is the **volume** of $R$; with $f=\delta(x,y,z)$ a mass density, it is the **mass**. Everything else in the lecture is a choice of $f$.
+
+### 1.2 The archetype: the region between two paraboloids
+
+**Example 1.** The region trapped between the upward paraboloid $z=x^2+y^2$ (the *bottom*) and the downward paraboloid $z=4-x^2-y^2$ (the *top*). Its volume is $\iiint 1\,dV$, and the setup shows the universal recipe:
+
+- **Inner integral (vertical).** Fix $(x,y)$ and integrate in $z$ from the bottom surface to the top:
+$$
+\int_{x^2+y^2}^{\,4-x^2-y^2} dz=(4-x^2-y^2)-(x^2+y^2)=4-2x^2-2y^2 .
+$$
+This is the *height of the vertical column* through $(x,y)$.
+- **The shadow.** The columns only exist where the bottom is genuinely below the top:
+$$
+x^2+y^2<4-x^2-y^2\ \Longrightarrow\ x^2+y^2<2 ,
+$$
+a **disk of radius $\sqrt2$**. That disk is the domain of the leftover double integral.
+- **The obstacle.** In rectangular coordinates the remaining integral,
+$$
+\int_{-\sqrt2}^{\sqrt2}\!\int_{-\sqrt{2-x^2}}^{\sqrt{2-x^2}}(4-2x^2-2y^2)\,dy\,dx ,
+$$
+is doable but unpleasant — the disk forces square-root bounds. This is the cue to **switch to polar for the shadow**, i.e. to cylindrical coordinates.
+
+### 1.3 Cylindrical coordinates and $dV=r\,dr\,d\theta\,dz$
+
+Cylindrical coordinates $(r,\theta,z)$ are simply **polar coordinates in the $xy$-plane, with $z$ left alone**:
+$$
+x=r\cos\theta,\qquad y=r\sin\theta,\qquad z=z ,
+$$
+with $\theta$ measured from the $x$-axis, counterclockwise. The volume element inherits the polar area factor:
+$$
+\boxed{\,dV=dx\,dy\,dz=r\,dr\,d\theta\,dz\,}.
+$$
+Rewriting Example 1 — bottom $z=r^2$, top $z=4-r^2$, shadow $0\le r\le\sqrt2$ — turns the ugly integral into a clean one:
+$$
+V=\int_0^{2\pi}\!\int_0^{\sqrt2}\!\int_{r^2}^{4-r^2} r\,dz\,dr\,d\theta
+=\int_0^{2\pi}\!\int_0^{\sqrt2}(4-2r^2)\,r\,dr\,d\theta
+=2\pi\Big[2r^2-\tfrac{r^4}{2}\Big]_0^{\sqrt2}=\boxed{4\pi}.
+$$
+
+### 1.4 Applications: mass, average, center of mass, moment of inertia
+
+All of these are the same $\iiint$ with a different $f$:
+
+- **Mass.** With density $\delta=\dfrac{\Delta m}{\Delta V}$, so $dm=\delta\,dV$: $\ \text{Mass}=\iiint_R \delta\,dV$. (If $\delta=1$, this *is* the volume.)
+- **Average value** of $f$ over $R$: $\ \bar f=\dfrac{1}{\operatorname{Vol}(R)}\iiint_R f\,dV$; density-weighted, $\dfrac{1}{\operatorname{Mass}(R)}\iiint_R f\,\delta\,dV$.
+- **Center of mass** $(\bar x,\bar y,\bar z)$: $\ \bar x=\dfrac{1}{\operatorname{Mass}}\iiint_R x\,\delta\,dV$ (same for $\bar y,\bar z$). Symmetry often kills components for free — in Example 1, $\bar x=\bar y=0$.
+- **Moment of inertia** about an axis: $\iiint_R(\text{distance to axis})^2\,\delta\,dV$. About the three axes,
+$$
+I_z=\iiint_R (x^2+y^2)\,\delta\,dV,\qquad
+I_x=\iiint_R (y^2+z^2)\,\delta\,dV,\qquad
+I_y=\iiint_R (x^2+z^2)\,\delta\,dV .
+$$
+Since $I_z$ carries $x^2+y^2=r^2$, cylindrical coordinates are tailor-made for it.
+
+### 1.5 Two worked setups
+
+**Example 2 — a moment of inertia in cylindrical coordinates.** $I_z$ of a solid cone between $z=ar$ and $z=b$ with $\delta=1$; the cone surface is $r=z/a$, so at height $z$ the disk has radius $z/a$:
+$$
+I_z=\int_0^{b}\!\int_0^{2\pi}\!\int_0^{z/a} r^2\cdot r\,dr\,d\theta\,dz
+=\frac{\pi b^5}{10\,a^4}.
+$$
+
+**Example 3 — the bounds are the whole game.** Set up (don't evaluate) $\iiint$ over the region $z>1-y$ *inside* the unit ball $x^2+y^2+z^2\le1$:
+$$
+\int_{0}^{1}\!\int_{-\sqrt{2y-2y^2}}^{\sqrt{2y-2y^2}}\!\int_{1-y}^{\sqrt{1-x^2-y^2}} dz\,dx\,dy .
+$$
+The inner limits are the two surfaces (plane below, sphere above). The shadow limits come from *where the plane sits below the sphere*, $1-y<\sqrt{1-x^2-y^2}$, i.e. $(1-y)^2<1-x^2-y^2$, which simplifies to $x^2+2y^2<2y$. The moral: in three dimensions the integration is easy — **finding the bounds is the work**.
+
+## 2. The key intuition
+
+**Slice into vertical columns, then sweep the columns over their shadow.** That single sentence is all of triple integration. The inner ($dz$) integral measures the *height* of the column of solid sitting over a point $(x,y)$ — from the bottom surface to the top — and the outer double integral adds those columns up across the region's shadow on the floor. Finding that shadow is a geometry question, not a calculus one: it's the set of floor-points that actually have solid above them, which is exactly where the bottom surface lies below the top.
+
+Cylindrical coordinates are not a new concept, just a change of clothes: polar for the shadow, with height untouched. And the factor $r$ in $dV=r\,dr\,d\theta\,dz$ is no mystery once you look at a single cell. A little cylindrical brick spans $dr$ in the radial direction, $dz$ in height, and an **arc** of length $r\,d\theta$ around — and arcs get longer the farther out you are, which is precisely the $r$. Multiply the three edges and you have the volume. So reach for cylindrical whenever the shadow is a disk, the integrand depends on $x^2+y^2$, or the solid has an axis of symmetry — cones, cylinders, paraboloids, anything round about the $z$-axis. The hard-won lesson of the lecture is that the difficulty in 3-D has moved: it is no longer *doing* the integral but *describing the region* — reading off the top surface, the bottom surface, and the shadow correctly.
+
+## 3. Python demonstration
+
+Here the calculation is beside the point — what matters is to **see** the region we're integrating, and to watch the volume assemble itself. We confirm the answer $V=4\pi$ **two independent ways**, neither of which uses the polar computation from §1.3: a deterministic Cartesian voxel sum, and a Monte-Carlo film.
+
+### 3.1 The region between the two paraboloids
+
+The figure below draws the two paraboloids of Example 1: the **blue** bowl $z=x^2+y^2$ opening upward and the **orange** dome $z=4-x^2-y^2$ opening downward, meeting along the dashed rim circle $r=\sqrt2,\ z=2$. The faint disk on the floor is the **shadow** $x^2+y^2<2$, and the **red bar** is one vertical column — the inner $dz$ integral at a single $(x,y)$ — whose height is exactly $4-2r^2$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+R = np.sqrt(2)
+th = np.linspace(0, 2*np.pi, 120)
+rr = np.linspace(0, R, 40)
+T, RG = np.meshgrid(th, rr)
+X, Y = RG*np.cos(T), RG*np.sin(T)
+Zbot, Ztop = RG**2, 4 - RG**2
+
+fig = plt.figure(figsize=(8, 6.8))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Zbot, color='#2a6f97', alpha=0.55, linewidth=0, rcount=40, ccount=60)
+ax.plot_surface(X, Y, Ztop, color='#e07a5f', alpha=0.45, linewidth=0, rcount=40, ccount=60)
+ax.plot(R*np.cos(th), R*np.sin(th), 2+0*th, 'k--', lw=1.5, alpha=0.7)   # rim circle
+
+rr2 = np.linspace(0, R, 20); T2, RG2 = np.meshgrid(th, rr2)
+ax.plot_surface(RG2*np.cos(T2), RG2*np.sin(T2), 0*T2, color='#b8b8d1', alpha=0.35, linewidth=0)
+ax.plot(R*np.cos(th), R*np.sin(th), 0*th, color='#5a5a7a', lw=1.3)       # shadow edge
+ax.text(0, -R-0.2, 0.15, r"shadow disk $x^2+y^2<2$", color='#3d3d5c', fontsize=9)
+
+x0, y0 = 0.55, 0.35; r0 = np.hypot(x0, y0)
+ax.plot([x0, x0], [y0, y0], [r0**2, 4-r0**2], color='#e63946', lw=4, solid_capstyle='round')
+ax.text(x0+0.15, y0, (r0**2 + 4-r0**2)/2, r"height $=4-2r^2$", color='#e63946', fontsize=10, weight='bold')
+
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('z')
+ax.set_title("The lens between two paraboloids", fontsize=12)
+ax.view_init(elev=16, azim=-58); ax.set_box_aspect((1, 1, 0.9))
+plt.tight_layout(); plt.show()
+```
+
+Now the **independent ground truth**: rather than trust the polar integral, we count a fine grid of little cubes filling a box around the region, keeping only those that lie inside ($x^2+y^2\le2$ and $r^2\le z\le 4-r^2$). This never uses polar coordinates or the height formula — it just adds up cubes — yet it lands on $4\pi$.
+
+```{python}
+V_analytic = 4*np.pi                        # from the cylindrical integral in §1.3
+n = 200; half = np.sqrt(2)
+lin  = np.linspace(-half, half, n, endpoint=False) + (2*half/n)/2      # x, y cell centers
+zlin = np.linspace(0, 4, 2*n, endpoint=False) + (4/(2*n))/2           # z cell centers
+Xg, Yg = np.meshgrid(lin, lin); R2g = Xg**2 + Yg**2
+dV = (2*half/n)**2 * (4/(2*n))
+count = 0
+for z in zlin:                              # loop over horizontal slices (memory-light)
+    count += np.count_nonzero((R2g <= 2) & (z >= R2g) & (z <= 4 - R2g))
+V_grid = count * dV
+print(f"analytic  (cylindrical) : 4*pi        = {V_analytic:.5f}")
+print(f"independent grid count  : {count:>9d} cubes = {V_grid:.5f}")
+print(f"absolute error          : {abs(V_grid - V_analytic):.5f}  ({100*abs(V_grid-V_analytic)/V_analytic:.2f}%)")
+assert abs(V_grid - V_analytic) < 0.05
+```
+
+### 3.2 Where the factor $r$ comes from
+
+The one thing worth *seeing* rather than memorizing is the cylindrical volume element. The little brick below has a radial edge $dr$, a vertical edge $dz$, and — the point — an **arc** edge of length $r\,d\theta$: the arc grows with the radius, which is exactly why $dV=r\,dr\,d\theta\,dz$ and not $dr\,d\theta\,dz$.
+
+```{python}
+r0, dr = 1.5, 0.55
+th0, dth = np.deg2rad(20), np.deg2rad(34)
+z0, dz = 0.0, 1.15
+def pt(r, t, z): return (r*np.cos(t), r*np.sin(t), z)
+
+fig = plt.figure(figsize=(8, 6.2)); ax = fig.add_subplot(111, projection='3d')
+tt = np.linspace(th0, th0+dth, 30)
+for rad in (r0, r0+dr):                                       # faint reference wedge
+    ax.plot(rad*np.cos(tt), rad*np.sin(tt), z0, color='#bbb', lw=0.9)
+for t in (th0, th0+dth):
+    ax.plot([0, (r0+dr)*np.cos(t)], [0, (r0+dr)*np.sin(t)], [z0, z0], color='#ccc', lw=0.8)
+
+for r in (r0, r0+dr):                                         # inner/outer arcs, bottom+top
+    for z in (z0, z0+dz):
+        ax.plot(r*np.cos(tt), r*np.sin(tt), z, color='#2a6f97', lw=2)
+for (r, t) in [(r0, th0), (r0+dr, th0), (r0+dr, th0+dth), (r0, th0+dth)]:   # vertical edges
+    x, y, _ = pt(r, t, z0); ax.plot([x, x], [y, y], [z0, z0+dz], color='#2a6f97', lw=2)
+for z in (z0, z0+dz):                                         # radial edges
+    for t in (th0, th0+dth):
+        p1, p2 = pt(r0, t, z), pt(r0+dr, t, z)
+        ax.plot([p1[0], p2[0]], [p1[1], p2[1]], [z, z], color='#2a6f97', lw=2)
+Tg, Rg = np.meshgrid(np.linspace(th0, th0+dth, 20), np.linspace(r0, r0+dr, 6))
+ax.plot_surface(Rg*np.cos(Tg), Rg*np.sin(Tg), 0*Rg+z0+dz, color='#8ecae6', alpha=0.5, linewidth=0)
+
+mr, ma, mz = pt(r0+dr/2, th0, z0), pt(r0+dr, th0+dth/2, z0), pt(r0+dr, th0, z0+dz/2)
+ax.text(mr[0], mr[1]-0.15, z0-0.28, r"$dr$",        color='#c1121f', fontsize=14, weight='bold')
+ax.text(ma[0]+0.12, ma[1]+0.05, z0-0.28, r"$r\,d\theta$", color='#c1121f', fontsize=14, weight='bold')
+ax.text(mz[0]+0.14, mz[1], mz[2], r"$dz$",          color='#c1121f', fontsize=14, weight='bold')
+ax.set_title(r"Cylindrical cell:  $dV=(dr)(r\,d\theta)(dz)=r\,dr\,d\theta\,dz$", fontsize=12)
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('z')
+ax.view_init(elev=22, azim=-52); ax.set_box_aspect((1, 1, 0.75))
+ax.set_xlim(0, 2.2); ax.set_ylim(0, 2.2); ax.set_zlim(0, 1.6)
+plt.tight_layout(); plt.show()
+```
+
+### 3.3 Watching the volume fill up — a Monte-Carlo film
+
+Finally, the integral in motion. We rain random points into a box enclosing the region; those landing **inside the lens** are kept in red, the rest discarded. The running estimate — box volume times the fraction of points that landed inside — climbs and settles onto the dashed line $4\pi$. This is a *second* independent confirmation of the volume: pure counting, no polar, no formula. (Monte-Carlo converges slowly, so the final value hovers about $1\%$ from the target — that residual wobble is the method being honest.)
+
+```{python}
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+rng = np.random.default_rng(42)
+BOXV = (2*np.sqrt(2))**2 * 4          # bounding box [-√2,√2]² × [0,4] → volume 32
+TARGET = 4*np.pi
+N = 5000
+xs = rng.uniform(-np.sqrt(2), np.sqrt(2), N)
+ys = rng.uniform(-np.sqrt(2), np.sqrt(2), N)
+zs = rng.uniform(0, 4, N)
+r2 = xs**2 + ys**2
+inside = (r2 <= 2) & (zs >= r2) & (zs <= 4 - r2)
+cum = np.cumsum(inside); nseq = np.arange(1, N+1); est = BOXV*cum/nseq
+
+FRAMES = 44; idxf = np.linspace(50, N, FRAMES).astype(int)
+th = np.linspace(0, 2*np.pi, 44); rr = np.linspace(0, np.sqrt(2), 12)
+T, RG = np.meshgrid(th, rr); Xs_, Ys_ = RG*np.cos(T), RG*np.sin(T)
+Zb, Zt = RG**2, 4 - RG**2
+
+fig = plt.figure(figsize=(9, 4.3)); fig.set_dpi(74)
+axL = fig.add_subplot(1, 2, 1, projection='3d'); axR = fig.add_subplot(1, 2, 2)
+
+def frame(fi):
+    k = idxf[fi]; axL.clear(); axR.clear()
+    axL.plot_surface(Xs_, Ys_, Zb, color='#2a6f97', alpha=0.12, linewidth=0)
+    axL.plot_surface(Xs_, Ys_, Zt, color='#e07a5f', alpha=0.10, linewidth=0)
+    ins = inside[:k]
+    axL.scatter(xs[:k][ins], ys[:k][ins], zs[:k][ins], s=5, c='#e63946', alpha=0.55)
+    axL.set_title(f"{cum[k-1]:d}/{k:d} inside", fontsize=9)
+    axL.set_xlim(-1.6, 1.6); axL.set_ylim(-1.6, 1.6); axL.set_zlim(0, 4)
+    axL.view_init(elev=14, azim=-60); axL.set_box_aspect((1, 1, 0.9))
+    axL.set_xlabel('x'); axL.set_ylabel('y'); axL.set_zlabel('z')
+    axR.plot(nseq[:k], est[:k], color='#2a6f97', lw=1.3)
+    axR.axhline(TARGET, color='#e63946', ls='--', lw=1.4)
+    axR.text(N*0.28, TARGET+0.5, r"$4\pi\approx%.3f$" % TARGET, color='#e63946', fontsize=9)
+    axR.set_xlim(0, N); axR.set_ylim(TARGET-6, TARGET+6)
+    axR.set_xlabel('samples'); axR.set_ylabel('volume estimate')
+    axR.set_title(f"estimate = {est[k-1]:.3f}", fontsize=10); axR.grid(alpha=0.25)
+    return []
+
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=100, blit=False)
+html = anim.to_jshtml(fps=9)
+plt.close(fig)
+print(f"Monte-Carlo estimate after {N} samples: {est[-1]:.4f}   (target 4*pi = {TARGET:.4f})")
+HTML(html)
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: to someone who already knows double integrals, explain how you would set up the volume of the region between the two paraboloids — what the inner integral represents, how you find the shadow, and why cylindrical coordinates carry a factor of $r$.
+
+**My target answer** *(to be rewritten in my own words)*: *A triple integral is the same idea as a double integral with one extra dimension: slice the solid into thin vertical columns and add them up. For the region between the two paraboloids, I fix a point $(x,y)$ on the floor and integrate in $z$ from the bottom surface $z=x^2+y^2$ up to the top surface $z=4-x^2-y^2$ — that inner integral is just the height of the column of solid sitting over that point, which works out to $4-2(x^2+y^2)$. Then I have to sweep those columns over their shadow: the set of floor-points that actually have solid above them, which is where the bottom is below the top, $x^2+y^2<2$ — a disk of radius $\sqrt2$. In plain $x,y$ that disk gives ugly square-root bounds, so I switch to cylindrical coordinates, which are just polar coordinates for the floor with $z$ untouched: $x=r\cos\theta$, $y=r\sin\theta$. The one thing to remember is the volume element $dV=r\,dr\,d\theta\,dz$. The factor $r$ is there because a little cell spans $dr$ outward, $dz$ up, and an arc of length $r\,d\theta$ around — and that arc gets longer the farther from the axis you are. With that, the bounds become $0\le r\le\sqrt2$, $0\le\theta\le2\pi$, $r^2\le z\le 4-r^2$, and the integral falls out to $4\pi$.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Never drop the $r$.** In cylindrical coordinates $dV=r\,dr\,d\theta\,dz$, not $dr\,d\theta\,dz$. Forgetting the Jacobian $r$ is the single most common triple-integral mistake.
+- **The inner integral is vertical.** Integrate $z$ from the *bottom* surface to the *top* surface; the result is the column height (top $-$ bottom). Get the two surfaces straight before anything else.
+- **Find the shadow by setting bottom $=$ top.** The region's outline on the floor is where its height pinches to zero — for the paraboloids, $x^2+y^2=2$.
+- **Order changes the difficulty, not the answer.** You may integrate in any order; choose the one that makes the bounds simplest (here, $z$ first).
+- **Reach for cylindrical when things are round.** Disk-shaped shadow, an integrand in $x^2+y^2$, or symmetry about the $z$-axis (cones, cylinders, paraboloids) — all say "cylindrical."
+- **In 3-D the bounds are the hard part.** As Example 3 shows, once the limits are right the integration is mechanical; almost all the thinking is geometric.
+- **Moments of inertia love $r^2$.** $I_z=\iiint(x^2+y^2)\,\delta\,dV=\iiint r^2\,\delta\,dV$ — another reason cylindrical coordinates and rotating solids go hand in hand.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Part IV begins.** Triple integrals are the entry point to the three-dimensional half of the course. From here the arc runs through spherical coordinates and surface area, then vector fields in space, surface integrals and **flux**, and finally the two capstone theorems — **divergence** and **Stokes** — that generalize Green's theorem from the plane into space.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::

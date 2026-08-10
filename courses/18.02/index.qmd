@@ -59,4 +59,18 @@ The course is organized into four parts:
 | 22 | [Green's Theorem](lecture-22-greens-theorem.qmd) | ✅ Online |
 | 23 | [Flux & the Normal Form of Green's Theorem](lecture-23-flux-normal-form-green.qmd) | ✅ Online |
 
-*(Lectures 7 and 15 were exam/review sessions, so they carry no content note. **Part III is now complete** — Part IV will be added as I go.)*
+### Part IV — Triple integrals and surface integrals
+
+| # | Lecture | Status |
+|---|---------|--------|
+| 25 | [Triple Integrals in Rectangular & Cylindrical Coordinates](lecture-25-triple-integrals-rectangular-cylindrical.qmd) | ✅ Online |
+| 26 | Spherical Coordinates & Surface Area | ⬜ Planned |
+| 27 | Vector Fields in 3D; Surface Integrals & Flux | ⬜ Planned |
+| 28 | Divergence Theorem | ⬜ Planned |
+| 29 | Divergence Theorem — Applications & Proof | ⬜ Planned |
+| 30 | Line Integrals in Space; Curl, Exactness & Potentials | ⬜ Planned |
+| 31 | Stokes' Theorem | ⬜ Planned |
+| 32 | Stokes' Theorem — Applications & Review | ⬜ Planned |
+| 33 | Topological Considerations; Maxwell's Equations | ⬜ Planned |
+
+*(Lectures 7, 15 and 24 were exam/review sessions, so they carry no content note. **Parts I–III are complete; Part IV is now under way.**)*
