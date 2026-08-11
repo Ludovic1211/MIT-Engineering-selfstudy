@@ -1,0 +1,254 @@
+---
+title: "Lecture 27 — Vector Fields in 3D: Surface Integrals & Flux"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 27 ("Vector fields in 3D; surface integrals and flux").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-27.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+A **vector field in space** assigns a vector $\vec F=\langle P,Q,R\rangle$ to every point $(x,y,z)$ — the velocity of a fluid, the pull of gravity, an electric field. **Flux** measures how much of the field passes *through* a surface $S$:
+$$
+\text{Flux}=\iint_S \vec F\cdot\hat n\,dS ,
+$$
+the three-dimensional sequel to the flux *across a curve* from Lecture 23. The unit normal $\hat n$ has **two** possible directions — choosing one is choosing an **orientation** (a side) of the surface — and the vector surface element is written $d\vec S=\hat n\,dS$. Two routes compute it: sometimes pure **geometry** (a radial field is parallel to a sphere's normal, so flux is just $|\vec F|\times\text{area}$), sometimes an honest **integral** with a surface element like $dS=a^2\sin\phi\,d\phi\,d\theta$. The meaning to carry away: for a velocity field, flux is the **amount of matter crossing $S$ per unit time**. This is the launch pad for the divergence theorem — flux out of a *closed* surface — coming next.
+
+## 1. The concepts
+
+### 1.1 Vector fields in space
+
+At every point, $\vec F=\langle P,Q,R\rangle$ where $P,Q,R$ are functions of $(x,y,z)$. The recurring examples:
+
+- **force fields** — gravity, $\vec F=-c\,\dfrac{\langle x,y,z\rangle}{\rho^3}$ (magnitude $\sim c/\rho^2$, pointing toward the origin);
+- **electric and magnetic fields**;
+- **velocity fields** $\vec v$ of a moving fluid;
+- **gradient fields** $\nabla u=\langle u_x,u_y,u_z\rangle$.
+
+### 1.2 Flux through a surface
+
+In 2-D, flux was the line integral $\oint_C\vec F\cdot\hat n\,ds$. In 3-D the field passes **through a surface**, so flux becomes a **surface integral**:
+$$
+\iint_S \vec F\cdot\hat n\,dS,\qquad \hat n=\text{unit normal to }S .
+$$
+There are **two choices** of $\hat n$ at every point — the two sides of the surface. Fixing one consistently is **orienting** $S$; it fixes the sign of the flux (which way counts as "out"). We abbreviate the vector surface element as $d\vec S=\hat n\,dS$.
+
+### 1.3 Example 1 — a radial field (geometry does the work)
+
+Flux of $\vec F=\langle x,y,z\rangle$ through the sphere of radius $a$ at the origin. The outward unit normal is $\hat n=\tfrac1a\langle x,y,z\rangle$ (unit because $\sqrt{x^2+y^2+z^2}=a$ on the sphere). Since $\vec F$ points radially, $\vec F\parallel\hat n$, so $\vec F\cdot\hat n=|\vec F|=a$ *everywhere* on $S$. Then
+$$
+\iint_S\vec F\cdot\hat n\,dS=\iint_S a\,dS=a\cdot\operatorname{area}(S)=a\cdot 4\pi a^2=\boxed{4\pi a^3}.
+$$
+No parametrization — the constant integrand pulls straight out.
+
+### 1.4 Example 2 — a vertical field (an actual integral)
+
+Flux of $\vec H=z\,\hat k$ through the same sphere. The normal is unchanged, $\hat n=\tfrac1a\langle x,y,z\rangle$, so
+$$
+\vec H\cdot\hat n=\langle 0,0,z\rangle\cdot\tfrac1a\langle x,y,z\rangle=\frac{z^2}{a}.
+$$
+Now integrate with the spherical surface element $dS=a^2\sin\phi\,d\phi\,d\theta$ and $z=a\cos\phi$:
+$$
+\iint_S\frac{z^2}{a}\,dS=\int_0^{2\pi}\!\int_0^{\pi} a^3\cos^2\phi\,\sin\phi\,d\phi\,d\theta
+=2\pi a^3\Big[-\tfrac{\cos^3\phi}{3}\Big]_0^{\pi}=\boxed{\tfrac{4}{3}\pi a^3}.
+$$
+Exactly one third of Example 1 — because this field pierces the sphere only near the poles and merely grazes it at the equator.
+
+### 1.5 The surface-element toolbox
+
+To set up $\iint_S\vec F\cdot\hat n\,dS$, either exploit geometry or reach for a standard surface:
+
+| Surface | unit normal $\hat n$ | element |
+|---|---|---|
+| Horizontal plane $z=a$ | $\pm\hat k$ | $dS=dx\,dy$ |
+| Vertical plane $x=a$ | $\pm\hat i$ | $dS=dy\,dz$ |
+| Sphere, radius $a$ at $O$ | $\pm\tfrac1a\langle x,y,z\rangle$ | $dS=a^2\sin\phi\,d\phi\,d\theta$ |
+| Cylinder, radius $a$ about $z$-axis | $\pm\tfrac1a\langle x,y,0\rangle$ | $dS=a\,dz\,d\theta$ |
+| Graph $z=f(x,y)$ | — | $\hat n\,dS=\pm\langle -f_x,-f_y,1\rangle\,dx\,dy$ |
+
+For the graph, mind the subtlety: $\langle -f_x,-f_y,1\rangle$ is **not** $\hat n$ on its own, and $\langle -f_x,-f_y,1\rangle\,dx\,dy$ is **not** $dS$ on its own — only the *combination* $\hat n\,dS$ is meaningful, and it is exactly what a flux integral needs. The bounds come from the **shadow** of $S$ in the $xy$-plane.
+
+## 2. The key intuition
+
+Flux is "how much goes through," and the only thing that matters at each little patch is the component of the field *along the normal*, $\vec F\cdot\hat n$ — the part that actually pierces the surface. Whatever runs parallel to $S$ slides along it and carries nothing across. That single idea explains both examples at a glance: the radial field stands perpendicular to the sphere everywhere, so every bit of it pierces and the flux is maximal ($4\pi a^3$); the vertical field $z\,\hat k$ punches through near the poles but lies flat against the surface at the equator, so it grazes there and delivers only a third as much. Because the normal can point two ways, flux carries a **sign** — you must declare which side is "out" before the number means anything.
+
+For a velocity field the picture becomes physical: sprinkle the flow with tracer particles and the flux is the *rate* at which they stream across $S$, which is why it is measured in stuff-per-time. Actually computing a flux is then one of two moves. Either geometry hands you the answer — the field is parallel to $\hat n$ (constant integrand) or perpendicular to it (zero) — or you fall back on a surface integral, and the toolbox of $\hat n$ and $dS$ for planes, spheres, cylinders, and graphs turns any such problem into an ordinary double integral over the surface's shadow. Everything here is built to be summed over a **closed** surface next lecture, where flux out will equal the divergence within.
+
+## 3. Python demonstration
+
+The point isn't to redo the integrals — it's to *see* a field pierce a surface, to watch where flux is strong and where it vanishes, and to feel the "matter per unit time" meaning. An independent numerical surface integral confirms both example values.
+
+### 3.1 Two fields through a sphere
+
+Left, the radial field $\langle x,y,z\rangle$: every arrow stands perpendicular to the sphere and pierces **outward**, so the flux is maximal. Right, the vertical field $z\,\hat k$: arrows punch through near the poles but graze the surface at the equator. Arrows are colored by their flux contribution $\vec F\cdot\hat n$ (red = outward, blue = inward). Below, an **independent check** — a numerical surface integral in $(\phi,\theta)$ — reproduces $4\pi a^3$ and $\tfrac43\pi a^3$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+from matplotlib.colors import Normalize
+
+u = np.linspace(0, 2*np.pi, 60); v = np.linspace(0, np.pi, 30)
+Xs = np.outer(np.cos(u), np.sin(v)); Ys = np.outer(np.sin(u), np.sin(v))
+Zs = np.outer(np.ones_like(u), np.cos(v))
+
+pp = np.linspace(0.25, np.pi-0.25, 7); tt = np.linspace(0, 2*np.pi, 12, endpoint=False)
+PH, TH = np.meshgrid(pp, tt); PH, TH = PH.ravel(), TH.ravel()
+px, py, pz = np.sin(PH)*np.cos(TH), np.sin(PH)*np.sin(TH), np.cos(PH)   # points = outward normals
+
+norm = Normalize(-1, 1); cmap = cm.coolwarm
+fig = plt.figure(figsize=(10, 5.0))
+
+def panel(ax, U, V, W, title):
+    ax.plot_surface(Xs, Ys, Zs, color='#dfe7ee', alpha=0.18, linewidth=0)
+    dot = U*px + V*py + W*pz                                   # F·n̂
+    ax.quiver(px, py, pz, U, V, W, length=0.42, normalize=True,
+              colors=cmap(norm(dot)), linewidth=1.6, arrow_length_ratio=0.35)
+    ax.set_title(title, fontsize=10)
+    ax.set_xlim(-1.3, 1.3); ax.set_ylim(-1.3, 1.3); ax.set_zlim(-1.3, 1.3)
+    ax.set_box_aspect((1, 1, 1)); ax.view_init(elev=14, azim=-60)
+    ax.set_xticks([]); ax.set_yticks([]); ax.set_zticks([])
+
+ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+panel(ax1, px, py, pz, r"radial $\langle x,y,z\rangle$: pierces out everywhere" + "\n" + r"flux $=4\pi a^3$")
+ax2 = fig.add_subplot(1, 2, 2, projection='3d')
+panel(ax2, 0*px, 0*py, pz, r"vertical $z\,\hat k$: grazes at the equator" + "\n" + r"flux $=\frac{4}{3}\pi a^3$")
+
+sm = cm.ScalarMappable(norm=norm, cmap=cmap); sm.set_array([])
+cb = fig.colorbar(sm, ax=[ax1, ax2], shrink=0.6, pad=0.02)
+cb.set_label(r"$\vec F\cdot\hat n$  (red = out, blue = in)", fontsize=9)
+plt.show()
+```
+
+```{python}
+# INDEPENDENT surface integral ∬_S F·n̂ dS on the unit sphere (grid in φ,θ)
+n = 400
+phi = (np.arange(n)+0.5)/n*np.pi
+th  = (np.arange(n)+0.5)/n*2*np.pi
+PH, TH = np.meshgrid(phi, th, indexing='ij')
+nz = np.cos(PH)                                   # z-component of the outward normal
+dS = np.sin(PH)*(np.pi/n)*(2*np.pi/n)
+flux_radial = np.sum(1.0*dS)                       # F=<x,y,z> ⇒ F·n̂ = 1
+flux_vert   = np.sum((nz*nz)*dS)                   # H=z k̂    ⇒ H·n̂ = cos²φ
+print(f"radial  ⟨x,y,z⟩ : numeric = {flux_radial:.5f}   analytic 4πa³   = {4*np.pi:.5f}")
+print(f"vertical z k̂    : numeric = {flux_vert:.5f}   analytic 4πa³/3 = {4*np.pi/3:.5f}")
+assert abs(flux_radial - 4*np.pi) < 1e-2 and abs(flux_vert - 4*np.pi/3) < 1e-2
+```
+
+### 3.2 Where does the flux actually cross?
+
+Painting the flux density $\vec F\cdot\hat n$ directly onto the sphere makes the difference vivid. The radial field is uniformly outgoing (the whole sphere is one shade); the vertical field is hot ($\vec F\cdot\hat n=\cos^2\phi$) at both poles and fades to **zero at the equator**, the band where it only grazes.
+
+```{python}
+phi = np.linspace(0, np.pi, 80); th = np.linspace(0, 2*np.pi, 80)
+PH, TH = np.meshgrid(phi, th)
+X = np.sin(PH)*np.cos(TH); Y = np.sin(PH)*np.sin(TH); Z = np.cos(PH)
+norm = Normalize(-1, 1); cmap = cm.coolwarm
+
+fig = plt.figure(figsize=(10, 4.8))
+def heat(ax, dot, title):
+    ax.plot_surface(X, Y, Z, facecolors=cmap(norm(dot)), rstride=1, cstride=1,
+                    linewidth=0, antialiased=False, shade=False)
+    ax.set_title(title, fontsize=10)
+    ax.set_xlim(-1, 1); ax.set_ylim(-1, 1); ax.set_zlim(-1, 1)
+    ax.set_box_aspect((1, 1, 1)); ax.view_init(elev=14, azim=-60)
+    ax.set_xticks([]); ax.set_yticks([]); ax.set_zticks([])
+
+ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+heat(ax1, np.ones_like(Z), r"radial: $\vec F\cdot\hat n=1$ everywhere")
+ax2 = fig.add_subplot(1, 2, 2, projection='3d')
+heat(ax2, Z*Z, r"vertical: $\vec F\cdot\hat n=\cos^2\phi$ (0 at equator)")
+sm = cm.ScalarMappable(norm=norm, cmap=cmap); sm.set_array([])
+cb = fig.colorbar(sm, ax=[ax1, ax2], shrink=0.6, pad=0.02)
+cb.set_label(r"flux density $\vec F\cdot\hat n$", fontsize=9)
+plt.show()
+```
+
+### 3.3 Flux as matter through $S$ per unit time
+
+Finally the physical meaning. We seed particles inside the sphere and let the velocity field $\vec H=z\,\hat k$ carry them (integrating $\dot z=z$, so $z(t)=z_0e^{t}$). They stream **out through the poles**, where the field pierces the surface, while the equatorial band lingers, where the field only grazes — a live picture of "flux = matter crossing $S$ per unit time." (The advection is deterministic; the count illustrates the *rate*, which naturally tapers as the interior empties.)
+
+```{python}
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+rng = np.random.default_rng(7)
+N = 320; pts = []
+while len(pts) < N:                                  # uniform seeding inside the unit ball
+    p = rng.uniform(-1, 1, 3)
+    if p @ p <= 1: pts.append(p)
+P = np.array(pts); X0, Y0, Z0 = P[:, 0], P[:, 1], P[:, 2]
+
+FRAMES = 40; dt = 0.08
+Zt = Z0[None, :]*np.exp(dt*np.arange(FRAMES)[:, None])       # z(t)=z0 e^{t}, per frame
+r2 = X0[None, :]**2 + Y0[None, :]**2 + Zt**2
+gone = r2 > 1                                                # exited the sphere (monotonic)
+count = gone.sum(axis=1)
+
+u = np.linspace(0, 2*np.pi, 40); v = np.linspace(0, np.pi, 20)
+Xs = np.outer(np.cos(u), np.sin(v)); Ys = np.outer(np.sin(u), np.sin(v))
+Zs = np.outer(np.ones_like(u), np.cos(v))
+
+fig = plt.figure(figsize=(9, 4.5)); fig.set_dpi(76)
+axL = fig.add_subplot(1, 2, 1, projection='3d'); axR = fig.add_subplot(1, 2, 2)
+
+def frame(i):
+    axL.clear(); axR.clear()
+    Z = Zt[i]; ins = ~gone[i]
+    axL.plot_wireframe(Xs, Ys, Zs, color='#b9c6d6', lw=0.3, alpha=0.5)
+    axL.scatter(X0[ins], Y0[ins], np.clip(Z[ins], -1.6, 1.6), s=7, c='#2a6f97', alpha=0.7)
+    axL.scatter(X0[gone[i]], Y0[gone[i]], np.clip(Z[gone[i]], -1.7, 1.7), s=9, c='#e63946', alpha=0.8)
+    axL.set_title(f"carried by $\\vec H=z\\,\\hat k$\nexited: {count[i]}/{N}", fontsize=9)
+    axL.set_xlim(-1.5, 1.5); axL.set_ylim(-1.5, 1.5); axL.set_zlim(-1.7, 1.7)
+    axL.view_init(elev=10, azim=-60); axL.set_box_aspect((1, 1, 1.15))
+    axL.set_xticks([]); axL.set_yticks([]); axL.set_zticks([])
+    axR.plot(range(i+1), count[:i+1], color='#2a6f97', lw=1.6)
+    axR.fill_between(range(i+1), count[:i+1], color='#2a6f97', alpha=0.12)
+    axR.set_xlim(0, FRAMES); axR.set_ylim(0, N)
+    axR.set_xlabel('time step'); axR.set_ylabel('matter passed through S')
+    axR.set_title('flux = matter through S per unit time', fontsize=10); axR.grid(alpha=0.25)
+    axR.text(0.5, N*0.9, "poles empty first\n(field pierces there)", fontsize=8, color='#555')
+    axR.text(FRAMES*0.4, N*0.16, "equator lingers\n(grazes → no flux)", fontsize=8, color='#555')
+    return []
+
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=8)
+plt.close(fig)
+HTML(html)
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain what the flux of a vector field through a surface means, why only the normal component $\vec F\cdot\hat n$ counts, and why the radial field $\langle x,y,z\rangle$ has three times the flux of $z\,\hat k$ through the same sphere.
+
+**My target answer** *(to be rewritten in my own words)*: *Flux measures how much of a vector field passes straight through a surface — if the field is a fluid's velocity, the flux is how much fluid crosses the surface each second. At every little patch, only the part of the field pointing along the surface's normal actually goes through; the part running parallel to the surface just slides along it and crosses nothing. So the flux is the sum of $\vec F\cdot\hat n$ over the whole surface, $\iint_S \vec F\cdot\hat n\,dS$. The normal can point two ways, so I first pick a side — usually "outward" — which fixes the sign. That's why the two examples differ so much on the same sphere. The radial field $\langle x,y,z\rangle$ points straight out, exactly along the normal everywhere, so all of it pierces the surface and the flux is as big as it can be, $4\pi a^3$. The vertical field $z\,\hat k$ points straight up: near the poles that's perpendicular to the sphere, so it pierces well, but at the equator "up" is tangent to the sphere, so the field only grazes and nothing crosses there. Averaged over the whole sphere it manages only a third as much, $\tfrac43\pi a^3$.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Only the normal component crosses.** Flux is $\iint_S\vec F\cdot\hat n\,dS$; the tangential part of $\vec F$ contributes nothing. "Perpendicular pierces, parallel grazes."
+- **Orientation is a real choice.** Two normals, two signs. Fix "which way is out" before the number means anything; flip $\hat n$ and the flux flips sign.
+- **Geometry first, integral second.** If $\vec F\parallel\hat n$ (constant integrand) or $\vec F\perp\hat n$ (zero), you're done without parametrizing. Only otherwise set up $dS$.
+- **Know the toolbox.** Sphere $dS=a^2\sin\phi\,d\phi\,d\theta$, cylinder $dS=a\,dz\,d\theta$, graph $\hat n\,dS=\pm\langle -f_x,-f_y,1\rangle\,dx\,dy$. For the graph, neither factor is separately $\hat n$ or $dS$.
+- **Bounds come from the shadow.** For a graph or a piece of surface, project onto the $xy$-plane to get the region of integration.
+- **Flux is stuff-per-time.** For a velocity field it's the rate matter crosses $S$ — the reading that makes the divergence theorem's "sources inside = flow outward" inevitable.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Next in Part IV.** Flux through an *open* surface is the warm-up; the **divergence theorem** (Lecture 28) closes the surface and equates the total outward flux to the divergence integrated over the enclosed solid — the 3-D counterpart of Green's theorem in normal form.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
