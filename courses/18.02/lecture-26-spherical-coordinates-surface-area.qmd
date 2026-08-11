@@ -1,0 +1,283 @@
+---
+title: "Lecture 26 — Spherical Coordinates & Surface Area"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 26 ("Spherical coordinates; surface area").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-26.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+**Spherical coordinates** $(\rho,\phi,\theta)$ locate a point by its distance from the origin and two angles — they are the natural language for spheres, cones, and anything with central symmetry, gravity above all. Everything hinges on one formula, the volume element
+$$
+\boxed{\,dV=\rho^2\sin\phi\,d\rho\,d\phi\,d\theta\,},\qquad\text{and on the sphere}\quad dS=a^2\sin\phi\,d\phi\,d\theta .
+$$
+Neither factor is arbitrary. The $\rho^2$ is the surface of a sphere growing like radius-squared; the $\sin\phi$ is the shrinking of **circles of latitude** toward the poles — a circle at colatitude $\phi$ has radius $\rho\sin\phi$, fat at the equator and pinched to a point at each pole. Cementing this pays off immediately: spherical coordinates make **Newton's theorem** drop out — a uniform ball attracts an outside mass exactly as if all of its mass sat at its center. Where cylindrical coordinates were polar-plus-height for round-about-an-axis, spherical coordinates are built for round-about-a-point.
+
+## 1. The concepts
+
+### 1.1 The coordinates
+
+Three numbers:
+- $\rho$ = distance from the origin ($\rho\ge0$),
+- $\phi$ = angle **down from the $+z$-axis**, $0\le\phi\le\pi$ (colatitude: $0$ at the north pole, $\pi$ at the south),
+- $\theta$ = angle from the $+x$-axis, $0\le\theta\le2\pi$ (longitude).
+
+The conversions come from first doing polar coordinates in the vertical half-plane, where the distance from the $z$-axis is $r=\rho\sin\phi$:
+$$
+z=\rho\cos\phi,\qquad
+x=\rho\sin\phi\cos\theta,\qquad
+y=\rho\sin\phi\sin\theta,\qquad
+\rho=\sqrt{x^2+y^2+z^2}.
+$$
+**Coordinate surfaces** each freeze one variable: $\rho=a$ is a **sphere** of radius $a$; $\phi=\tfrac{\pi}{4}$ (or any constant) is a **cone**; $\phi=\tfrac{\pi}{2}$ is the $xy$-plane; $\theta=$ const is a vertical half-plane.
+
+### 1.2 Surface-area and volume elements
+
+Cut a small patch out of the sphere of radius $a$. Its two edges are arcs of **different** circles:
+
+- a north–south (meridian) arc on a circle of radius $a$: length $a\,\Delta\phi$;
+- an east–west (parallel) arc on a circle of radius $r=a\sin\phi$: length $a\sin\phi\,\Delta\theta$.
+
+Multiplying the two edge lengths,
+$$
+\Delta S\approx(a\,\Delta\phi)(a\sin\phi\,\Delta\theta)=a^2\sin\phi\,\Delta\phi\,\Delta\theta
+\quad\Longrightarrow\quad\boxed{dS=a^2\sin\phi\,d\phi\,d\theta}.
+$$
+A volume cell is that patch given a radial thickness $\Delta\rho$:
+$$
+\Delta V\approx\Delta\rho\cdot\Delta S=\rho^2\sin\phi\,\Delta\rho\,\Delta\phi\,\Delta\theta
+\quad\Longrightarrow\quad\boxed{dV=\rho^2\sin\phi\,d\rho\,d\phi\,d\theta}.
+$$
+
+### 1.3 Example — a spherical cap
+
+The volume of the portion of the **unit sphere lying above $z=\tfrac{1}{\sqrt2}$**:
+$$
+V=\int_{0}^{2\pi}\!\int_{0}^{\pi/4}\!\int_{\frac{1}{\sqrt2}\sec\phi}^{\,1}
+\rho^2\sin\phi\,d\rho\,d\phi\,d\theta=\frac{2\pi}{3}-\frac{5\pi}{6\sqrt2}.
+$$
+Reading the bounds is the skill: the cutting plane meets the sphere where $\cos\phi=\tfrac{1}{\sqrt2}$, i.e. $\phi=\tfrac{\pi}{4}$, so $\phi$ runs $0\to\pi/4$; and along each ray $\rho$ runs from the **plane** $z=\tfrac{1}{\sqrt2}\Rightarrow\rho=\tfrac{1}{\sqrt2}\sec\phi$ out to the **sphere** $\rho=1$.
+
+### 1.4 Application — gravitational attraction and Newton's theorem
+
+A mass element $\Delta M$ at $(x,y,z)$ pulls on a mass $m$ at the origin with magnitude $\dfrac{G\,\Delta M\,m}{\rho^2}$ along the unit vector $\tfrac1\rho\langle x,y,z\rangle$, so
+$$
+\vec F=\frac{G\,\Delta M\,m}{\rho^3}\langle x,y,z\rangle .
+$$
+Summing over a whole solid body ($\Delta M=\delta\,\Delta V$) gives $\vec F=Gm\displaystyle\iiint\frac{\langle x,y,z\rangle}{\rho^3}\,\delta\,dV$. If the solid is placed with the $z$-axis as an axis of symmetry, the $x$- and $y$-components cancel and $\vec F=\langle0,0,F_z\rangle$ with
+$$
+F_z=Gm\iiint\frac{z}{\rho^3}\,\delta\,dV
+\ \xrightarrow{\ \text{spherical}\ }\
+Gm\iiint\delta\,\cos\phi\,\sin\phi\,d\rho\,d\phi\,d\theta,
+$$
+because $z=\rho\cos\phi$ together with $dV=\rho^2\sin\phi\,d\rho\,d\phi\,d\theta$ makes **every power of $\rho$ cancel**. The clean consequence is **Newton's theorem**: the gravitational attraction of a spherical planet of uniform density, felt from outside, is exactly that of a point mass of the same total mass placed at its center.
+
+## 2. The key intuition
+
+Spherical coordinates answer two questions — *how far from the center, and in which direction* (two angles) — and the entire subtlety lives in the volume element. It is not something to memorize blindly: the $\rho^2$ is just a sphere's surface area growing like the square of its radius, and the $\sin\phi$ is the **globe effect**. Picture the time-zone wedges on a globe: near the equator they are broad, but they taper as you go up, pinching to a single point at the pole. A circle of latitude at colatitude $\phi$ has radius $\rho\sin\phi$, which is why an east–west step covers less and less ground the closer you get to a pole — and that shrinking factor is exactly the $\sin\phi$.
+
+This is also *why* spheres, cones, and central forces all speak spherical: distance-to-a-center and central symmetry are precisely what these coordinates express. Newton's theorem is the crowning example. Because gravity is a central force and a uniform ball is spherically symmetric, adding up the pull of every mass element — carrying the $\rho^2\sin\phi$ from this lecture — collapses, from the outside, to the pull of one point at the center. From the *inside* the story is different and just as pretty: only the mass nearer the center than you contributes (the outer shell's pulls cancel in every direction), so the force ramps **linearly to zero** as you approach the center. The theorem is an *outside* statement.
+
+## 3. Python demonstration
+
+Rather than re-grind the integrals, we *see* where the volume element comes from, watch the $\sin\phi$ appear, and then let the geometry pay off by making **Newton's theorem visible** — with an independent numerical check that never assumes the result.
+
+### 3.1 The spherical volume element
+
+The cell below has three edges: a radial $d\rho$, a meridian arc $\rho\,d\phi$, and a parallel arc $\rho\sin\phi\,d\theta$ — their product is $dV=\rho^2\sin\phi\,d\rho\,d\phi\,d\theta$. Right after, an **independent check**: summing $\rho^2\sin\phi$ over a grid across the whole unit ball must return $\tfrac43\pi$, confirming the element itself.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sph(rho, phi, th):
+    return np.array([rho*np.sin(phi)*np.cos(th),
+                     rho*np.sin(phi)*np.sin(th),
+                     rho*np.cos(phi)])
+
+r0, dr = 1.35, 0.55
+p0, dp = np.deg2rad(52), np.deg2rad(24)
+t0, dt = np.deg2rad(18), np.deg2rad(34)
+BLUE = '#2a6f97'
+
+fig = plt.figure(figsize=(7.6, 6.4)); ax = fig.add_subplot(111, projection='3d')
+for (p, t) in [(p0, t0), (p0+dp, t0), (p0, t0+dt), (p0+dp, t0+dt)]:
+    q = sph(r0+dr, p, t); ax.plot([0, q[0]], [0, q[1]], [0, q[2]], color='#ccc', lw=0.7)
+
+def draw(vary, r, p, t):
+    if vary == 'r':
+        xs = np.array([sph(x, p, t) for x in np.linspace(*r, 2)])
+    elif vary == 'p':
+        xs = np.array([sph(r, x, t) for x in np.linspace(*p, 24)])
+    else:
+        xs = np.array([sph(r, p, x) for x in np.linspace(*t, 24)])
+    ax.plot(xs[:, 0], xs[:, 1], xs[:, 2], color=BLUE, lw=2.2)
+
+for p in (p0, p0+dp):
+    for t in (t0, t0+dt): draw('r', (r0, r0+dr), p, t)
+for r in (r0, r0+dr):
+    for t in (t0, t0+dt): draw('p', r, (p0, p0+dp), t)
+for r in (r0, r0+dr):
+    for p in (p0, p0+dp): draw('t', r, p, (t0, t0+dt))
+
+PP, TT = np.meshgrid(np.linspace(p0, p0+dp, 12), np.linspace(t0, t0+dt, 12))
+ax.plot_surface((r0+dr)*np.sin(PP)*np.cos(TT), (r0+dr)*np.sin(PP)*np.sin(TT),
+                (r0+dr)*np.cos(PP), color='#8ecae6', alpha=0.45, linewidth=0)
+
+mr, mp, mt = sph(r0+dr/2, p0, t0), sph(r0+dr, p0+dp/2, t0), sph(r0+dr, p0+dp, t0+dt/2)
+ax.text(mr[0]-0.15, mr[1]-0.12, mr[2]+0.05, r"$d\rho$", color='#c1121f', fontsize=15, weight='bold')
+ax.text(mp[0]-0.05, mp[1]-0.28, mp[2], r"$\rho\,d\phi$", color='#c1121f', fontsize=15, weight='bold')
+ax.text(mt[0]+0.06, mt[1]+0.06, mt[2], r"$\rho\sin\phi\,d\theta$", color='#c1121f', fontsize=13, weight='bold')
+ax.set_title("Spherical cell:  " + r"$dV=\rho^{2}\sin\phi\,d\rho\,d\phi\,d\theta$", fontsize=11)
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_zlabel('z')
+ax.view_init(elev=20, azim=32); ax.set_box_aspect((1, 1, 1))
+ax.set_xlim(0, 1.6); ax.set_ylim(0, 1.4); ax.set_zlim(0, 1.6)
+plt.tight_layout(); plt.show()
+```
+
+```{python}
+# INDEPENDENT check of the volume element: ∭_ball ρ²sinφ dρdφdθ must equal 4/3 π R³
+R = 1.0; n = 400
+rho = (np.arange(n)+0.5)/n*R
+phi = (np.arange(n)+0.5)/n*np.pi
+V = 2*np.pi*np.sum(rho[:, None]**2 * np.sin(phi)[None, :]) * (R/n) * (np.pi/n)
+print(f"grid  ∭ ρ²sinφ dV = {V:.6f}")
+print(f"exact 4/3 π R³     = {4/3*np.pi:.6f}")
+print(f"relative error     = {100*abs(V-4/3*np.pi)/(4/3*np.pi):.4f}%")
+assert abs(V - 4/3*np.pi) < 1e-3
+```
+
+### 3.2 Why the $\sin\phi$? — circles of latitude
+
+The one genuinely new factor is the $\sin\phi$, and it is pure geometry: a circle of latitude at colatitude $\phi$ on the unit sphere has radius $\sin\phi$. The film sweeps $\phi$ from the north pole to the south — the red circle is fattest at the equator ($\sin\tfrac\pi2=1$) and pinches to a point at each pole ($\sin0=\sin\pi=0$). That shrinking is exactly the $\sin\phi$ that weights every east–west step in $dS$ and $dV$.
+
+```{python}
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+RED, ORANGE = '#e63946', '#e07a5f'
+u = np.linspace(0, 2*np.pi, 40); v = np.linspace(0, np.pi, 20)
+Xs = np.outer(np.cos(u), np.sin(v)); Ys = np.outer(np.sin(u), np.sin(v))
+Zs = np.outer(np.ones_like(u), np.cos(v))
+
+FRAMES = 40
+phis = np.linspace(0.06, np.pi-0.06, FRAMES)
+th = np.linspace(0, 2*np.pi, 120)
+pc = np.linspace(0, np.pi, 200)
+
+fig = plt.figure(figsize=(9, 4.3)); fig.set_dpi(76)
+axL = fig.add_subplot(1, 2, 1, projection='3d'); axR = fig.add_subplot(1, 2, 2)
+
+def frame(i):
+    phi = phis[i]; axL.clear(); axR.clear()
+    axL.plot_wireframe(Xs, Ys, Zs, color='#b9c6d6', lw=0.4, alpha=0.6)
+    r, zc = np.sin(phi), np.cos(phi)
+    axL.plot(r*np.cos(th), r*np.sin(th), zc+0*th, color=RED, lw=3)
+    axL.plot([0, r], [0, 0], [zc, zc], color=ORANGE, lw=2)
+    axL.plot([0, 0], [0, 0], [0, 1.05], color='#444', lw=1)
+    axL.text(r/2, 0, zc+0.09, r"$\sin\phi$", color=ORANGE, fontsize=11, weight='bold')
+    axL.set_title(f"colatitude φ = {np.degrees(phi):4.0f}°   radius = sinφ = {r:.2f}", fontsize=9)
+    axL.set_xlim(-1, 1); axL.set_ylim(-1, 1); axL.set_zlim(-1, 1)
+    axL.view_init(elev=12, azim=-58); axL.set_box_aspect((1, 1, 1))
+    axL.set_xticks([]); axL.set_yticks([]); axL.set_zticks([])
+    axR.plot(pc, np.sin(pc), color=BLUE, lw=1.8)
+    axR.scatter([phi], [np.sin(phi)], color=RED, s=45, zorder=5)
+    axR.axvline(np.pi/2, color='#bbb', ls=':', lw=1)
+    axR.text(np.pi/2, 1.04, "equator", ha='center', fontsize=8, color='#666')
+    axR.set_xlim(0, np.pi); axR.set_ylim(0, 1.14)
+    axR.set_xlabel(r"colatitude $\phi$"); axR.set_ylabel(r"latitude-circle radius $=\sin\phi$")
+    axR.set_xticks([0, np.pi/2, np.pi]); axR.set_xticklabels(['0', r'$\pi/2$', r'$\pi$'])
+    axR.set_title("circles shrink to points at the poles", fontsize=10); axR.grid(alpha=0.25)
+    return []
+
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=8)
+plt.close(fig)
+HTML(html)
+```
+
+### 3.3 Newton's theorem, made visible
+
+Now the payoff. We compute the gravitational force on a test mass at distance $d$ from the center of a **uniform solid ball** by *directly summing* the pull of every volume element — using the very $dV=\rho^2\sin\phi\,d\rho\,d\phi\,d\theta$ derived above — and compare it to the force of a single point mass $GMm/d^2$ at the center. This assumes nothing: it is the raw distributed integral versus the point-mass formula, an independent test of Newton's claim.
+
+```{python}
+R = 1.0
+delta = 3/(4*np.pi)                     # G = m = M = R = 1  ⇒  density = M / (4/3 πR³)
+
+def F_numeric(d, nr=260, nph=260):      # ∭ over the ball, θ integrated analytically (×2π)
+    rho = (np.arange(nr)+0.5)/nr*R
+    phi = (np.arange(nph)+0.5)/nph*np.pi
+    RHO, PHI = np.meshgrid(rho, phi, indexing='ij')
+    dist2 = np.maximum(RHO**2 + d**2 - 2*RHO*d*np.cos(PHI), 1e-12)
+    integ = (RHO*np.cos(PHI) - d)/dist2**1.5 * RHO**2*np.sin(PHI)   # z-component, dV factor
+    return abs(2*np.pi*delta*np.sum(integ)*(R/nr)*(np.pi/nph))
+
+ds = np.linspace(0.06, 3.0, 60)
+Fnum = np.array([F_numeric(d) for d in ds])
+Fpt = 1.0/ds**2                          # point mass at center: GMm/d²
+
+# the theorem is an OUTSIDE statement — check the two agree for d ≥ R
+out = ds >= R
+print(f"max relative error outside (numerical sphere vs point mass): "
+      f"{100*np.max(np.abs(Fnum[out]-Fpt[out])/Fpt[out]):.3f}%")
+assert np.max(np.abs(Fnum[out]-Fpt[out])/Fpt[out]) < 0.01
+
+fig, ax = plt.subplots(figsize=(8.2, 4.9))
+ax.axvspan(0, R, color='#eef2f7', zorder=0)
+ax.text(R/2, 3.15, "inside the planet\n$(d<R)$", ha='center', va='top', fontsize=9, color='#5a6b7b')
+ax.text(2.0, 3.15, r"outside $(d\geq R)$", ha='center', va='top', fontsize=9, color='#5a6b7b')
+ax.plot(ds, Fpt, color='#c1121f', lw=2.4, ls='--', label=r"point mass at center:  $GMm/d^2$")
+ax.plot(ds, Fnum, color='#2a6f97', lw=0, marker='o', ms=4.5, alpha=.85,
+        label=r"true extended sphere (numerical $\iiint$ with $\rho^2\sin\phi$)")
+ax.plot(ds[ds<R], ds[ds<R], color='#2a6f97', lw=1.2, ls=':', alpha=.8,
+        label=r"inside law $GMm\,d/R^3$ (linear $\to 0$)")
+ax.axvline(R, color='#999', lw=1)
+ax.annotate("outside: the two curves coincide\n→ Newton's theorem", xy=(1.7, 1/1.7**2),
+            xytext=(1.8, 1.9), arrowprops=dict(arrowstyle='->', color='#333'), fontsize=9)
+ax.annotate("inside: real force falls\nlinearly to 0 at center", xy=(0.45, 0.45),
+            xytext=(0.10, 1.5), arrowprops=dict(arrowstyle='->', color='#333'), fontsize=9)
+ax.set_xlim(0, 3); ax.set_ylim(0, 3.3)
+ax.set_xlabel(r"distance from center  $d/R$"); ax.set_ylabel("gravitational force on test mass")
+ax.set_title("A uniform sphere pulls like a point mass — but only from outside", fontsize=11)
+ax.legend(loc='upper right', fontsize=8.5, framealpha=.95); ax.grid(alpha=.2)
+plt.tight_layout(); plt.show()
+```
+
+The blue dots — the honest sum over the whole extended sphere — land exactly on the red point-mass curve **outside** the planet: that coincidence *is* Newton's theorem. **Inside**, the real force peels off and drops linearly to zero at the center (only the mass below you pulls), while the point-mass idealization would blow up. The theorem is precisely an outside statement.
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain spherical coordinates to someone who knows cylindrical ones — in particular, why the volume element carries a factor $\rho^2\sin\phi$ — and then state Newton's theorem and why gravity makes spherical coordinates the right tool.
+
+**My target answer** *(to be rewritten in my own words)*: *Spherical coordinates pin down a point by how far it is from the origin, $\rho$, and two angles: $\phi$, measured down from the north pole, and $\theta$, the longitude around. To integrate over a solid I need the size of a little cell, and a spherical cell has three edges: a radial one of length $d\rho$, a north–south arc of length $\rho\,d\phi$ (an arc on a circle of radius $\rho$), and an east–west arc of length $\rho\sin\phi\,d\theta$. That last one is the key: an east–west arc lies on a circle of latitude whose radius isn't $\rho$ but $\rho\sin\phi$, because circles of latitude shrink toward the poles — think of the meridians on a globe crowding together as you go north. Multiplying the three edges gives $dV=\rho^2\sin\phi\,d\rho\,d\phi\,d\theta$: the $\rho^2$ because a sphere's area grows like radius squared, the $\sin\phi$ because of that pole-ward pinch. Spherical coordinates are the right language whenever there's a center and central symmetry — spheres, cones, and especially gravity. Newton's theorem says a uniform ball attracts an outside mass exactly as though its whole mass were squeezed to a point at its center. It falls out because when you add up the pull of every chunk of the ball, using this $\rho^2\sin\phi$, the central symmetry makes everything combine into a single $GMm/d^2$ as seen from outside. From inside it's different — only the mass closer to the center than you pulls, so the force fades linearly to zero at the very center.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **The volume element is $dV=\rho^2\sin\phi\,d\rho\,d\phi\,d\theta$.** Drop either the $\rho^2$ or the $\sin\phi$ and everything is wrong. The surface version is $dS=a^2\sin\phi\,d\phi\,d\theta$.
+- **Know your convention.** Here $\phi$ is the angle *down from the $z$-axis* ($0\le\phi\le\pi$) and $\theta$ is the longitude ($0\le\theta\le2\pi$). Physics texts often swap the names $\phi\leftrightarrow\theta$ — always check before trusting a formula.
+- **No absolute value needed.** On $0\le\phi\le\pi$, $\sin\phi\ge0$, so the Jacobian is already non-negative.
+- **Reach for spherical when there's a center.** Spheres, cones, solid balls, or integrands built from $\rho=\sqrt{x^2+y^2+z^2}$ or $\rho^2$.
+- **Bounds via intersecting surfaces.** For the cap, the plane-meets-sphere condition $\cos\phi=\tfrac1{\sqrt2}$ set the $\phi$-limit, and $\rho$ ran from the inner surface (plane) to the outer (sphere).
+- **Newton's theorem is an *outside* statement.** Outside a uniform ball the field equals a point mass; *inside* a spherical shell the field is zero, and inside a solid ball it grows linearly from the center. Don't apply the point-mass formula inside.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Next in Part IV.** With spherical coordinates in hand, the course turns to **vector fields in space** — surface integrals and flux (Lecture 27) — which set up the two great theorems that close 18.02: the divergence theorem and Stokes' theorem.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
