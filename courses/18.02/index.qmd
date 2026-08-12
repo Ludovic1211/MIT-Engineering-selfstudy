@@ -69,7 +69,7 @@ The course is organized into four parts:
 | 28 | [The Divergence Theorem](lecture-28-divergence-theorem.qmd) | ✅ Online |
 | 29 | [The Divergence Theorem — Applications & Proof](lecture-29-divergence-theorem-applications-proof.qmd) | ✅ Online |
 | 30 | [Line Integrals in Space; Curl, Exactness & Potentials](lecture-30-line-integrals-space-curl.qmd) | ✅ Online |
-| 31 | Stokes' Theorem | ⬜ Planned |
+| 31 | [Stokes' Theorem](lecture-31-stokes-theorem.qmd) | ✅ Online |
 | 32 | Stokes' Theorem — Applications & Review | ⬜ Planned |
 | 33 | Topological Considerations; Maxwell's Equations | ⬜ Planned |
 

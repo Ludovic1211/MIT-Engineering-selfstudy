@@ -1,0 +1,203 @@
+---
+title: "Lecture 31 — Stokes' Theorem"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 31 ("Stokes' theorem").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-31.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Stokes' theorem is the second capstone of the course. It equates the **circulation** of $\vec F$ around a closed curve $C$ to the **flux of $\operatorname{curl}\vec F$** through any surface $S$ that $C$ bounds:
+$$
+\boxed{\ \oint_C\vec F\cdot d\vec r=\iint_S(\nabla\times\vec F)\cdot\hat n\,dS\ }.
+$$
+Curl is the *local* swirl; adding up all the local swirls over a capping surface gives the total circulation around its edge. Two consequences: Stokes **contains Green's theorem** (flatten $S$ into the plane and it becomes $\oint P\,dx+Q\,dy=\iint(Q_x-P_y)\,dA$), and it is **surface-independent** — the right side depends only on $C$, so you may cap $C$ with whichever surface is easiest. The orientations of $C$ and $S$ are tied by the right-hand rule.
+
+## 1. The concepts
+
+### 1.1 Recall: curl
+
+$$
+\operatorname{curl}\vec F=\nabla\times\vec F=\langle R_y-Q_z,\ P_z-R_x,\ Q_x-P_y\rangle,
+$$
+the rotation part of a velocity field (axis = direction, magnitude = twice the angular speed). A uniform $\langle a,b,c\rangle$ has curl $\vec 0$; the expanding $\langle x,0,0\rangle$ has curl $\vec 0$ but $\operatorname{div}=1$; the rotation $\langle -y,x,0\rangle$ has $\operatorname{curl}=2\hat k$.
+
+### 1.2 Stokes' theorem
+
+For a **closed curve** $C$ and **any surface $S$ bounded by $C$**, with $\vec F$ defined on $S$:
+$$
+\oint_C\vec F\cdot d\vec r=\iint_S(\nabla\times\vec F)\cdot\hat n\,dS .
+$$
+**Orientation** (must be compatible): walk along $C$ in the positive direction with $S$ on your **left**; then $\hat n$ points **up** out of that side. Equivalently the **right-hand rule** — curl the fingers along $C$ and the thumb gives $\hat n$.
+
+### 1.3 Stokes generalizes Green
+
+Let $S$ be a flat patch of the $xy$-plane bounded by $C$ (counterclockwise). Then $\hat n=\hat k$, $dz=0$, and $(\nabla\times\vec F)\cdot\hat k=Q_x-P_y$, so
+$$
+\oint_C P\,dx+Q\,dy=\iint_S(Q_x-P_y)\,dx\,dy .
+$$
+That is exactly **Green's theorem** (tangential form): Green is Stokes flattened into the plane.
+
+### 1.4 Why Stokes is true
+
+- It holds for a flat region in the $xy$-plane (that's Green), hence for a flat region in **any** plane (work, flux, curl are coordinate-free).
+- For **any** surface $S$: cut it into tiny nearly-flat pieces. The circulations around the pieces **add to the circulation around $C$** — every shared interior edge is traversed twice in opposite directions and cancels — while the curl-fluxes through the pieces add to the flux through $S$. Hence $\oint_C\vec F\cdot d\vec r=\iint_S(\nabla\times\vec F)\cdot\hat n\,dS$.
+
+### 1.5 Example
+
+Work of $\vec F=z\,\hat i+x\,\hat j+y\,\hat k$ around the unit circle in the $xy$-plane (counterclockwise).
+
+- **Directly**: $x=\cos t,\ y=\sin t,\ z=0$, so $\displaystyle\oint z\,dx+x\,dy+y\,dz=\int_0^{2\pi}\cos^2 t\,dt=\pi$.
+- **By Stokes**: $\nabla\times\vec F=\langle 1,1,1\rangle$. Cap $C$ with the paraboloid $z=1-x^2-y^2$, so $\hat n\,dS=\langle 2x,2y,1\rangle\,dx\,dy$ and
+$$
+\iint_S\langle1,1,1\rangle\cdot\langle2x,2y,1\rangle\,dx\,dy=\iint_{\text{disk}}(2x+2y+1)\,dx\,dy=\pi
+$$
+(the $x,y$ terms vanish by symmetry, $\iint 1=\pi$). Same answer — and **any** cap of $C$ would give it.
+
+## 2. The key intuition
+
+Stokes says **the big loop is the sum of all the little loops**. Tile a capping surface with tiny cells; the circulation around one cell is, to first order, $\operatorname{curl}\vec F$ dotted with the cell's normal times its area — that is precisely what curl *is*, circulation per unit area. Add the cells: every interior edge is shared by two cells that run along it in opposite directions, so those cancel, and only the outer boundary $C$ survives. The total of all the tiny curls — the flux of $\operatorname{curl}\vec F$ through $S$ — therefore equals the circulation around $C$. It is the same telescoping cancellation that gave Green and the divergence theorem, now with *tangential circulation* rather than *normal flux*.
+
+Two payoffs fall out. **Green's theorem** is just Stokes with the surface lying flat in the plane, where $(\nabla\times\vec F)\cdot\hat k=Q_x-P_y$. And, more striking, the answer **doesn't depend on the surface**: a flat disk, a tall dome, a crumpled sheet — all sharing the boundary $C$ — return the same flux of curl. (Two caps of the same $C$ together form a *closed* surface, and the curl-flux through any closed surface is zero, because $\operatorname{div}(\operatorname{curl}\vec F)=0$.) In practice, then, you cap $C$ with whatever surface makes the integral easiest — usually the flat disk.
+
+## 3. Python demonstration
+
+We see *why* Stokes holds (tiny loops telescoping to $C$), watch its headline feature — **surface independence** — as a cap morphs while the answer holds still, and verify the example three independent ways.
+
+### 3.1 Why Stokes holds: the tiling
+
+Tile the surface with tiny cells, each carrying a counterclockwise circulation loop. On every **interior** edge the two neighboring loops run opposite ways and cancel (gray). Only the **boundary** loop survives (red) — the circulation around $C$. Each tiny loop contributes $\approx(\nabla\times\vec F)\cdot\hat n\,\Delta S$, so their sum is the flux of curl through $S$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7.2, 6.0)); N = 3
+for i in range(N+1):
+    ax.plot([0, N], [i, i], color='#888', lw=1); ax.plot([i, i], [0, N], color='#888', lw=1)
+GRAY, RED = '#9aa0a6', '#c1121f'
+def arr(x, y, dx, dy, color, lw=2.0):
+    ax.annotate('', xy=(x+dx, y+dy), xytext=(x, y), arrowprops=dict(arrowstyle='-|>', color=color, lw=lw))
+o = 0.28
+for xi in (1, 2):                                   # interior vertical edges → cancel
+    for yj in range(N):
+        cy = yj+0.5; arr(xi-0.06, cy-o, 0, 2*o, GRAY); arr(xi+0.06, cy+o, 0, -2*o, GRAY)
+for yj in (1, 2):                                   # interior horizontal edges → cancel
+    for xi in range(N):
+        cx = xi+0.5; arr(cx+o, yj-0.06, -2*o, 0, GRAY); arr(cx-o, yj+0.06, 2*o, 0, GRAY)
+for xi in range(N): arr(xi+0.5-o, 0, 2*o, 0, RED, 2.6)      # boundary CCW: bottom +x
+for yj in range(N): arr(N, yj+0.5-o, 0, 2*o, RED, 2.6)      # right +y
+for xi in range(N): arr(xi+0.5+o, N, -2*o, 0, RED, 2.6)     # top -x
+for yj in range(N): arr(0, yj+0.5+o, 0, -2*o, RED, 2.6)     # left -y
+ax.text(1.5, 1.5, "interior edges:\ntraversed twice,\nopposite ways\n→ cancel", ha='center', va='center',
+        fontsize=9.5, color='#555', bbox=dict(boxstyle='round', fc='white', ec='#ccc', alpha=0.92))
+ax.text(1.5, -0.5, r"boundary survives $\to$ circulation around $C$", ha='center', fontsize=11, color=RED)
+ax.set_title(r"$\sum_{\rm cells}(\text{tiny circulation})=\oint_C\vec F\cdot d\vec r$", fontsize=12)
+ax.set_xlim(-0.7, 3.7); ax.set_ylim(-0.9, 3.4); ax.set_aspect('equal'); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
+### 3.2 Surface independence
+
+The boundary $C$ (the red unit circle) stays fixed while its capping surface **morphs** from a flat disk up to a tall dome, $z=h(1-x^2-y^2)$. The flux of $\operatorname{curl}\vec F=\langle1,1,1\rangle$ through it never budges from $\pi$ — because only the boundary matters.
+
+```{python}
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+rr = np.linspace(0, 1, 30); th = np.linspace(0, 2*np.pi, 60)
+RR, TH = np.meshgrid(rr, th); Xs, Ys = RR*np.cos(TH), RR*np.sin(TH)
+circ = np.linspace(0, 2*np.pi, 200)
+
+nr, nt = 200, 200                                   # polar grid for the flux (exact disk area)
+rq = (np.arange(nr)+0.5)/nr; tq = (np.arange(nt)+0.5)/nt*2*np.pi
+Rq, Tq = np.meshgrid(rq, tq); Xq, Yq = Rq*np.cos(Tq), Rq*np.sin(Tq); dA = (1/nr)*(2*np.pi/nt)
+def flux(h): return np.sum((2*h*Xq + 2*h*Yq + 1)*Rq)*dA    # <1,1,1>·<2hx,2hy,1>, ×Jacobian r
+
+FRAMES = 40
+hs = np.concatenate([np.linspace(0, 1.5, FRAMES//2), np.linspace(1.5, 0, FRAMES-FRAMES//2)])
+fl = [flux(h) for h in hs]
+
+fig = plt.figure(figsize=(9.4, 4.6)); fig.set_dpi(78)
+axL = fig.add_subplot(1, 2, 1, projection='3d'); axR = fig.add_subplot(1, 2, 2)
+def frame(i):
+    h = hs[i]; axL.clear(); axR.clear()
+    axL.plot_surface(Xs, Ys, h*(1-RR**2), color='#8ecae6', alpha=0.55, linewidth=0, rcount=30, ccount=60)
+    axL.plot(np.cos(circ), np.sin(circ), 0*circ, color='#e63946', lw=3)
+    axL.text(0, 1.15, 0, "C", color='#e63946', fontsize=12, weight='bold')
+    axL.set_title(f"cap morphs (h={h:.2f}), boundary C fixed", fontsize=9)
+    axL.set_xlim(-1.2, 1.2); axL.set_ylim(-1.2, 1.2); axL.set_zlim(0, 1.6)
+    axL.view_init(elev=18, azim=-58); axL.set_box_aspect((1, 1, 0.9))
+    axL.set_xticks([]); axL.set_yticks([]); axL.set_zticks([])
+    axR.plot(hs[:i+1], fl[:i+1], color='#2a6f97', lw=2); axR.scatter([h], [fl[i]], color='#2a6f97', s=45, zorder=5)
+    axR.axhline(np.pi, color='#e63946', ls='--', lw=1.4); axR.text(0.05, np.pi+0.12, r"$\pi$", color='#e63946', fontsize=12)
+    axR.set_xlim(0, 1.5); axR.set_ylim(np.pi-1.2, np.pi+1.2)
+    axR.set_xlabel('bulge height  h'); axR.set_ylabel(r'flux of curl $\iint_S(\nabla\times\vec F)\cdot\hat n\,dS$')
+    axR.set_title(r'flux stays $=\pi$ for every surface', fontsize=10); axR.grid(alpha=0.25)
+    return []
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=9); plt.close(fig)
+HTML(html)
+```
+
+### 3.3 Verifying the example three ways
+
+The circulation of $\vec F=\langle z,x,y\rangle$ around the unit circle, computed **directly**, then by Stokes over the **flat disk**, then by Stokes over the **paraboloid** cap — all three land on $\pi$.
+
+```{python}
+# (1) direct circulation ∮_C F·dr  (midpoint Riemann sum, no library integrator)
+t = np.linspace(0, 2*np.pi, 200001); tm = (t[:-1]+t[1:])/2; dt = np.diff(t)
+x, y, z = np.cos(tm), np.sin(tm), 0*tm
+dx, dy, dz = -np.sin(tm), np.cos(tm), 0*tm
+direct = np.sum((z*dx + x*dy + y*dz)*dt)            # F=<z,x,y>
+
+# polar grid over the unit disk; curl F = <1,1,1>
+nr, nt = 400, 400
+r = (np.arange(nr)+0.5)/nr; th = (np.arange(nt)+0.5)/nt*2*np.pi
+Rq, Tq = np.meshgrid(r, th); Xq, Yq = Rq*np.cos(Tq), Rq*np.sin(Tq); dA = (1/nr)*(2*np.pi/nt)
+flat  = np.sum(1.0*Rq)*dA                            # flat disk: n̂=<0,0,1>
+parab = np.sum((2*Xq + 2*Yq + 1)*Rq)*dA             # paraboloid: n̂ dS=<2x,2y,1> dxdy
+
+print(f"(1) direct  ∮_C F·dr        = {direct:.5f}")
+print(f"(2) Stokes, flat disk       = {flat:.5f}")
+print(f"(3) Stokes, paraboloid cap  = {parab:.5f}")
+print(f"    exact  π                = {np.pi:.5f}")
+assert abs(direct-np.pi) < 1e-3 and abs(flat-np.pi) < 1e-3 and abs(parab-np.pi) < 1e-3
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: state Stokes' theorem, explain why it is true, and why any surface bounded by $C$ gives the same answer.
+
+**My target answer** *(to be rewritten in my own words)*: *Stokes' theorem says the circulation of a field around a closed loop equals the flux of its curl through any surface that the loop bounds: $\oint_C\vec F\cdot d\vec r=\iint_S(\nabla\times\vec F)\cdot\hat n\,dS$. The reason is a tiling argument. Cover the surface with tiny cells; the tiny circulation around each cell is the curl (its swirl-per-area) times the cell's area — its flux of curl. When you add all the cells up, every inside edge is shared by two cells that go along it in opposite directions, so those cancel, and only the outer boundary is left. So the sum of all the little curls equals the circulation around the big loop. And because the left side, $\oint_C\vec F\cdot d\vec r$, only mentions the boundary $C$, the surface you pick can't matter: a flat disk, a dome, anything with the same rim gives the same number. (Another way to see it: two different caps of the same loop, glued together, make a closed surface, and the flux of a curl through any closed surface is zero — so the two caps must agree.) In practice you just pick the easiest surface — usually the flat one.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **$C$ closed, $S$ bounded by $C$, orientations compatible** (right-hand rule). Flip $C$'s direction or $\hat n$'s side and the sign flips.
+- **Green is the flat case.** With $S$ in the $xy$-plane and $\hat n=\hat k$, Stokes becomes $\oint P\,dx+Q\,dy=\iint(Q_x-P_y)\,dA$.
+- **Surface independence — use it.** Any cap of $C$ works; pick the one that makes the integral simplest (often the flat disk).
+- **Why it's surface-independent.** Two caps sharing $C$ form a closed surface, and $\iint_{\text{closed}}(\nabla\times\vec F)\cdot\hat n\,dS=\iiint\operatorname{div}(\operatorname{curl}\vec F)\,dV=0$, since $\operatorname{div}\operatorname{curl}=0$.
+- **$\vec F$ must be smooth on the chosen surface.** A singularity trapped between $C$ and the cap breaks Stokes — pick another surface, or excise it.
+- **Curl integrates tangentially, divergence normally.** Stokes sums circulation over a bounding *curve*; the divergence theorem sums flux over a bounding *surface*. Two faces of the same telescoping idea.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Next in Part IV.** Lecture 32 continues Stokes — orientability, **simply connected** regions, and the interplay of $\operatorname{curl}=0$, path independence, and surface independence — then reviews the whole vector-calculus toolkit before the finale.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
