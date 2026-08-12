@@ -67,7 +67,7 @@ The course is organized into four parts:
 | 26 | [Spherical Coordinates & Surface Area](lecture-26-spherical-coordinates-surface-area.qmd) | ✅ Online |
 | 27 | [Vector Fields in 3D: Surface Integrals & Flux](lecture-27-vector-fields-surface-integrals-flux.qmd) | ✅ Online |
 | 28 | [The Divergence Theorem](lecture-28-divergence-theorem.qmd) | ✅ Online |
-| 29 | Divergence Theorem — Applications & Proof | ⬜ Planned |
+| 29 | [The Divergence Theorem — Applications & Proof](lecture-29-divergence-theorem-applications-proof.qmd) | ✅ Online |
 | 30 | Line Integrals in Space; Curl, Exactness & Potentials | ⬜ Planned |
 | 31 | Stokes' Theorem | ⬜ Planned |
 | 32 | Stokes' Theorem — Applications & Review | ⬜ Planned |

@@ -1,0 +1,205 @@
+---
+title: "Lecture 29 — The Divergence Theorem (cont.): Applications & Proof"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 29 ("Divergence theorem (cont.): applications and proof"). Two-part lecture.
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-29.pdf) (2 pages) these notes were rewritten from.
+:::
+
+## In brief
+
+Two things. **First**, the divergence theorem gets a name-tag and a proof. With the operator $\nabla=\langle\partial_x,\partial_y,\partial_z\rangle$, the gradient is $\nabla f$ and the divergence is $\nabla\cdot\vec F=P_x+Q_y+R_z$ — and $\operatorname{div}\vec F$ is literally **source density**, the flux produced per unit volume, so $\iiint_D\operatorname{div}\vec F\,dV=\iint_S\vec F\cdot\hat n\,dS$ reads "*total sources inside = net flow out*." The **proof** reduces to one coordinate on a vertically-simple region: the top and bottom faces give $\iint_R[R(x,y,z_2)-R(x,y,z_1)]\,dx\,dy$, the vertical sides contribute nothing, and the fundamental theorem of calculus closes it. **Second**, the theorem *earns its keep*: it derives the **diffusion (heat) equation**
+$$
+\frac{\partial u}{\partial t}=k\,\nabla^2 u
+$$
+from Fick's law ($\vec F=-k\nabla u$) plus conservation. That single line governs smoke in still air, dye in water, and heat in a solid.
+
+## 1. The concepts
+
+### 1.1 The $\nabla$ operator
+
+Treat $\nabla=\left\langle\dfrac{\partial}{\partial x},\dfrac{\partial}{\partial y},\dfrac{\partial}{\partial z}\right\rangle$ as a vector of derivatives. Then
+
+- **gradient**: $\nabla f=\langle f_x,f_y,f_z\rangle$;
+- **divergence**: $\nabla\cdot\vec F=\left\langle\partial_x,\partial_y,\partial_z\right\rangle\cdot\langle P,Q,R\rangle=P_x+Q_y+R_z$.
+
+The theorem becomes $\displaystyle\iint_S\vec F\cdot d\vec S=\iiint_D\nabla\cdot\vec F\,dV$.
+
+### 1.2 Physical meaning of divergence
+
+$\operatorname{div}\vec F$ is the **source rate** — flux generated per unit volume. For an incompressible fluid of velocity $\vec F$, integrating the divergence over $D$ gives the amount of fluid **leaving $D$ per unit time**; it counts total sources minus total sinks. Divergence is that source/sink density, point by point.
+
+### 1.3 Proof of the theorem
+
+It suffices to prove the $R$-piece — $\displaystyle\iint_S\langle 0,0,R\rangle\cdot\hat n\,dS=\iiint_D R_z\,dV$ — and add the three coordinate versions.
+
+Take $D$ **vertically simple**: over a shadow $R$ in the $xy$-plane it runs from a floor $z_1(x,y)$ to a ceiling $z_2(x,y)$.
+
+- **Volume side** (fundamental theorem of calculus in $z$):
+$$
+\iiint_D R_z\,dV=\iint_R\Big(\int_{z_1}^{z_2}R_z\,dz\Big)dx\,dy=\iint_R\big[R(x,y,z_2)-R(x,y,z_1)\big]\,dx\,dy .
+$$
+- **Surface side** = top + bottom + sides:
+  - *Top* ($z=z_2$, outward normal up): $\langle 0,0,R\rangle\cdot\hat n\,dS=R\,dx\,dy\Rightarrow\iint_R R(x,y,z_2)\,dx\,dy$.
+  - *Bottom* ($z=z_1$, outward normal down): $\langle 0,0,R\rangle\cdot\hat n\,dS=-R\,dx\,dy\Rightarrow-\iint_R R(x,y,z_1)\,dx\,dy$.
+  - *Sides* (vertical): $\langle 0,0,R\rangle$ is vertical, hence **tangent** to the side walls, so $\vec F\cdot\hat n=0$ — no contribution.
+  - Sum $=\iint_R[R(x,y,z_2)-R(x,y,z_1)]\,dx\,dy$, matching the volume side. $\blacksquare$
+
+For a region that isn't vertically simple, cut it into vertically-simple pieces; the shared interior faces cancel.
+
+### 1.4 The diffusion (heat) equation
+
+Let $u(x,y,z,t)$ be a concentration (or temperature). It obeys
+$$
+\boxed{\ \frac{\partial u}{\partial t}=k\,\nabla^2 u=k\,\nabla\cdot(\nabla u)=k\big(u_{xx}+u_{yy}+u_{zz}\big)\ }
+$$
+($\nabla^2u$ is the **Laplacian**). The derivation is a three-step chain:
+
+1. **Fick's law.** Smoke flows from high to low concentration, in the direction of steepest decrease, so $\vec F=-k\nabla u$ (bigger gradient $\Rightarrow$ stronger flow).
+2. **Conservation.** The smoke in a region $D$ is $\iiint_D u\,dV$; the flux out equals the rate it leaves: $\displaystyle\iint_S\vec F\cdot\hat n\,dS=-\frac{\partial}{\partial t}\iiint_D u\,dV$.
+3. **Divergence theorem** turns the surface flux into a volume integral: $\iiint_D\operatorname{div}\vec F\,dV=-\iiint_D\dfrac{\partial u}{\partial t}\,dV$. Since this holds for **every** region $D$, the integrands agree pointwise: $\operatorname{div}\vec F=-\dfrac{\partial u}{\partial t}$.
+
+Substituting $\vec F=-k\nabla u$: $\ \dfrac{\partial u}{\partial t}=-\operatorname{div}\vec F=k\,\operatorname{div}(\nabla u)=k\nabla^2u.$
+
+## 2. The key intuition
+
+Two ideas share one engine: **flux out equals sources inside**. The proof makes it concrete — stand a thin vertical column in the solid; the field $\langle 0,0,R\rangle$ enters through the floor and exits through the ceiling, and the net $R(\text{top})-R(\text{bottom})$ is exactly $\int R_z\,dz$ by the fundamental theorem of calculus. The divergence theorem *is* the FTC, swept across the shadow, with the side walls silent because a vertical field slides along them without crossing.
+
+The application is where it dazzles. Heat and smoke follow a rule a child could state: stuff drifts from where there's a lot to where there's little, fastest where the difference is steepest — that is $\vec F=-k\nabla u$, with the crucial minus sign meaning *down* the slope. Nothing is created or destroyed, so whatever piles up at a point must have flowed in across the surface around it; the divergence theorem converts that surface bookkeeping into a local law, and out falls $\partial u/\partial t=k\nabla^2u$. The Laplacian is the whole story in one symbol: it compares a point's value to the average of its neighbors. Where you sit **below** your surroundings (a dip), $\nabla^2u>0$ and you fill up; where you poke **above** them (a peak), $\nabla^2u<0$ and you drain. That is precisely why blobs of smoke spread, hot spots cool, and everything relaxes toward the average — smoothly and irreversibly.
+
+## 3. Python demonstration
+
+We watch the mechanism (Fick's flow), the result (smoke diffusing), and the guarantee behind it (the divergence theorem holding at every instant of the simulation).
+
+### 3.1 Fick's law: flow down the gradient
+
+Two blobs of smoke. The arrows are $\vec F=-k\nabla u$: they point **away from the peaks**, perpendicular to the level curves, strongest on the steep slopes and vanishing on the flat peaks and the empty far field. Smoke flows downhill in concentration.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+N, h, k = 90, 1.0, 1.0
+xs = np.arange(N); X, Y = np.meshgrid(xs, xs, indexing='ij')
+def blob(cx, cy, s, A): return A*np.exp(-((X-cx)**2 + (Y-cy)**2)/(2*s**2))
+def lap(f):
+    fp = np.pad(f, 1, mode='edge')                      # Neumann (zero-flux) walls
+    return (fp[2:,1:-1]+fp[:-2,1:-1]+fp[1:-1,2:]+fp[1:-1,:-2]-4*fp[1:-1,1:-1])/h**2
+
+u = blob(34,34,9,1.0) + blob(58,60,8,0.8)
+gx = np.gradient(u,h,axis=0); gy = np.gradient(u,h,axis=1)
+Fx, Fy = -k*gx, -k*gy
+
+fig, ax = plt.subplots(figsize=(6.4,5.6))
+im = ax.imshow(u.T, origin='lower', cmap='inferno', extent=[0,N,0,N])
+ax.contour(X.T, Y.T, u.T, levels=6, colors='white', alpha=0.35, linewidths=0.8)
+s = 6
+ax.quiver(X[::s,::s], Y[::s,::s], Fx[::s,::s], Fy[::s,::s], color='#66d9ff', scale=2.2, width=0.004)
+fig.colorbar(im, ax=ax, shrink=0.85).set_label('concentration  u', fontsize=9)
+ax.set_title(r"Fick's law $\vec F=-k\nabla u$: smoke flows down the gradient", fontsize=11)
+ax.set_xticks([]); ax.set_yticks([])
+plt.tight_layout(); plt.show()
+```
+
+### 3.2 The diffusion equation in action
+
+Now let three blobs evolve by $\partial u/\partial t=k\nabla^2u$ (explicit finite differences). They spread, merge, and flatten toward a uniform state — while the **total smoke stays constant** (nothing leaves the insulated box). Watch the Laplacian at work: peaks drain, dips fill.
+
+```{python}
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+dt = 0.2
+u = blob(30,32,5,1.0) + blob(60,58,6,0.8) + blob(58,28,4,0.9)
+FRAMES, per = 44, 5
+snaps = [u.copy()]
+for _ in range(FRAMES-1):
+    for _ in range(per): u = u + k*dt*lap(u)
+    snaps.append(u.copy())
+vmax = snaps[0].max()
+
+fig, ax = plt.subplots(figsize=(6.0,5.4))
+im = ax.imshow(snaps[0].T, origin='lower', cmap='inferno', vmin=0, vmax=vmax, extent=[0,N,0,N])
+fig.colorbar(im, ax=ax, shrink=0.85).set_label('concentration  u', fontsize=9)
+title = ax.set_title(''); ax.set_xticks([]); ax.set_yticks([])
+def frame(i):
+    im.set_data(snaps[i].T)
+    title.set_text(f"diffusion  ∂u/∂t = k∇²u   (t = {i*per*dt:.1f})\ntotal smoke conserved: {snaps[i].sum():.0f}")
+    return [im, title]
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=10); plt.close(fig)
+HTML(html)
+```
+
+### 3.3 The divergence theorem, live
+
+The derivation rested on "flux out = rate the smoke leaves." We can watch it hold. Draw a box $D$ inside the diffusing field and track two things independently: the **rate of change of smoke inside $D$** (measured from the simulation) and **minus the flux out through $\partial D$** (computed from Fick's $\vec F=-k\nabla u$ on the boundary). They coincide at every instant — the divergence theorem, live.
+
+```{python}
+from matplotlib.patches import Rectangle
+
+dt = 0.2
+u = blob(30,32,5,1.0) + blob(60,58,6,0.8) + blob(58,28,4,0.9)
+a, b, c, d = 25, 64, 25, 64                              # subregion box
+def mass(f): return f[a:b+1, c:d+1].sum()*h**2
+def flux_out(f):
+    gx = np.gradient(f,h,axis=0); gy = np.gradient(f,h,axis=1); Fx, Fy = -k*gx, -k*gy
+    return (-Fx[a,c:d+1].sum() + Fx[b,c:d+1].sum() - Fy[a:b+1,c].sum() + Fy[a:b+1,d].sum())*h
+
+steps = 120; m_prev = mass(u); rate = []; nf = []; tv = []; snap = None
+for t in range(steps):
+    fo = flux_out(u); u = u + k*dt*lap(u); m = mass(u)
+    rate.append((m-m_prev)/dt); nf.append(-fo); tv.append(t*dt); m_prev = m
+    if t == 18: snap = u.copy()
+
+fig, (axL, axR) = plt.subplots(1, 2, figsize=(11, 4.5))
+axL.imshow(snap.T, origin='lower', cmap='inferno', extent=[0,N,0,N])
+axL.add_patch(Rectangle((c,a), d-c, b-a, fill=False, ec='#66d9ff', lw=2))
+axL.text((c+d)/2, b+3, "subregion D", color='#66d9ff', ha='center', fontsize=10)
+axL.set_title("a subregion inside the diffusing smoke", fontsize=10); axL.set_xticks([]); axL.set_yticks([])
+axR.plot(tv, rate, color='#2a6f97', lw=2.4, label=r"$\frac{d}{dt}\iint_D u\,dA$  (from simulation)")
+axR.plot(tv, nf, color='#e63946', lw=1.4, ls='--', label=r"$-\oint_{\partial D}\vec F\cdot\hat n\,ds$  (from Fick)")
+axR.axhline(0, color='#ccc', lw=0.8); axR.set_xlabel('time  t'); axR.set_ylabel('rate')
+axR.set_title("Divergence theorem, live: the two coincide", fontsize=11)
+axR.legend(fontsize=9, loc='lower right'); axR.grid(alpha=0.25)
+print(f"max relative discrepancy over the run: "
+      f"{100*np.max(np.abs(np.array(rate)-np.array(nf)))/np.max(np.abs(rate)):.2f}%")
+assert np.max(np.abs(np.array(rate)-np.array(nf)))/np.max(np.abs(rate)) < 0.05
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain why the diffusion equation $\partial u/\partial t=k\nabla^2u$ follows from Fick's law, conservation, and the divergence theorem — and what the Laplacian is doing.
+
+**My target answer** *(to be rewritten in my own words)*: *Start with how smoke moves: it drifts from crowded places to empty ones, down the concentration gradient, faster where the drop is steeper. That's Fick's law, $\vec F=-k\nabla u$, minus sign and all. Next, nothing is created or lost, so the amount of smoke inside any region can only change because smoke flowed across its boundary: the rate the smoke inside grows equals minus the flux out through the surface. The divergence theorem rewrites that surface flux as a volume integral of $\operatorname{div}\vec F$, so for every region the total of $\operatorname{div}\vec F$ inside equals minus the total rate of change inside. "For every region" forces the integrands to be equal at each point: $\operatorname{div}\vec F=-\partial u/\partial t$. Plug in Fick's law and $\operatorname{div}(-k\nabla u)=-k\nabla^2u$ gives $\partial u/\partial t=k\nabla^2u$. The Laplacian $\nabla^2u$ measures how a point compares to the average of its neighbors: below average (a dip) it's positive and the point fills up, above average (a peak) it's negative and the point drains. So the equation says everything relaxes toward its surroundings' average — which is exactly what diffusion looks like.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **$\nabla$ is one operator, three uses.** $\nabla f$ (gradient, a vector), $\nabla\cdot\vec F$ (divergence, a scalar), $\nabla^2u=\nabla\cdot\nabla u$ (Laplacian, a scalar). Keep the outputs straight.
+- **The proof's silent side walls.** The sides drop out only because the reduced field $\langle 0,0,R\rangle$ is vertical; you still need all three coordinate pieces for the full theorem.
+- **From integral law to PDE.** "Holds for every region $\Rightarrow$ integrands equal pointwise" is the standard bridge from a global balance to a local differential equation.
+- **Mind the minus in Fick's law.** $\vec F=-k\nabla u$; drop the sign and smoke would flow *uphill* and spontaneously un-mix.
+- **The Laplacian smooths.** The heat equation relaxes toward the average and is irreversible — it blurs, never sharpens. (Running it backward in time is famously unstable.)
+- **Vertically simple is just bookkeeping.** Any reasonable region is a union of simple pieces; the interior faces cancel.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Next in Part IV.** With flux and divergence done, Lecture 30 returns to **line integrals — now in space** — and the 3-D notions of **curl**, exactness, and potentials, setting up the second capstone theorem, Stokes'.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
