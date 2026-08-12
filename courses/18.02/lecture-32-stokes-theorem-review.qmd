@@ -1,0 +1,213 @@
+---
+title: "Lecture 32 — Stokes' Theorem (cont.) & Review"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 32 ("Stokes' theorem (cont.); review").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-32.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+A review lecture that ties Part IV together, with two theoretical gems. **First**, in a *simply connected* region, $\operatorname{curl}\vec F=\vec 0\Rightarrow\vec F$ is conservative — proved with Stokes: two paths between the same endpoints differ by a closed loop, which bounds a surface, over which the curl-flux is zero. **Second**, Stokes is **surface-independent** because $\operatorname{div}(\operatorname{curl}\vec F)=0$ *always* — two caps of a curve form a closed surface, and the divergence theorem turns their difference into $\iiint\operatorname{div}(\operatorname{curl}\vec F)\,dV=0$. Topology sets the stage (sphere vs torus; the non-orientable Möbius strip), and the finale is a synthesis: the fundamental theorem for line integrals, Stokes, and the divergence theorem are **one pattern** — *the integral of a derivative over a region equals the field on its boundary* — glued by the identities $\operatorname{curl}\operatorname{grad}=0$ and $\operatorname{div}\operatorname{curl}=0$.
+
+## 1. The concepts
+
+### 1.1 Path-independence, at last
+
+**Definition (simply connected).** A region is *simply connected* if every closed loop inside it bounds a surface lying in the region.
+
+**Theorem.** If $\vec F$ is defined on a simply connected region and $\operatorname{curl}\vec F=\vec 0$, then $\vec F$ is a gradient field, path-independent, conservative.
+
+**Proof.** For two paths $C_1,C_2$ from $P_0$ to $P_1$, the loop $C_1-C_2$ bounds a surface $S$, so
+$$
+\int_{C_1}\vec F\cdot d\vec r-\int_{C_2}\vec F\cdot d\vec r=\oint_{C_1-C_2}\vec F\cdot d\vec r\overset{\text{Stokes}}{=}\iint_S(\operatorname{curl}\vec F)\cdot\hat n\,dS=0. \qquad\blacksquare
+$$
+
+### 1.2 Topology and orientability
+
+- The **sphere** is simply connected (every loop bounds a cap); the **torus** is not (a loop around the tube bounds nothing on it).
+- The **Möbius strip** is **non-orientable** — one side, one edge — so a consistent $\hat n$ (and hence flux) cannot be defined on it.
+
+### 1.3 Surface independence and $\operatorname{div}(\operatorname{curl}\vec F)=0$
+
+For two caps $S_1,S_2$ of the same curve $C$,
+$$
+\iint_{S_1}(\nabla\times\vec F)\cdot\hat n\,dS-\iint_{S_2}(\nabla\times\vec F)\cdot\hat n\,dS
+=\iint_{\text{closed}}(\nabla\times\vec F)\cdot\hat n\,dS
+\overset{\text{Div. Thm}}{=}\iiint_D\operatorname{div}(\nabla\times\vec F)\,dV=0,
+$$
+because the identity $\operatorname{div}(\operatorname{curl}\vec F)=(R_y-Q_z)_x+(P_z-R_x)_y+(Q_x-P_y)_z=0$ holds always. That is *why* the surface doesn't matter.
+
+### 1.4 The three fundamental theorems
+
+| Theorem | Statement | Boundary |
+|---|---|---|
+| FTC for line integrals | $\int_C\nabla f\cdot d\vec r=f(P_1)-f(P_0)$ | curve $\to$ endpoints |
+| Stokes | $\oint_C\vec F\cdot d\vec r=\iint_S(\nabla\times\vec F)\cdot\hat n\,dS$ | surface $\to$ edge curve |
+| Divergence | $\iint_S\vec F\cdot\hat n\,dS=\iiint_D\operatorname{div}\vec F\,dV$ | solid $\to$ surface |
+
+One pattern — *integral of a derivative over a region = field on its boundary* — glued by $\operatorname{curl}(\operatorname{grad}f)=\vec 0$ and $\operatorname{div}(\operatorname{curl}\vec F)=0$.
+
+### 1.5 Computational toolbox (review)
+
+- **Triple integrals** $dV$: rectangular $dx\,dy\,dz$; cylindrical $r\,dr\,d\theta\,dz$; spherical $\rho^2\sin\phi\,d\rho\,d\phi\,d\theta$. *Uses*: mass, moment of inertia, average value, gravitational attraction.
+- **Surface elements** $\hat n\,dS$: horizontal plane $dx\,dy$; $yz$-plane $dy\,dz$; sphere $\pm\tfrac1a\langle x,y,z\rangle,\ a^2\sin\phi\,d\phi\,d\theta$; cylinder $\pm\tfrac1a\langle x,y,0\rangle,\ a\,dz\,d\theta$; graph $\langle-f_x,-f_y,1\rangle\,dx\,dy$; general normal $\pm\tfrac{\vec N}{\vec N\cdot\hat k}\,dx\,dy$.
+- **Line integrals**: parametrize $C$ in one variable; for gradient fields, use the FTC.
+
+## 2. The key intuition
+
+All of Part IV is one sentence wearing three costumes: **what happens inside a region is fixed by what crosses its boundary.** In each dimension the same idea returns — over a curve, the change in a potential is read off at the two endpoints (FTC); over a surface, the total swirl equals the circulation around the rim (Stokes); over a solid, the total source equals the flux through the skin (divergence). The two conditions the theorems demand are both topological. *Simply connected* means loops can be filled in — precisely what the conservative proof needs, since it turns a pair of paths into a loop and caps it with a surface. *Orientable* means you can choose a consistent side — precisely what flux needs; the Möbius strip has none, so flux on it is meaningless.
+
+And two small algebraic miracles keep the whole edifice consistent: a gradient cannot swirl ($\operatorname{curl}\operatorname{grad}=0$) and a curl cannot have sources ($\operatorname{div}\operatorname{curl}=0$). These are not lucky accidents. The first is why gradient fields are curl-free — so conservativeness is *testable*. The second is why a curl's flux ignores which surface you cap with — so Stokes is *well-defined*. Both are the same fact seen twice: *the boundary of a boundary is empty*. That single principle is the spine of the entire subject, and next lecture it becomes the language of Maxwell's equations.
+
+## 3. Python demonstration
+
+We visit the two topological conditions, assemble the three theorems into one picture, and confirm the two identities that make it all hang together.
+
+### 3.1 The topology gallery
+
+Left, a **sphere**: any loop bounds a cap, so it is simply connected. Middle, a **torus**: the red loop around the tube bounds *nothing* on the surface — not simply connected. Right, a **Möbius strip**: follow the twist and you return on the "other side" — one side, one edge, no consistent normal, so flux can't even be defined.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+
+fig = plt.figure(figsize=(12.2, 4.4))
+
+axA = fig.add_subplot(1, 3, 1, projection='3d')
+u = np.linspace(0, 2*np.pi, 50); v = np.linspace(0, np.pi, 30)
+X = np.outer(np.cos(u), np.sin(v)); Y = np.outer(np.sin(u), np.sin(v)); Z = np.outer(np.ones_like(u), np.cos(v))
+axA.plot_surface(X, Y, Z, color='#8ecae6', alpha=0.28, linewidth=0)
+p0 = np.deg2rad(55); t = np.linspace(0, 2*np.pi, 120)
+axA.plot(np.sin(p0)*np.cos(t), np.sin(p0)*np.sin(t), np.cos(p0)+0*t, color='#e63946', lw=3)
+vv = np.linspace(0, p0, 12); TT, VV = np.meshgrid(t, vv)
+axA.plot_surface(np.sin(VV)*np.cos(TT), np.sin(VV)*np.sin(TT), np.cos(VV), color='#e63946', alpha=0.25, linewidth=0)
+axA.set_title("Sphere — simply connected\nevery loop bounds a cap", fontsize=10)
+axA.set_box_aspect((1,1,1)); axA.view_init(elev=16, azim=-60); axA.set_xticks([]); axA.set_yticks([]); axA.set_zticks([])
+
+axB = fig.add_subplot(1, 3, 2, projection='3d')
+R, r = 2.0, 0.7
+uu = np.linspace(0, 2*np.pi, 60); vv = np.linspace(0, 2*np.pi, 30); U, V = np.meshgrid(uu, vv)
+axB.plot_surface((R+r*np.cos(V))*np.cos(U), (R+r*np.cos(V))*np.sin(U), r*np.sin(V),
+                 color='#95d5b2', alpha=0.4, linewidth=0, rcount=30, ccount=60)
+w = np.linspace(0, 2*np.pi, 120)
+axB.plot((R+r*np.cos(w)), 0*w, r*np.sin(w), color='#e63946', lw=3)
+axB.set_title("Torus — NOT simply connected\nthis loop bounds nothing", fontsize=10)
+axB.set_box_aspect((1,1,0.45)); axB.view_init(elev=32, azim=-60); axB.set_xticks([]); axB.set_yticks([]); axB.set_zticks([])
+
+axC = fig.add_subplot(1, 3, 3, projection='3d')
+uu = np.linspace(0, 2*np.pi, 120); vv = np.linspace(-0.4, 0.4, 10); U, V = np.meshgrid(uu, vv)
+Xm = (1+V*np.cos(U/2))*np.cos(U); Ym = (1+V*np.cos(U/2))*np.sin(U); Zm = V*np.sin(U/2)
+axC.plot_surface(Xm, Ym, Zm, facecolors=cm.twilight(U/(2*np.pi)), linewidth=0, rcount=10, ccount=120)
+ue = np.linspace(0, 2*np.pi, 240)
+for ve in (0.4, -0.4):
+    axC.plot((1+ve*np.cos(ue/2))*np.cos(ue), (1+ve*np.cos(ue/2))*np.sin(ue), ve*np.sin(ue/2), color='#c1121f', lw=2.4)
+axC.set_title("Möbius strip — non-orientable\none side, no consistent n̂", fontsize=10)
+axC.set_box_aspect((1,1,0.5)); axC.view_init(elev=42, azim=-60); axC.set_xticks([]); axC.set_yticks([]); axC.set_zticks([])
+
+plt.tight_layout(); plt.show()
+```
+
+### 3.2 The three theorems, one family
+
+The whole of Part IV on one page. Along the top, one operator chain — $\operatorname{grad}\to\operatorname{curl}\to\operatorname{div}$ — with two consecutive links composing to zero. Along the bottom, the boundary operator $\partial$ steps *down* a dimension (solid $\to$ surface $\to$ curve $\to$ points), and each step carries one of the three great theorems.
+
+```{python}
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+
+fig, ax = plt.subplots(figsize=(11, 6.2)); ax.axis('off'); ax.set_xlim(0, 11); ax.set_ylim(0, 6.4)
+BLUE, RED, GREEN, INK = '#2a6f97', '#c1121f', '#2d6a4f', '#1d3557'
+def box(x, y, w, h, text, fc):
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.08", fc=fc, ec=INK, lw=1.4))
+    ax.text(x+w/2, y+h/2, text, ha='center', va='center', fontsize=12)
+def farrow(x1, y1, x2, y2, color, text=''):
+    ax.add_patch(FancyArrowPatch((x1, y1), (x2, y2), arrowstyle='-|>', mutation_scale=16, color=color, lw=1.8))
+    if text: ax.text((x1+x2)/2, (y1+y2)/2+0.18, text, ha='center', fontsize=11, color=color)
+
+yb, h = 5.2, 0.8
+box(0.3, yb, 1.9, h, r"scalar $f$", '#eaf2f8'); box(3.0, yb, 1.9, h, r"$\nabla f$ (grad)", '#eaf2f8')
+box(5.7, yb, 1.9, h, r"$\nabla\times\vec F$ (curl)", '#eaf2f8'); box(8.4, yb, 2.3, h, r"$\nabla\cdot\vec G$ (div)", '#eaf2f8')
+farrow(2.2, yb+h/2, 3.0, yb+h/2, BLUE, 'grad'); farrow(4.9, yb+h/2, 5.7, yb+h/2, BLUE, 'curl'); farrow(7.6, yb+h/2, 8.4, yb+h/2, BLUE, 'div')
+ax.text(3.55, yb-0.55, r"$\operatorname{curl}(\operatorname{grad}f)=\vec 0$", ha='center', fontsize=11, color=RED)
+ax.text(6.25, yb-0.55, r"$\operatorname{div}(\operatorname{curl}\vec F)=0$", ha='center', fontsize=11, color=RED)
+ax.text(5.5, 6.15, "one operator chain — two links compose to zero", ha='center', fontsize=12.5, weight='bold', color=INK)
+
+ax.text(5.5, 3.75, "one pattern:  integral of a derivative over a region  =  the field on its boundary",
+        ha='center', fontsize=12.5, weight='bold', color=INK)
+yl = 2.7
+for cx, lab, dim in [(1.2,"points",'0-D'), (4.0,"curve  $C$",'1-D'), (6.9,"surface  $S$",'2-D'), (9.7,"solid  $D$",'3-D')]:
+    ax.add_patch(plt.Circle((cx, yl), 0.16, color=INK))
+    ax.text(cx, yl-0.42, lab, ha='center', fontsize=11); ax.text(cx, yl+0.34, dim, ha='center', fontsize=9, color='#777')
+for x1, x2 in [(3.84, 1.36), (6.74, 4.16), (9.54, 7.06)]:
+    ax.add_patch(FancyArrowPatch((x1, yl), (x2, yl), arrowstyle='-|>', mutation_scale=15, color=GREEN, lw=1.6))
+for cx in (2.6, 5.45, 8.3): ax.text(cx, yl+0.22, r"$\partial$", ha='center', fontsize=13, color=GREEN)
+for cx, txt in [(2.6, r"FTC:  $\int_C\nabla f\cdot d\vec r=f(P_1)-f(P_0)$"),
+                (5.45, r"Stokes:  $\oint_C\vec F\cdot d\vec r=\iint_S(\nabla\times\vec F)\cdot\hat n\,dS$"),
+                (8.3, r"Divergence:  $\iint_S\vec F\cdot\hat n\,dS=\iiint_D\operatorname{div}\vec F\,dV$")]:
+    ax.text(cx, yl-1.35, txt, ha='center', va='center', fontsize=10.2, color=INK,
+            bbox=dict(boxstyle='round,pad=0.35', fc='#f6f9fb', ec='#c9d3dd'))
+plt.tight_layout(); plt.show()
+```
+
+### 3.3 The two identities that make it work
+
+Both structural identities — a gradient has no curl, a curl has no divergence — verified numerically for a random smooth $f$ and $\vec F$ over 200 points.
+
+```{python}
+rng = np.random.default_rng(1); h = 1e-4
+def f(p):  x, y, z = p; return np.sin(x)*np.cos(2*y)*np.exp(0.3*z) + x**2*y*z
+def F(p):  x, y, z = p; return np.array([np.sin(y*z), x**2+np.cos(z), x*y - z**2])
+
+def d(fn, p, i):
+    q = np.array(p, float); q[i] += h; a = fn(q); q[i] -= 2*h; return (a - fn(q))/(2*h)
+def gradf(p): return np.array([d(f, p, 0), d(f, p, 1), d(f, p, 2)])
+def curl(Ffn, p):
+    return np.array([d(lambda q: Ffn(q)[2], p, 1) - d(lambda q: Ffn(q)[1], p, 2),
+                     d(lambda q: Ffn(q)[0], p, 2) - d(lambda q: Ffn(q)[2], p, 0),
+                     d(lambda q: Ffn(q)[1], p, 0) - d(lambda q: Ffn(q)[0], p, 1)])
+def divg(Ffn, p):
+    return d(lambda q: Ffn(q)[0], p, 0) + d(lambda q: Ffn(q)[1], p, 1) + d(lambda q: Ffn(q)[2], p, 2)
+
+m1 = max(np.max(np.abs(curl(gradf, rng.uniform(-1, 1, 3)))) for _ in range(200))
+m2 = max(abs(divg(lambda q: curl(F, q), rng.uniform(-1, 1, 3))) for _ in range(200))
+print(f"curl(grad f) = 0 : max over 200 random points = {m1:.1e}")
+print(f"div(curl F)  = 0 : max over 200 random points = {m2:.1e}")
+assert m1 < 1e-6 and m2 < 1e-6
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain how the three big theorems (fundamental theorem for line integrals, Stokes, divergence) are really one idea, and what "simply connected" and "orientable" have to do with when they apply.
+
+**My target answer** *(to be rewritten in my own words)*: *All three say the same thing in different dimensions: the total of some derivative of a field over a region equals the field itself measured only on the region's boundary. On a curve, the change of a potential is its values at the two endpoints. On a surface, the total curl (swirl) equals the circulation around the edge — that's Stokes. On a solid, the total divergence (source) equals the flux through the surface — that's the divergence theorem. "What's inside is determined by what crosses the boundary." The two conditions are about the shape of the region. Simply connected means every loop can be filled with a surface; you need it to conclude a curl-free field is conservative, because the proof caps a loop with a surface and uses Stokes. Orientable means you can pick one consistent side; you need it for flux to make sense at all — the Möbius strip is one-sided, so you can't even define which way is "out." Two identities keep it consistent: a gradient has no curl and a curl has no divergence, which is really the single statement that the boundary of a boundary is nothing.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Simply connected is required** for "curl $=0\Rightarrow$ conservative." A region with a hole threading it (or a missing point where $\vec F$ blows up) can host a curl-free field that isn't conservative.
+- **Orientable is required** for flux and Stokes. The Möbius strip has no consistent $\hat n$ — flux is undefined there.
+- **Memorize the two identities.** $\operatorname{div}(\operatorname{curl}\vec F)=0$ (why the surface doesn't matter) and $\operatorname{curl}(\operatorname{grad}f)=\vec 0$ (why the gradient test works).
+- **One pattern, three theorems.** $\int_{\text{region}}(\text{derivative})=\int_{\partial(\text{region})}(\text{field})$ — FTC, Stokes, divergence in dimensions 1, 2, 3.
+- **Same reason, two independences.** Two caps of a curve give the same curl-flux (surface independence); two paths with the same endpoints give the same work (path independence) — both because a boundary that bounds contributes zero.
+- **Keep the toolbox at hand.** $dV$ in three coordinate systems and $\hat n\,dS$ for the standard surfaces are the entire computational content of Part IV.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Next — the finale.** Lecture 33 assembles everything: **topological considerations and Maxwell's equations**, where $\operatorname{grad},\operatorname{curl},\operatorname{div}$ and both great theorems combine into the four laws of electromagnetism — the crowning application of 18.02.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
