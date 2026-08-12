@@ -1,0 +1,230 @@
+---
+title: "Lecture 30 — Line Integrals in Space; Curl, Exactness & Potentials"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 30 ("Line integrals in space, curl, exactness and potentials").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-30.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+Line integrals move into space: the work of a field $\vec F=\langle P,Q,R\rangle$ along a curve $C$ is $\int_C P\,dx+Q\,dy+R\,dz$, evaluated by parametrizing. The theme is **conservative fields**. In a simply connected region, $\vec F$ is a gradient $\nabla f$ exactly when its **curl vanishes**, and then the line integral is **path-independent**, handed to you by the fundamental theorem $\int_C\nabla f\cdot d\vec r=f(P_1)-f(P_0)$. The 3-D gradient test is the trio $P_y=Q_x,\ P_z=R_x,\ Q_z=R_y$ — which are precisely the three components of $\operatorname{curl}\vec F=\vec 0$. Curl itself,
+$$
+\operatorname{curl}\vec F=\nabla\times\vec F=(R_y-Q_z,\ P_z-R_x,\ Q_x-P_y),
+$$
+is now a **vector**, pointing along the local axis of rotation with length twice the angular speed. Recovering a potential is the same antiderivative bootstrapping as in 2-D, now in three steps.
+
+## 1. The concepts
+
+### 1.1 Line integrals in space
+
+$\vec F=P\,\hat i+Q\,\hat j+R\,\hat k$, $d\vec r=\langle dx,dy,dz\rangle$, and
+$$
+W=\int_C\vec F\cdot d\vec r=\int_C P\,dx+Q\,dy+R\,dz .
+$$
+Evaluate by parametrizing $C$ and writing everything in one parameter.
+
+**Example 1.** $\vec F=\langle yz,xz,xy\rangle$ on $C:\ x=t,\,y=t^2,\,z=t^3$, $0\le t\le1$: $\int_0^1(t^5+2t^5+3t^5)\,dt=\int_0^1 6t^5\,dt=1$.
+
+**Example 2.** Same $\vec F$, staircase $(0,0,0)\to(1,0,0)\to(1,1,0)\to(1,1,1)$: first two legs give $0$, the last gives $\int_0^1 dz=1$, so **again $1$**. Not a coincidence — $\vec F=\nabla(xyz)$ is conservative, and the **fundamental theorem for line integrals** gives $\int_C\nabla f\cdot d\vec r=f(1,1,1)-f(0,0,0)=1$.
+
+### 1.2 Test for gradient fields
+
+If $\langle P,Q,R\rangle=\langle f_x,f_y,f_z\rangle$, equality of mixed partials forces
+$$
+P_y=Q_x,\qquad P_z=R_x,\qquad Q_z=R_y .
+$$
+**Criterion.** In a **simply connected** region, $\vec F$ is a gradient field $\iff$ these three hold.
+
+### 1.3 Exactness and a potential
+
+For which $a,b$ is $\ axy\,dx+(x^2+z^3)\,dy+(byz^2-4z^3)\,dz\ $ exact? Matching partials: $P_y=ax=Q_x=2x\Rightarrow a=2$; $P_z=0=R_x$✓; $Q_z=3z^2=R_y=bz^2\Rightarrow b=3$.
+
+**Finding $f$ by antiderivatives** (with $a=2,b=3$):
+$$
+f_x=2xy\Rightarrow f=x^2y+g(y,z);\quad
+f_y=x^2+z^3\Rightarrow g_y=z^3\Rightarrow g=yz^3+h(z);\quad
+f_z=3yz^2+h'=3yz^2-4z^3\Rightarrow h=-z^4 .
+$$
+So $\ \boxed{f=x^2y+yz^3-z^4\ (+c)}$.
+
+### 1.4 Curl in 3D
+
+$$
+\operatorname{curl}\vec F=\nabla\times\vec F=
+\begin{vmatrix}\hat i&\hat j&\hat k\\ \partial_x&\partial_y&\partial_z\\ P&Q&R\end{vmatrix}
+=(R_y-Q_z)\,\hat i+(P_z-R_x)\,\hat j+(Q_x-P_y)\,\hat k .
+$$
+In a simply connected region, $\vec F$ is **conservative $\iff\operatorname{curl}\vec F=\vec 0$** — the three gradient tests *are* the three components of $\operatorname{curl}\vec F=0$. **Geometrically**, curl measures the rotation part of a velocity field: rigid rotation $\vec v=\langle-\omega y,\omega x,0\rangle$ has $\operatorname{curl}\vec v=2\omega\,\hat k$, twice the angular velocity.
+
+## 2. The key intuition
+
+The 3-D story is the 2-D story with one more axis and one genuine upgrade: **curl becomes a vector**. In the plane, curl was a single number; in space a field can twist about any axis, so $\operatorname{curl}\vec F$ points *along* that axis and its length is twice the local angular speed. Drop a tiny paddlewheel into the flow: it spins about the direction of $\operatorname{curl}\vec F$ at rate $\tfrac12|\operatorname{curl}\vec F|$. Where the curl is zero the wheel never turns — and that stillness is exactly the fingerprint of a gradient field. No swirl means no circulation, so the work around any closed loop is zero, and the work between two points depends only on the endpoints.
+
+That is why the twisted curve and the staircase gave the same answer: $\langle yz,xz,xy\rangle=\nabla(xyz)$ is curl-free, so only the endpoints count and the fundamental theorem returns $f(1,1,1)-f(0,0,0)=1$ with no integration at all. The three mixed-partial equalities $P_y=Q_x,\ P_z=R_x,\ Q_z=R_y$ are not three separate coincidences — they are literally the three components of $\operatorname{curl}\vec F=\vec 0$. And recovering the potential is disciplined antidifferentiation: integrate $f_x$ to pin $f$ down to a function of $(y,z)$, differentiate to match $f_y$, then $f_z$, each step nailing the next unknown. One caution carries over from 2-D: "curl $=0\Rightarrow$ conservative" needs the region to be **simply connected** — a hole can still spoil it.
+
+## 3. Python demonstration
+
+We *see* what curl measures (a paddlewheel that spins only where the field swirls), watch path-independence make two very different roads agree, and verify curl, work, and potential numerically — including a curl$\neq0$ field that is *not* path-independent.
+
+### 3.1 Curl = local rotation (the paddlewheel)
+
+Little paddlewheels sit in two fields and spin at rate $\tfrac12\operatorname{curl}$. In the **rigid rotation** $\langle -y,x\rangle$ (curl $=2$) they turn steadily; in the **gradient field** $\langle x,y\rangle$ (curl $=0$) they are carried around but never rotate. Spin $\Leftrightarrow$ curl.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+def field_rot(x, y):  return -y, x         # curl = 2
+def field_grad(x, y): return x, y          # curl = 0
+
+gp = np.linspace(-1.6, 1.6, 9); GX, GY = np.meshgrid(gp, gp)
+wp = np.linspace(-1.3, 1.3, 4); WX, WY = np.meshgrid(wp, wp); WX, WY = WX.ravel(), WY.ravel()
+FRAMES, dt, L = 40, 0.13, 0.16
+
+fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.4, 4.9)); fig.set_dpi(80)
+
+def panel(ax, fieldfn, curl, t, title):
+    ax.clear()
+    U, V = fieldfn(GX, GY)
+    ax.quiver(GX, GY, U, V, color='#c9d3dd', scale=22, width=0.004)
+    ang = 0.5*curl*t
+    for cx, cy in zip(WX, WY):
+        for k in range(4):
+            a = ang + k*np.pi/2
+            ax.plot([cx, cx+L*np.cos(a)], [cy, cy+L*np.sin(a)], color='#e63946', lw=2)
+        ax.plot(cx, cy, 'o', color='#2a6f97', ms=3)
+    ax.set_title(title, fontsize=10)
+    ax.set_xlim(-1.7, 1.7); ax.set_ylim(-1.7, 1.7); ax.set_aspect('equal')
+    ax.set_xticks([]); ax.set_yticks([])
+
+def frame(i):
+    t = i*dt
+    panel(axL, field_rot, 2.0, t, r"rotation $\langle -y,x\rangle$: curl $=2$" + "\n→ wheels SPIN")
+    panel(axR, field_grad, 0.0, t, r"gradient $\langle x,y\rangle$: curl $=0$" + "\n→ wheels STAY STILL")
+    return []
+
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=9); plt.close(fig)
+HTML(html)
+```
+
+### 3.2 Two roads, same work
+
+The conservative field $\vec F=\nabla(xyz)$ carries the same endpoints along two very different paths — a twisted curve $(t,t^2,t^3)$ and a staircase. The accumulated work climbs along utterly different shapes yet lands on the **same total, $1=f(1,1,1)-f(0,0,0)$**: path independence.
+
+```{python}
+def posA(p): return np.array([p, p**2, p**3])
+def workA(p): return p**6
+def posB(p):
+    if p < 1/3:   return np.array([3*p, 0, 0])
+    elif p < 2/3: return np.array([1, 3*(p-1/3), 0])
+    else:         return np.array([1, 1, 3*(p-2/3)])
+def workB(p): return 0.0 if p < 2/3 else 3*(p-2/3)
+
+ps = np.linspace(0, 1, 60)
+A = np.array([posA(p) for p in ps]); B = np.array([posB(p) for p in ps])
+WA = np.array([workA(p) for p in ps]); WB = np.array([workB(p) for p in ps])
+FRAMES = 34; idx = np.linspace(0, 59, FRAMES).astype(int)
+
+fig = plt.figure(figsize=(9.2, 4.4)); fig.set_dpi(78)
+axL = fig.add_subplot(1, 2, 1, projection='3d'); axR = fig.add_subplot(1, 2, 2)
+
+def frame(kk):
+    i = idx[kk]; axL.clear(); axR.clear()
+    axL.plot(A[:,0], A[:,1], A[:,2], color='#2a6f97', lw=2, label='path A (twisted)')
+    axL.plot(B[:,0], B[:,1], B[:,2], color='#e07a5f', lw=2, label='path B (staircase)')
+    axL.scatter(*A[i], color='#2a6f97', s=45); axL.scatter(*B[i], color='#e07a5f', s=45)
+    axL.scatter(0, 0, 0, color='k', s=20); axL.scatter(1, 1, 1, color='k', s=20)
+    axL.set_title(r"$\vec F=\nabla(xyz)$: two paths, same ends", fontsize=9)
+    axL.set_xlim(0, 1); axL.set_ylim(0, 1); axL.set_zlim(0, 1); axL.view_init(elev=18, azim=-52)
+    axL.legend(fontsize=7, loc='upper left'); axL.set_xlabel('x'); axL.set_ylabel('y'); axL.set_zlabel('z')
+    axR.plot(ps[:i+1], WA[:i+1], color='#2a6f97', lw=2.2, label='work along A')
+    axR.plot(ps[:i+1], WB[:i+1], color='#e07a5f', lw=2.2, label='work along B')
+    axR.axhline(1, color='#e63946', ls='--', lw=1.3)
+    axR.text(0.02, 1.04, r"$f(1,1,1)-f(0,0,0)=1$", color='#e63946', fontsize=9)
+    axR.set_xlim(0, 1); axR.set_ylim(0, 1.2)
+    axR.set_xlabel('progress along path'); axR.set_ylabel(r'accumulated work $\int\vec F\cdot d\vec r$')
+    axR.set_title('different roads, same total work', fontsize=10)
+    axR.legend(fontsize=8, loc='center left'); axR.grid(alpha=0.25)
+    return []
+
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=9); plt.close(fig)
+HTML(html)
+```
+
+### 3.3 Verifying curl, work, and the counterexample
+
+Three independent checks: (1) $\operatorname{curl}\langle yz,xz,xy\rangle=\vec 0$ everywhere; (2) the line integral along **both** paths equals the potential difference $f(1,1,1)-f(0,0,0)=1$; (3) a curl$\neq0$ field is genuinely **path-dependent**.
+
+```{python}
+rng = np.random.default_rng(0)
+def Fc(p): x, y, z = p; return np.array([y*z, x*z, x*y])     # = ∇(xyz)
+def Gc(p): x, y, z = p; return np.array([-y, x, 0.0])        # curl = <0,0,2>
+
+def curl_num(Ffn, p, h=1e-5):
+    x, y, z = p
+    c = lambda i, q: Ffn(q)[i]
+    return np.array([
+        (c(2,[x,y+h,z])-c(2,[x,y-h,z]))/(2*h) - (c(1,[x,y,z+h])-c(1,[x,y,z-h]))/(2*h),
+        (c(0,[x,y,z+h])-c(0,[x,y,z-h]))/(2*h) - (c(2,[x+h,y,z])-c(2,[x-h,y,z]))/(2*h),
+        (c(1,[x+h,y,z])-c(1,[x-h,y,z]))/(2*h) - (c(0,[x,y+h,z])-c(0,[x,y-h,z]))/(2*h)])
+
+def line_integral(Ffn, path):
+    P = np.array(path); mids = (P[:-1]+P[1:])/2; steps = P[1:]-P[:-1]
+    return sum(Ffn(m) @ s for m, s in zip(mids, steps))
+
+tt = np.linspace(0, 1, 4000)
+pathA = [np.array([t, t**2, t**3]) for t in tt]
+pathB = ([np.array([s,0,0]) for s in np.linspace(0,1,1400)]
+         + [np.array([1,s,0]) for s in np.linspace(0,1,1400)]
+         + [np.array([1,1,s]) for s in np.linspace(0,1,1400)])
+
+max_curl = max(np.max(np.abs(curl_num(Fc, rng.uniform(-1,1,3)))) for _ in range(200))
+WA, WB = line_integral(Fc, pathA), line_integral(Fc, pathB)
+GA, GB = line_integral(Gc, pathA), line_integral(Gc, pathB)
+
+print(f"(1) curl<yz,xz,xy> : max|curl| over 200 pts = {max_curl:.1e}   → curl = 0")
+print(f"(2) conservative   : ∫_A = {WA:.4f}   ∫_B = {WB:.4f}   f(1,1,1)-f(0,0,0) = 1")
+print(f"(3) <-y,x,0>       : curl = {np.round(curl_num(Gc,[.3,.4,.5]),3)}  → ∫_A = {GA:.4f} ≠ ∫_B = {GB:.4f}  (path-dependent)")
+assert max_curl < 1e-6 and abs(WA-1) < 1e-3 and abs(WB-1) < 1e-3 and abs(GA-GB) > 0.1
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain what curl measures, why $\operatorname{curl}\vec F=\vec 0$ makes a field conservative (path-independent), and how you'd recover a potential.
+
+**My target answer** *(to be rewritten in my own words)*: *Curl measures how much a field swirls at a point. In space it's a vector: it points along the axis a tiny paddlewheel dropped in the flow would spin around, and its length is twice how fast the wheel turns. If the curl is zero everywhere, the wheel never spins — the field has no swirl. That's exactly what makes a field a gradient of some potential $f$: no circulation means the work around any closed loop is zero, so the work from one point to another can't depend on the road taken, only on the endpoints. Then the fundamental theorem for line integrals says the work is just $f(\text{end})-f(\text{start})$. That's why the twisted path and the staircase both gave 1 for $\vec F=\nabla(xyz)$: same endpoints, and the field is curl-free. To check curl-freeness by hand you verify $P_y=Q_x$, $P_z=R_x$, $Q_z=R_y$ — which are the three components of curl $=0$. To find the potential, integrate: from $f_x=P$ get $f$ up to a function of $y,z$; differentiate in $y$ and match $f_y=Q$ to pin that function down to a function of $z$; finally match $f_z=R$ to fix the last piece. (One caveat: curl $=0$ only guarantees a potential when the region has no holes — it must be simply connected.)*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Curl is a vector in 3-D.** It points along the local rotation axis with length twice the angular speed; in 2-D it collapsed to a single ($z$-)component.
+- **Conservative $\iff$ curl $=0$ — in a simply connected region.** A hole can make a curl-free field non-conservative (same caveat as 2-D).
+- **The three gradient tests are curl $=0$.** $P_y=Q_x,\ P_z=R_x,\ Q_z=R_y$ are exactly the three components.
+- **Path independence & the FTC.** $\int_C\nabla f\cdot d\vec r=f(\text{end})-f(\text{start})$; around a closed loop it's $0$.
+- **Finding a potential.** Integrate $f_x$, then match $f_y$ (fixing $g(y,z)$), then $f_z$ (fixing $h(z)$) — the "constant" of integration is a function of the not-yet-used variables.
+- **Curl $\neq0\Rightarrow$ path-dependent.** For $\langle -y,x,0\rangle$ the twisted path gives $\tfrac13$, the staircase gives $1$.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Next in Part IV.** Curl set the stage for the last capstone: **Stokes' theorem** (Lecture 31) equates the circulation of $\vec F$ around a closed curve to the flux of $\operatorname{curl}\vec F$ through any surface it bounds — the 3-D generalization of Green's theorem in tangential form.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
