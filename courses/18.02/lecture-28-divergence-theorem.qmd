@@ -1,0 +1,239 @@
+---
+title: "Lecture 28 — The Divergence Theorem"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 28 ("Divergence theorem").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-28.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+This lecture finishes the flux toolkit and then states the crown jewel of Part IV. First, how to build the vector surface element $\hat n\,dS$ for *any* surface: for a graph $z=f(x,y)$ it is $\pm\langle -f_x,-f_y,1\rangle\,dx\,dy$; for a parametric surface $\vec r(u,v)$ it is $\pm(\vec r_u\times\vec r_v)\,du\,dv$; and given any (non-unit) normal $\vec N$, it is $\pm\dfrac{\vec N}{\vec N\cdot\hat k}\,dx\,dy$. Then the **Divergence Theorem** (Gauss): for a *closed* surface $S$ bounding a solid $D$, with outward normal,
+$$
+\iint_S\vec F\cdot d\vec S=\iiint_D \operatorname{div}\vec F\,dV,\qquad \operatorname{div}\vec F=P_x+Q_y+R_z .
+$$
+The total **outward flux** equals the sum of all the little **sources** inside — where $\operatorname{div}\vec F$ is exactly *source density*, positive where the field spreads out, negative where it converges. It is the 3-D twin of Green's theorem in flux form, and it turns hard surface integrals into easy volume integrals.
+
+## 1. The concepts
+
+### 1.1 Flux through a graph
+
+For a surface $z=f(x,y)$, the vector surface element is $\hat n\,dS=\pm\langle -f_x,-f_y,1\rangle\,dx\,dy$.
+
+**Example.** Flux of $\vec F=z\,\hat k$ through the piece of the paraboloid $z=x^2+y^2$ over the unit disk, oriented **upward** (so the flux is positive). With $f=x^2+y^2$,
+$$
+\iint_S\vec F\cdot\hat n\,dS=\iint\langle0,0,z\rangle\cdot\langle-2x,-2y,1\rangle\,dx\,dy
+=\iint(x^2+y^2)\,dx\,dy=\int_0^{2\pi}\!\int_0^1 r^2\cdot r\,dr\,d\theta=\frac{\pi}{2}.
+$$
+
+### 1.2 General surface elements
+
+**Parametric surface** $\vec r(u,v)$. A cell's two edges are $\vec r_u\,\Delta u$ and $\vec r_v\,\Delta v$; their cross product is the (vector) area:
+$$
+\hat n\,dS=\pm\,(\vec r_u\times\vec r_v)\,du\,dv .
+$$
+
+**Known normal $\vec N$ (not necessarily unit).** A patch $\Delta S$ and its $xy$-shadow $\Delta A$ obey $\Delta A=\Delta S\cos\alpha$ with $\cos\alpha=\dfrac{\vec N\cdot\hat k}{|\vec N|}$, so $\Delta S=\dfrac{|\vec N|}{\vec N\cdot\hat k}\,\Delta A$ and
+$$
+\boxed{\ \hat n\,dS=\pm\,\frac{\vec N}{\vec N\cdot\hat k}\,dx\,dy\ }.
+$$
+Sources of $\vec N$: a plane $ax+by+cz=d$ gives $\vec N=\langle a,b,c\rangle$; a level surface $g(x,y,z)=0$ gives $\vec N=\nabla g$. For a graph, $g=z-f$ gives $\vec N=\langle -f_x,-f_y,1\rangle$ with $\vec N\cdot\hat k=1$ — recovering §1.1.
+
+### 1.3 The Divergence Theorem
+
+Also called **Gauss's theorem**, the **3-D analogue of Green's theorem in flux form**:
+
+> If $S$ is a **closed** surface enclosing a solid region $D$, oriented with $\hat n$ pointing **outward**, and $\vec F$ is defined and differentiable everywhere in $D$, then
+> $$
+> \iint_S\vec F\cdot d\vec S=\iiint_D \operatorname{div}\vec F\,dV,
+> \qquad \operatorname{div}\vec F=P_x+Q_y+R_z .
+> $$
+
+The flux-form Green's theorem, $\oint_C\vec F\cdot\hat n\,ds=\iint_R\operatorname{div}\vec F\,dA$, promoted one dimension: a curve becomes a surface, a plane region becomes a solid.
+
+### 1.4 The same flux, in one line
+
+Last lecture the flux of $\vec H=z\,\hat k$ through the sphere of radius $a$ needed a surface integral and came out to $\tfrac43\pi a^3$. Since $\operatorname{div}(z\,\hat k)=0+0+1=1$, the divergence theorem gives it instantly:
+$$
+\iint_S z\,\hat k\cdot\hat n\,dS=\iiint_D 1\,dV=\operatorname{vol}(D)=\frac{4}{3}\pi a^3 .
+$$
+
+## 2. The key intuition
+
+Think of $\vec F$ as the velocity of a fluid. The **divergence** at a point measures how much fluid is being *created* there: $\operatorname{div}\vec F>0$ is a spring bubbling up (fluid appears and streams outward), $\operatorname{div}\vec F<0$ is a drain (fluid disappears), and $\operatorname{div}\vec F=0$ is incompressible flow — whatever flows in flows out. With that picture the divergence theorem is almost a statement of conservation: the net fluid leaving a closed region through its skin must equal the total fluid created inside it.
+
+The proof makes this exact by chopping the solid into tiny cells. The flux out of one small cell is $\operatorname{div}\vec F$ times its volume — that is essentially what divergence *is*. Add up all the cells, and here is the magic: every interior face is shared by two neighboring cells whose outward normals point in **opposite** directions, so those two flux contributions **cancel**. Only the outer faces, which have no neighbor, survive — and their sum is precisely the flux through $S$. It is the same telescoping cancellation that powered Green's theorem, now in one more dimension. Practically, the theorem is a gift: it trades a hard surface integral over a closed surface for an ordinary volume integral of the scalar $\operatorname{div}\vec F$ — frequently the difference between a page of algebra and a single line.
+
+## 3. Python demonstration
+
+We make divergence *visible*, verify the theorem two genuinely independent ways, see *why* it holds, and watch "sources inside $\Rightarrow$ flux outward" as a flow.
+
+### 3.1 Divergence made visible
+
+A field with a **source** (left) and a **sink** (right). The arrows spread out of the source and converge into the sink; the background paints $\operatorname{div}\vec F$ (computed by finite differences) — red where the field is being created, blue where it drains away.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import cm
+from matplotlib.colors import TwoSlopeNorm
+
+g = np.linspace(-2.6, 2.6, 400); X, Y = np.meshgrid(g, g)
+def blob(px, py, sign):
+    ux, uy = X-px, Y-py; e = np.exp(-(ux**2+uy**2))
+    return sign*ux*e, sign*uy*e
+U1, V1 = blob(-1, 0, +1.0)           # source: points away
+U2, V2 = blob(+1, 0, -1.0)           # sink: points toward
+U, V = U1+U2, V1+V2
+
+dx = g[1]-g[0]
+div = np.gradient(U, dx, axis=1) + np.gradient(V, dx, axis=0)
+
+fig, ax = plt.subplots(figsize=(7.4, 6.4))
+im = ax.pcolormesh(X, Y, div, cmap='RdBu_r',
+                   norm=TwoSlopeNorm(vmin=div.min(), vcenter=0, vmax=div.max()), shading='auto')
+s = 22
+ax.quiver(X[::s, ::s], Y[::s, ::s], U[::s, ::s], V[::s, ::s], color='#222', alpha=0.8, scale=9, width=0.004)
+ax.plot(-1, 0, 'o', color='#b30000', ms=9); ax.text(-1, -0.4, "source\n(div > 0)", ha='center', color='#b30000', fontsize=10, weight='bold')
+ax.plot(1, 0, 'o', color='#08519c', ms=9);  ax.text(1, -0.4, "sink\n(div < 0)", ha='center', color='#08519c', fontsize=10, weight='bold')
+cb = fig.colorbar(im, ax=ax, shrink=0.8); cb.set_label(r"$\operatorname{div}\vec F = P_x+Q_y$", fontsize=10)
+ax.set_title("Divergence = local source / sink density", fontsize=12)
+ax.set_xlabel('x'); ax.set_ylabel('y'); ax.set_aspect('equal')
+plt.tight_layout(); plt.show()
+```
+
+### 3.2 The theorem, verified two independent ways
+
+We compute both sides on the unit ball: the **surface** integral $\iint_S\vec F\cdot\hat n\,dS$ (a grid over the sphere) and the **volume** integral $\iiint_D\operatorname{div}\vec F\,dV$ (a grid over the ball) — genuinely different integrals. We test a constant-divergence field *and* one whose divergence varies in space, so the agreement can't be a fluke.
+
+```{python}
+# surface grid (φ,θ) on the unit sphere
+ns = 300
+phi = (np.arange(ns)+0.5)/ns*np.pi; th = (np.arange(ns)+0.5)/ns*2*np.pi
+PH, TH = np.meshgrid(phi, th, indexing='ij')
+nx, ny, nz = np.sin(PH)*np.cos(TH), np.sin(PH)*np.sin(TH), np.cos(PH)   # outward normal = point
+dS = np.sin(PH)*(np.pi/ns)*(2*np.pi/ns)
+
+# volume grid (ρ,φ,θ) on the unit ball
+nv = 140
+r = (np.arange(nv)+0.5)/nv; pv = (np.arange(nv)+0.5)/nv*np.pi; tv = (np.arange(nv)+0.5)/nv*2*np.pi
+R, P, T = np.meshgrid(r, pv, tv, indexing='ij')
+dV = R**2*np.sin(P)*(1/nv)*(np.pi/nv)*(2*np.pi/nv)
+x, y, z = R*np.sin(P)*np.cos(T), R*np.sin(P)*np.sin(T), R*np.cos(P)
+
+def compare(name, F_dot_n, divF, exact):
+    lhs = np.sum(F_dot_n*dS); rhs = np.sum(divF*dV)
+    print(f"{name:12s} surface ∬F·n̂dS = {lhs:7.4f}   volume ∭divF dV = {rhs:7.4f}   exact = {exact:7.4f}")
+    assert abs(lhs-rhs) < 5e-3 and abs(lhs-exact) < 5e-3
+
+# F=<x,y,z>: div=3           → 4π
+compare("<x,y,z>", nx*nx+ny*ny+nz*nz, np.full_like(x, 3.0), 4*np.pi)
+# F=<x³,y³,z³>: div=3ρ² (varies!) → 12π/5
+compare("<x³,y³,z³>", nx**4+ny**4+nz**4, 3*(x**2+y**2+z**2), 12*np.pi/5)
+```
+
+### 3.3 Why it holds: interior faces cancel
+
+Chop the region into cells. Each **interior** edge is shared by two neighbors whose outward normals point in opposite directions, so their flux contributions cancel (gray, paired). Only the **boundary** edges (red/blue) have no partner and survive — and their sum is the flux through $S$. Since each tiny cell's outward flux is $\operatorname{div}\vec F\cdot\Delta V$, adding them gives $\iiint_D\operatorname{div}\vec F\,dV$.
+
+```{python}
+fig, ax = plt.subplots(figsize=(7.6, 6.2)); N = 3
+for i in range(N+1):
+    ax.plot([0, N], [i, i], color='#888', lw=1); ax.plot([i, i], [0, N], color='#888', lw=1)
+GRAY, RED, BLUE, al = '#9aa0a6', '#c1121f', '#2a6f97', 0.30
+def arrow(x, y, dx, dy, color, lw=2.0):
+    ax.annotate('', xy=(x+dx, y+dy), xytext=(x, y), arrowprops=dict(arrowstyle='-|>', color=color, lw=lw))
+for xi in (1, 2):                                   # interior vertical edges → cancel
+    for yj in range(N): arrow(xi, yj+0.5, al, 0, GRAY); arrow(xi, yj+0.5, -al, 0, GRAY)
+for yj in (1, 2):                                   # interior horizontal edges → cancel
+    for xi in range(N): arrow(xi+0.5, yj, 0, al, GRAY); arrow(xi+0.5, yj, 0, -al, GRAY)
+for yj in range(N):                                 # boundary → survives
+    arrow(0, yj+0.5, -al, 0, BLUE, 2.6); arrow(N, yj+0.5, al, 0, RED, 2.6)
+for xi in range(N):
+    arrow(xi+0.5, 0, 0, -al, BLUE, 2.6); arrow(xi+0.5, N, 0, al, RED, 2.6)
+ax.text(1.5, 1.5, "interior edges:\nnormals oppose\n→ flux cancels", ha='center', va='center',
+        fontsize=10, color='#555', bbox=dict(boxstyle='round', fc='white', ec='#ccc', alpha=0.9))
+ax.text(1.5, -0.55, "boundary edges survive  →  their sum = flux through S", ha='center', fontsize=10, color='#333')
+ax.set_title("Interior fluxes cancel in pairs; only the boundary survives", fontsize=11)
+ax.set_xlim(-0.7, 3.7); ax.set_ylim(-0.9, 3.5); ax.set_aspect('equal'); ax.axis('off')
+plt.tight_layout(); plt.show()
+```
+
+### 3.4 Sources inside $\Rightarrow$ flux out
+
+The source field $\vec F=\langle x,y\rangle$ has $\operatorname{div}\vec F=2>0$ everywhere. Seed particles near the center and let the field carry them ($\dot{\vec r}=\vec F$, so $\vec r(t)=\vec r_0e^{t}$): they stream outward and cross the boundary circle. Everything created inside must leave — a moving picture of $\iint_S\vec F\cdot\hat n\,dS=\iint_D\operatorname{div}\vec F\,dA>0$.
+
+```{python}
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+rng = np.random.default_rng(3)
+Rb = 1.6; N = 260
+ang = rng.uniform(0, 2*np.pi, N); rad = np.sqrt(rng.uniform(0, 0.30**2, N))
+X0, Y0 = rad*np.cos(ang), rad*np.sin(ang)
+FRAMES = 40; dt = 0.11
+scale = np.exp(dt*np.arange(FRAMES))
+Xt = X0[None, :]*scale[:, None]; Yt = Y0[None, :]*scale[:, None]
+gone = np.hypot(Xt, Yt) > Rb; count = gone.sum(axis=1)
+
+g = np.linspace(-2.2, 2.2, 11); GX, GY = np.meshgrid(g, g)
+th = np.linspace(0, 2*np.pi, 200)
+fig = plt.figure(figsize=(9, 4.4)); fig.set_dpi(76)
+axL = fig.add_subplot(1, 2, 1); axR = fig.add_subplot(1, 2, 2)
+
+def frame(i):
+    axL.clear(); axR.clear()
+    axL.quiver(GX, GY, GX, GY, color='#cfd6dd', scale=32, width=0.004)
+    axL.plot(Rb*np.cos(th), Rb*np.sin(th), color='#333', lw=1.6)
+    ins = ~gone[i]
+    axL.scatter(Xt[i][ins], Yt[i][ins], s=9, c='#2a6f97', alpha=0.8)
+    axL.scatter(np.clip(Xt[i][gone[i]], -2.2, 2.2), np.clip(Yt[i][gone[i]], -2.2, 2.2), s=10, c='#e63946', alpha=0.85)
+    axL.set_title(f"$\\vec F=\\langle x,y\\rangle$, div $=2$\ncrossed boundary: {count[i]}/{N}", fontsize=9)
+    axL.set_xlim(-2.2, 2.2); axL.set_ylim(-2.2, 2.2); axL.set_aspect('equal'); axL.set_xticks([]); axL.set_yticks([])
+    axR.plot(range(i+1), count[:i+1], color='#2a6f97', lw=1.7)
+    axR.fill_between(range(i+1), count[:i+1], color='#2a6f97', alpha=0.12)
+    axR.set_xlim(0, FRAMES); axR.set_ylim(0, N)
+    axR.set_xlabel('time step'); axR.set_ylabel('matter crossing S (outward)')
+    axR.set_title('sources inside → net flux out', fontsize=10); axR.grid(alpha=0.25)
+    return []
+
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=8); plt.close(fig)
+HTML(html)
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain what the divergence of a vector field measures, state the divergence theorem, and give the reason it is true (the cancellation argument).
+
+**My target answer** *(to be rewritten in my own words)*: *Picture the field as the velocity of a fluid. The divergence at a point tells you how much fluid is being created there: positive means a source (fluid wells up and spreads out), negative means a sink (fluid drains away), zero means it just flows through. The divergence theorem says that for a closed surface wrapping a solid region, the total flux out through the surface equals the divergence added up over the whole inside: $\iint_S\vec F\cdot\hat n\,dS=\iiint_D\operatorname{div}\vec F\,dV$, with $\operatorname{div}\vec F=P_x+Q_y+R_z$. It's true because you can slice the solid into tiny boxes. The flux out of one tiny box is its divergence times its volume — that's what divergence means. When you add up all the boxes, every inside wall is shared by two boxes that count it with opposite outward directions, so those cancel; only the outer walls of the whole region are left, and adding them up is the flux through the surface. So "sum of all the little sources inside" equals "total flow out through the skin." In practice it's a shortcut: a nasty surface integral becomes an easy volume integral of a simple scalar.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Closed surface only.** The theorem needs $S$ to fully enclose $D$, oriented **outward**. For an open surface you must cap it first.
+- **$\vec F$ must be differentiable throughout $D$.** A singularity inside (e.g. a point charge at the origin for $\vec F=\langle x,y,z\rangle/\rho^3$) breaks it — you excise a small ball around it. This is exactly the subtlety behind Gauss's law, coming next.
+- **Divergence is a scalar.** $\operatorname{div}\vec F=P_x+Q_y+R_z$; don't confuse it with curl (a vector).
+- **Orientation sets the sign.** Outward is the convention; flip $\hat n$ and the flux flips sign.
+- **Trade surface for volume — whichever is easier.** A simple $\operatorname{div}\vec F$ makes the volume side trivial (the $z\,\hat k$ example collapsed to "volume of the ball").
+- **Keep the $\hat n\,dS$ toolbox handy.** Graph $\langle -f_x,-f_y,1\rangle\,dx\,dy$; general $\dfrac{\vec N}{\vec N\cdot\hat k}\,dx\,dy$; parametric $\vec r_u\times\vec r_v\,du\,dv$.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**Next in Part IV.** Lecture 29 revisits the divergence theorem — its **applications** (the physical meaning of $\operatorname{div}\vec F$ as source density, and how a point singularity is handled) and a full **proof** of the cancellation sketched above.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
