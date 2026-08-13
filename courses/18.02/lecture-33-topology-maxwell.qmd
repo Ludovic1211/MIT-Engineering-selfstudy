@@ -1,0 +1,214 @@
+---
+title: "Lecture 33 — Topological Considerations & Maxwell's Equations"
+subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
+date: today
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Source** — Personal notes rewritten from:
+Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007, Lecture 33 ("Topological considerations; Maxwell's equations").
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/). This derivative work is released under the same license.
+
+📄 **Original handwritten notes** — [view the PDF](handwritten/lecture-33.pdf) these notes were rewritten from.
+:::
+
+## In brief
+
+The finale. **Curl**, revisited: for a *force* field it governs rotation just as force governs translation — a potential (conservative) force has zero curl and induces no spin. Then the crown of the course: **Maxwell's four equations** are exactly two **divergences** and two **curls** of the electric and magnetic fields, and the two great theorems turn them into physics. The divergence theorem sends **Gauss's law** $\nabla\cdot\vec E=\rho/\varepsilon_0$ to "flux of $\vec E$ out of a closed surface $=$ enclosed charge $/\varepsilon_0$." Stokes sends **Faraday's law** $\nabla\times\vec E=-\partial_t\vec B$ to "the EMF around a loop $=$ minus the rate of change of magnetic flux" — the principle of every generator. Together with $\nabla\cdot\vec B=0$ (no monopoles) and $\nabla\times\vec B=\mu_0\vec J+\mu_0\varepsilon_0\,\partial_t\vec E$ (Ampère–Maxwell), that is all of electromagnetism — written in the grammar of 18.02.
+
+## 1. The concepts
+
+### 1.1 Curl and rotation, for a force field
+
+For a velocity field, $\operatorname{curl}\vec v$ is twice the angular-velocity vector. For a **force** field, the torque on a mass element is $\vec\tau=\vec r\times\vec F\,\Delta m$, and translation and rotation run in parallel:
+$$
+\underbrace{\frac{\text{Force}}{\text{Mass}}=\frac{d}{dt}(\text{velocity})}_{\text{translation}},\qquad
+\underbrace{\frac{\text{Torque}}{\text{moment of inertia}}=\frac{d}{dt}(\text{angular velocity})}_{\text{rotation}} .
+$$
+Curl lives on the rotation side. **Consequence:** a force that derives from a potential has $\operatorname{curl}\vec F=\vec 0$, so it induces **no rotational motion**.
+
+### 1.2 Maxwell's equations
+
+A charge feels $\vec F=q\vec E$ from the electric field and $\vec F=q\,\vec v\times\vec B$ from the magnetic field. The four laws are the divergences and curls of $\vec E$ and $\vec B$:
+
+**Gauss–Coulomb** (div of $\vec E$): $\ \nabla\cdot\vec E=\dfrac{\rho}{\varepsilon_0}$. By the **divergence theorem**,
+$$
+\iint_S\vec E\cdot d\vec S=\iiint_D\operatorname{div}\vec E\,dV=\frac{1}{\varepsilon_0}\iiint_D\rho\,dV=\frac{Q}{\varepsilon_0}.
+$$
+
+**Faraday** (curl of $\vec E$): $\ \nabla\times\vec E=-\dfrac{\partial\vec B}{\partial t}$. By **Stokes**,
+$$
+\oint_C\vec E\cdot d\vec r=\iint_S(\nabla\times\vec E)\cdot d\vec S=-\frac{d}{dt}\iint_S\vec B\cdot d\vec S=-\frac{d\Phi_B}{dt}.
+$$
+
+**The magnetic pair:**
+$$
+\nabla\cdot\vec B=0\quad(\text{no magnetic monopoles}),\qquad
+\nabla\times\vec B=\mu_0\vec J+\varepsilon_0\mu_0\frac{\partial\vec E}{\partial t}\quad(\text{Ampère–Maxwell}),
+$$
+with $\vec J$ the current density. Note that the fourth law is a **curl** of $\vec B$ (not a divergence) — a common slip when writing it out.
+
+## 2. The key intuition
+
+The final lesson is that the machinery we built is not abstract bookkeeping — it is the grammar of the physical world. Curl already meant rotation; for a force it tells you whether the force can spin things, and a conservative force cannot. The real revelation is Maxwell. Each of the four laws is a single line of vector calculus, and each wears two faces: a **local** (differential) form and a **global** (integral) form, bridged by exactly one of our two theorems. Gauss's law, read locally, says charge sits wherever the field diverges; read globally through the divergence theorem, it says *count the charge inside and you know the flux out* — the field lines emanating from a charge don't care what shape of surface you wrap around it. Faraday's law, read locally, says a changing magnetic field curls the electric field into loops; read globally through Stokes, it says *a changing flux drives a voltage around any circuit* — move a magnet through a coil and you make electricity.
+
+That the very theorems that flattened Green into the plane, then equated flux with volume and circulation with surface, now write down the laws governing light, radio, and every electric motor — that is the quiet astonishment at the end of 18.02. The same sentence has run through the whole of Part IV: **the boundary determines the interior**, in mathematics and in nature alike.
+
+## 3. Python demonstration
+
+We close by making the physics visible — our two great theorems, at work in electromagnetism.
+
+### 3.1 Gauss's law — the divergence theorem in physics
+
+A point charge sends out a radial field $\vec E$. The flux through **any** enclosing surface is the same, $Q/\varepsilon_0$, no matter its size or shape (left); a surface that does **not** enclose the charge catches zero net flux — every field line that enters also leaves (right). Below, the numbers: enclosing spheres of radius $1,2,3$ all give $4\pi=Q/\varepsilon_0$; a sphere off to the side gives $0$.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# units with q/(4πε₀)=1  →  E = <x,y,z>/ρ³  and  Q/ε₀ = 4π
+def E(p): p = np.asarray(p, float); r = np.linalg.norm(p, axis=0); return p/r**3
+
+fig = plt.figure(figsize=(10.2, 4.9))
+u = np.linspace(0, 2*np.pi, 40); v = np.linspace(0, np.pi, 20)
+Xs = np.outer(np.cos(u), np.sin(v)); Ys = np.outer(np.sin(u), np.sin(v)); Zs = np.outer(np.ones_like(u), np.cos(v))
+
+axL = fig.add_subplot(1, 2, 1, projection='3d')
+axL.plot_surface(1.3*Xs, 1.3*Ys, 1.3*Zs, color='#8ecae6', alpha=0.20, linewidth=0)
+pp = np.linspace(0.4, np.pi-0.4, 5); tt = np.linspace(0, 2*np.pi, 9, endpoint=False)
+PH, TH = np.meshgrid(pp, tt); PH, TH = PH.ravel(), TH.ravel()
+dx, dy, dz = np.sin(PH)*np.cos(TH), np.sin(PH)*np.sin(TH), np.cos(PH)
+axL.quiver(0.55*dx, 0.55*dy, 0.55*dz, dx, dy, dz, length=0.6, color='#e63946', linewidth=1.5, arrow_length_ratio=0.3)
+axL.scatter([0], [0], [0], color='#c1121f', s=80); axL.text(0, 0, 0.3, "+q", color='#c1121f', fontsize=12, weight='bold')
+axL.set_title(r"charge enclosed: flux $=Q/\varepsilon_0$", fontsize=10)
+axL.set_xlim(-1.4, 1.4); axL.set_ylim(-1.4, 1.4); axL.set_zlim(-1.4, 1.4)
+axL.view_init(elev=14, azim=-60); axL.set_box_aspect((1,1,1)); axL.set_xticks([]); axL.set_yticks([]); axL.set_zticks([])
+
+axR = fig.add_subplot(1, 2, 2, projection='3d')
+c = np.array([2.4, 0, 0])
+axR.plot_surface(c[0]+Xs, c[1]+Ys, c[2]+Zs, color='#8ecae6', alpha=0.20, linewidth=0)
+axR.scatter([0], [0], [0], color='#c1121f', s=80); axR.text(0, 0, 0.35, "+q", color='#c1121f', fontsize=12, weight='bold')
+for a in np.linspace(-0.7, 0.7, 3):
+    for b in np.linspace(-0.7, 0.7, 3):
+        p = c + np.array([-1.0, a, b]); Ev = E(p)
+        axR.quiver(p[0], p[1], p[2], Ev[0], Ev[1], Ev[2], length=2.5, color='#e63946', linewidth=1.1, arrow_length_ratio=0.3)
+axR.set_title(r"charge outside: flux $=0$", fontsize=10)
+axR.set_xlim(-0.6, 3.6); axR.set_ylim(-1.6, 1.6); axR.set_zlim(-1.6, 1.6)
+axR.view_init(elev=14, azim=-60); axR.set_box_aspect((1.4,1,1)); axR.set_xticks([]); axR.set_yticks([]); axR.set_zticks([])
+plt.tight_layout(); plt.show()
+```
+
+```{python}
+# numerical flux ∬_S E·n̂ dS over spheres (grid in φ,θ)
+ns = 300
+phi = (np.arange(ns)+0.5)/ns*np.pi; th = (np.arange(ns)+0.5)/ns*2*np.pi
+PH, TH = np.meshgrid(phi, th, indexing='ij')
+ux, uy, uz = np.sin(PH)*np.cos(TH), np.sin(PH)*np.sin(TH), np.cos(PH)
+dOmega = np.sin(PH)*(np.pi/ns)*(2*np.pi/ns)
+def flux(center, a):
+    px, py, pz = center[0]+a*ux, center[1]+a*uy, center[2]+a*uz
+    Ex, Ey, Ez = E(np.array([px, py, pz]))
+    return np.sum((Ex*ux + Ey*uy + Ez*uz)*a**2*dOmega)
+for a in (1, 2, 3):
+    print(f"enclosing sphere, radius {a}:  flux = {flux([0,0,0],a):.4f}   (Q/ε₀ = 4π = {4*np.pi:.4f})")
+print(f"non-enclosing sphere at (5,0,0): flux = {flux([5,0,0],1):.2e}   (→ 0)")
+assert abs(flux([0,0,0],2) - 4*np.pi) < 1e-2 and abs(flux([5,0,0],1)) < 1e-3
+```
+
+### 3.2 Faraday's law — Stokes in physics
+
+A uniform magnetic field $B(t)=\sin t$ threads a loop. Its changing flux **induces** an electric field that circulates around the loop — and when $B$ turns over, the induced $\vec E$ reverses. The right panel tracks the flux ($\propto B$) and the driven EMF $=\oint\vec E\cdot d\vec r=-\,d\Phi_B/dt$: the two are a quarter-cycle apart, exactly as $-\tfrac{d}{dt}\sin t=-\cos t$. This is how every generator and transformer works.
+
+```{python}
+from matplotlib.animation import FuncAnimation
+from IPython.display import HTML
+
+gp = np.linspace(-1.4, 1.4, 9); GX, GY = np.meshgrid(gp, gp)
+circ = np.linspace(0, 2*np.pi, 200)
+FRAMES = 44; ts = np.linspace(0, 4*np.pi, FRAMES)
+Bt = np.sin(ts); EMF = -np.pi*np.cos(ts)
+
+fig = plt.figure(figsize=(9.4, 4.6)); fig.set_dpi(78)
+axL = fig.add_subplot(1, 2, 1); axR = fig.add_subplot(1, 2, 2)
+def frame(i):
+    t = ts[i]; axL.clear(); axR.clear()
+    B, Bp = np.sin(t), np.cos(t)
+    axL.add_patch(plt.Rectangle((-1.6,-1.6), 3.2, 3.2, color=('#cfe8ff' if B>=0 else '#ffd6d6'),
+                                alpha=min(0.6, abs(B)*0.6+0.05), zorder=0))
+    axL.quiver(GX, GY, (Bp/2)*GY, (Bp/2)*(-GX), color='#e63946', scale=9, width=0.005, zorder=2)
+    axL.plot(np.cos(circ), np.sin(circ), color='#1d3557', lw=2.5, zorder=3)
+    axL.text(0, 0, ('⊙' if B>=0 else '⊗'), ha='center', va='center', fontsize=20, color='#1d3557', zorder=4)
+    axL.set_title(f"B(t)={B:+.2f},  induced E circulates", fontsize=9)
+    axL.set_xlim(-1.6, 1.6); axL.set_ylim(-1.6, 1.6); axL.set_aspect('equal'); axL.set_xticks([]); axL.set_yticks([])
+    axR.plot(ts[:i+1], Bt[:i+1], color='#2a6f97', lw=2, label=r'flux $\propto B(t)=\sin t$')
+    axR.plot(ts[:i+1], EMF[:i+1], color='#e63946', lw=2, label=r'EMF $=-\,d\Phi_B/dt$')
+    axR.scatter([t], [Bt[i]], color='#2a6f97', s=30, zorder=5); axR.scatter([t], [EMF[i]], color='#e63946', s=30, zorder=5)
+    axR.axhline(0, color='#ccc', lw=0.8); axR.set_xlim(0, 4*np.pi); axR.set_ylim(-3.6, 3.6)
+    axR.set_xlabel('time  t'); axR.set_title("changing flux drives an EMF", fontsize=10)
+    axR.legend(fontsize=8, loc='upper right'); axR.grid(alpha=0.25)
+    return []
+anim = FuncAnimation(fig, frame, frames=FRAMES, interval=110, blit=False)
+html = anim.to_jshtml(fps=9); plt.close(fig)
+HTML(html)
+```
+
+### 3.3 The four equations, assembled
+
+The whole course on one page. Each Maxwell law is a divergence or a curl (left), turned into its physical, integral form (right) by exactly one of the two great theorems — the divergence theorem for the $\operatorname{div}$ laws, Stokes for the $\operatorname{curl}$ laws.
+
+```{python}
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+
+fig, ax = plt.subplots(figsize=(11.3, 6.2)); ax.axis('off'); ax.set_xlim(0, 11.5); ax.set_ylim(0, 6.6)
+INK, DIVc, CURLc = '#1d3557', '#2a6f97', '#2d6a4f'
+ax.text(5.75, 6.3, "Maxwell's equations  =  div & curl  +  the two great theorems", ha='center', fontsize=13, weight='bold', color=INK)
+rows = [
+ (5.15, DIVc,  "Gauss–Coulomb", r"$\nabla\cdot\vec E=\rho/\varepsilon_0$", "divergence thm", r"$\iint_S\vec E\cdot d\vec S=Q/\varepsilon_0$"),
+ (3.75, CURLc, "Faraday",        r"$\nabla\times\vec E=-\,\partial\vec B/\partial t$", "Stokes", r"$\oint_C\vec E\cdot d\vec r=-\,d\Phi_B/dt$"),
+ (2.35, DIVc,  "No monopoles",   r"$\nabla\cdot\vec B=0$", "divergence thm", r"$\iint_S\vec B\cdot d\vec S=0$"),
+ (0.95, CURLc, "Ampère–Maxwell", r"$\nabla\times\vec B=\mu_0\vec J+\mu_0\varepsilon_0\,\partial\vec E/\partial t$", "Stokes", r"$\oint_C\vec B\cdot d\vec r=\mu_0 I_{\rm enc}+\dots$"),
+]
+for y, col, name, diff, tool, integ in rows:
+    ax.text(0.30, y+0.70, name, fontsize=9.5, color=col, weight='bold')
+    ax.add_patch(FancyBboxPatch((0.15, y), 3.5, 0.62, boxstyle="round,pad=0.05", fc='#f2f7fb', ec=col, lw=1.4))
+    ax.text(1.9, y+0.31, diff, ha='center', va='center', fontsize=(10 if 'mu_0' in diff else 12), color=INK)
+    ax.add_patch(FancyArrowPatch((3.75, y+0.31), (6.7, y+0.31), arrowstyle='-|>', mutation_scale=15, color=col, lw=1.8))
+    ax.text(5.2, y+0.52, tool, ha='center', fontsize=9, color=col, style='italic')
+    ax.add_patch(FancyBboxPatch((6.85, y), 4.45, 0.62, boxstyle="round,pad=0.05", fc='#fbf7f2', ec=col, lw=1.4))
+    ax.text(9.07, y+0.31, integ, ha='center', va='center', fontsize=11.5, color=INK)
+ax.text(1.9, 5.95, "differential form", ha='center', fontsize=10, style='italic', color='#666')
+ax.text(9.07, 5.95, "integral / physical form", ha='center', fontsize=10, style='italic', color='#666')
+ax.text(5.75, 0.32, r"grad $\to$ curl $\to$ div, made physical by the divergence theorem & Stokes — all of 18.02 in four lines.",
+        ha='center', fontsize=11, color=INK)
+plt.tight_layout(); plt.show()
+```
+
+## 4. Feynman test
+
+::: {.callout-tip appearance="simple"}
+**Prompt**: explain how the divergence theorem turns Gauss's law into "flux $=$ enclosed charge," and how Stokes turns Faraday's law into "a changing flux makes a voltage."
+
+**My target answer** *(to be rewritten in my own words)*: *Gauss's law in local form says the divergence of the electric field at a point equals the charge density there (over $\varepsilon_0$). To get the useful global statement, integrate that over a solid region and apply the divergence theorem: the integral of $\operatorname{div}\vec E$ over the region equals the flux of $\vec E$ through its surface, and the integral of the charge density is just the total charge inside. So the flux of $\vec E$ out through any closed surface equals the enclosed charge divided by $\varepsilon_0$ — the shape of the surface doesn't matter, only what's inside. Faraday's law in local form says the curl of $\vec E$ equals minus the time-rate of the magnetic field. Integrate that over a surface and apply Stokes: the flux of $\operatorname{curl}\vec E$ through the surface equals the circulation of $\vec E$ around its boundary loop, and the right side becomes minus the rate of change of the magnetic flux through that surface. So the voltage driven around a loop equals minus how fast the magnetic flux through it is changing — move a magnet near a coil and the changing flux pushes a current. Both are the same move: a local law about a derivative of the field becomes a global law relating a region to its boundary, via the two theorems of this course.*
+:::
+
+## 5. Pitfalls & takeaways
+
+- **Curl of a force = its tendency to spin things.** A conservative (potential) force has $\operatorname{curl}=\vec 0$ and drives no rotation.
+- **Four laws, two divergences and two curls.** $\nabla\cdot\vec E=\rho/\varepsilon_0$, $\nabla\times\vec E=-\partial_t\vec B$, $\nabla\cdot\vec B=0$, $\nabla\times\vec B=\mu_0\vec J+\mu_0\varepsilon_0\,\partial_t\vec E$.
+- **The integral forms are our theorems.** Divergence theorem for the two $\operatorname{div}$ laws (Gauss, no-monopoles); Stokes for the two $\operatorname{curl}$ laws (Faraday, Ampère–Maxwell).
+- **Ampère–Maxwell is a curl of $\vec B$**, not a divergence — the easy slip to make.
+- **$\nabla\cdot\vec B=0$ = no magnetic monopoles.** Magnetic field lines never begin or end; they close on themselves, so the flux through any closed surface is zero.
+- **Faraday's minus sign is Lenz's law**: the induced effect opposes the change in flux.
+
+---
+
+::: {.callout-tip appearance="simple" icon=false}
+**🎓 That completes MIT 18.02 — Multivariable Calculus.** From vectors and matrices, through partial derivatives and multiple integrals, to the three great theorems of vector calculus and their assembly into Maxwell's equations. The boundary determines the interior — a single idea, carried from the plane all the way to the laws of electromagnetism. Next on the roadmap: **8.01SC (Classical Mechanics)**.
+:::
+
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Attribution & license.** Adapted from Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007. Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>. Original material licensed under [Creative Commons BY-NC-SA](https://ocw.mit.edu/terms/). These rewritten notes and the accompanying code are a derivative work, released under the same **CC BY-NC-SA** license. Non-commercial use.
+:::
