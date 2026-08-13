@@ -73,4 +73,8 @@ The course is organized into four parts:
 | 32 | [Stokes' Theorem — Applications & Review](lecture-32-stokes-theorem-review.qmd) | ✅ Online |
 | 33 | [Topological Considerations; Maxwell's Equations](lecture-33-topology-maxwell.qmd) | ✅ Online |
 
-*(Lectures 7, 15 and 24 were exam/review sessions, so they carry no content note. **Parts I–III are complete; Part IV is now under way.**)*
+## Problem sets & exams
+
+Alongside the lecture notes, I worked through the course's problem sets and practice exams. The original MIT statements with my handwritten solutions are collected, grouped by part, in the **[Problem Sets & Exams appendix](appendix-problem-sets-exams.qmd)**.
+
+*(Lectures 7, 15 and 24 were exam/review sessions, so they carry no content note. **All four parts are complete.** See the [problem sets & exams appendix](appendix-problem-sets-exams.qmd) for worked assignments.)*

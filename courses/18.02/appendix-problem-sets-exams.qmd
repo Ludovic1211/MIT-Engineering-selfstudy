@@ -1,0 +1,38 @@
+---
+title: "18.02 — Problem Sets & Exams"
+subtitle: "MIT · Denis Auroux · Fall 2007"
+toc: true
+---
+
+::: {.callout-note appearance="simple" icon=false}
+**Course source** — Auroux, Denis. *18.02 Multivariable Calculus*, Fall 2007.
+Massachusetts Institute of Technology: MIT OpenCourseWare, <https://ocw.mit.edu>.
+License: [CC BY-NC-SA](https://ocw.mit.edu/terms/).
+
+Assignment and exam **statements** are MIT OpenCourseWare material (CC BY-NC-SA). The **handwritten solutions** are my own work — a derivative work released under the same license.
+:::
+
+## About this appendix
+
+This appendix collects the problem sets and practice exams I worked through for 18.02, grouped by part. Each entry links to a PDF holding the original MIT statement together with my handwritten solution. It is the practical, *operational* counterpart to the lecture notes: evidence that the concepts were not just understood, but applied.
+
+For the problem sets, only **Part B** (the written problems) is reproduced: Part A referenced exercises from the course textbook, which is not part of the OCW materials and is not reproduced here. Some earlier assignments predate my switch to a tablet workflow and are not yet digitized; they will be added here as they are scanned.
+
+## Part III — Double & line integrals, Green's theorem
+
+| Item | Topics | Status | Link |
+|------|--------|:------:|:----:|
+| Problem Set 9 | Line integrals, flux, Green's theorem | ✅ | [📄 PDF](appendix/problem-set-09.pdf) |
+| Practice Exam 3A | Center of mass, moment of inertia, conservative fields, change of variables, Green's theorem (both forms) | ✅ | [📄 PDF](appendix/exam-3a.pdf) |
+
+## Part IV — Triple & surface integrals, divergence & Stokes
+
+| Item | Topics | Status | Link |
+|------|--------|:------:|:----:|
+| Problem Set 10 | Triple integrals in cylindrical & spherical coordinates, gravitational attraction | ⬜ | *à venir* |
+| Problem Set 11 | Surface integrals, divergence & Stokes' theorem | ⬜ | *à venir* |
+| Practice Exam 4A | Flux, divergence theorem, curl, Stokes' theorem | ⬜ | *à venir* |
+
+---
+
+*Problem sets and exams for Parts I–II — and the earlier Part III assignments — will be added here as they are digitized.*
