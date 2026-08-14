@@ -236,7 +236,9 @@ Both vanish (to rounding), so $\vec r\times\vec v$ is conserved precisely *becau
 ::: {.callout-tip appearance="simple"}
 **Prompt**: with no formulas, explain why a planet speeds up when it is near the Sun and slows down when it is far away.
 
-**My target answer**: *Imagine a line drawn from the Sun to the planet, like a clock hand. Kepler noticed that hand sweeps out area at a perfectly steady rate — the same amount of "pie slice" every day, all year long. When the planet is close, the hand is short, so to paint the same slice of area it has to swing quickly through a long stretch of orbit. When it is far, the hand is long, so the same slice is painted while it barely creeps along. That is why planets are fastest at their closest point and slowest at their farthest — the steady sweeping rate forces it. Underneath, the sweep stays steady because the Sun always pulls straight down the hand, never sideways.*
+**My answer**: *The key concept is that the rate at which area is swept out stays constant. So when a planet gets closer to the Sun, the arm from the Sun to the planet gets shorter — and to keep that rate the same, the part of the velocity that actually sweeps (the sideways speed, perpendicular to the arm) has to grow. That's why the planet speeds up. The opposite holds too: when the planet is far, the arm is long, so that sweeping speed has to shrink.*
+
+*But why should the rate stay constant in the first place? Because gravity always pulls straight along the arm, toward the Sun — never sideways. Nothing pushes the planet sideways, and a sideways push is the only thing that could change the sweeping rate. So nothing can change it: the rate stays locked, not because something holds it, but because nothing is able to touch it.*
 :::
 
 ## 5. Pitfalls & takeaways
