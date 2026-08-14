@@ -29,9 +29,9 @@ For the problem sets, only **Part B** (the written problems) is reproduced: Part
 
 | Item | Topics | Status | Link |
 |------|--------|:------:|:----:|
-| Problem Set 10 | Triple integrals in cylindrical & spherical coordinates, gravitational attraction | ⬜ | *à venir* |
-| Problem Set 11 | Surface integrals, divergence & Stokes' theorem | ⬜ | *à venir* |
-| Practice Exam 4A | Flux, divergence theorem, curl, Stokes' theorem | ⬜ | *à venir* |
+| Problem Set 10 | Triple integrals in cylindrical & spherical coordinates, gravitational attraction | ✅ | [📄 PDF](appendix/problem-set-10.pdf) |
+| Problem Set 11 | Surface integrals, divergence & Stokes' theorem | ✅ | [📄 PDF](appendix/problem-set-11.pdf) |
+| Practice Exam 4A | Flux, divergence theorem, curl, Stokes' theorem | ✅ | [📄 PDF](appendix/exam-4a.pdf) |
 
 ---
 
