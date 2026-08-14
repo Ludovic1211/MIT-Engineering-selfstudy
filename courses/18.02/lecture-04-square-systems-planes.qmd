@@ -257,7 +257,13 @@ ax.legend(); plt.tight_layout(); plt.show()
 ::: {.callout-tip appearance="simple"}
 **Prompt**: with no matrices and no formulas, explain what it means to "solve three equations in three unknowns", and why the answer is sometimes one point, sometimes none, sometimes infinitely many.
 
-**My target answer**: *Each equation is a flat sheet — a plane — floating in space. Solving all three at once means finding the single point that sits on all three sheets simultaneously. Usually two sheets cross along a line, and the third sheet stabs that line at exactly one spot: one answer. But if the third sheet happens to run parallel to that line, two things can go wrong — it either contains the line, so the whole line works (infinitely many answers), or it floats alongside and never touches it (no answer). The determinant is just a quick check of whether the three sheets are tilted independently enough to guarantee that one clean crossing point.*
+**My answer**: *Each equation can be seen as a plane — a sheet of paper — and solving the system formed by them means finding out how those sheets meet: whether they ever cross, run parallel, or lie stacked on top of one another. Several scenarios are possible.*
+
+*If the three planes are all different and genuinely cross one another, you get a single point as the solution — the one spot that sits on all three at once.*
+
+*If they are all parallel, like the pages of a book, they never cross: no solution. But "no solution" isn't only about parallel planes. The three sheets can also meet two by two, forming a triangular tube — think of the three flat faces of a Toblerone bar. Each pair crosses along an edge, yet no single point belongs to all three at the same time: every edge solves two of the equations, never the three together. Still no solution.*
+
+*Finally, they can overlap. If the three planes are actually one and the same, every point of that sheet works — infinitely many solutions, a whole surface of them. And if two are stacked and cross the third, they share a whole line, so you get as many solutions as there are points on that line.*
 :::
 
 ## 5. Pitfalls & takeaways
