@@ -203,7 +203,9 @@ plt.show()
 ::: {.callout-tip appearance="simple"}
 **Prompt**: explain the determinant and the cross product to a high-school student, with no formulas, in 30 seconds.
 
-**My target answer**: *Put two arrows in a plane; they frame a parallelogram. The determinant is just its area — with a plus or minus sign that tells you whether you turn left or right going from the first arrow to the second. In 3D, three arrows frame a box, and the determinant is its volume. The cross product is a bonus: given two arrows, it hands you a third one that points straight out of their plane, exactly as long as that parallelogram's area. And if the determinant is zero, the arrows are squashed flat — no area, no volume.*
+**My answer**: *Picture two fingers spread apart from the same knuckle, forming an angle — those are your two arrows. To complete them into a parallelogram, you slide a copy of each arrow over to the tip of the other, and the four sides close up into the shape. From there, the determinant tells us the area of that parallelogram. And if the two arrows are superposed, the parallelogram is flat, so the area is null.*
+
+*That's also where the cross product comes in. The cross product of the two arrows hands you a brand-new vector, perpendicular to both, and its length is exactly the area of that parallelogram. You can visualise its direction with your hand — the famous right-hand rule: extend your thumb to the right, your index toward the ceiling, and your middle finger naturally points toward you, perpendicular to the other two. One honest warning, though: the hand only gives you the direction, never the length. Your middle finger is just as long as your middle finger — no reason it should match the area of the parallelogram. Direction from the hand, size from the area: two separate pieces of information.*
 :::
 
 ## 5. Pitfalls & takeaways
