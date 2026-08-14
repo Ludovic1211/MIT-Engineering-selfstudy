@@ -196,7 +196,9 @@ plt.show()
 ::: {.callout-tip appearance="simple"}
 **Prompt**: explain a matrix, matrix multiplication, and the inverse to a high-school student, with no formulas, in 30 seconds.
 
-**My target answer**: *A matrix is a machine that takes a vector in and gives back a transformed one — rotated, stretched, tilted. Multiplying two matrices means welding two machines into one, and the order matters: rotating then stretching isn't the same as stretching then rotating. The inverse is the "undo" machine that puts everything back. But some machines can't be undone — the ones that flatten space, squashing a box down to nothing — and those are exactly the matrices with determinant zero.*
+**My answer**: *A matrix is basically multiplication, but for vectors instead of numbers. With a matrix you can transform vectors — make them longer, shorter, rotate them, and so on. Just like numbers, you can multiply one matrix by another. But one important thing to keep in mind: matrix multiplication isn't "commutative" — A × B isn't equal to B × A. It's the same logic as subtracting numbers: 5 − 3 isn't 3 − 5, the order matters.*
+
+*There's a special type of matrix called the inverse. It works just like inverses do for numbers under multiplication: 2 and 1/2 cancel out to give 1, and in the same way, if you multiply a vector by a matrix A and then by A⁻¹, you undo exactly what you did. The one exception is the matrices that can't be inverted — the ones with a determinant of zero. They "destroy" the information contained in the vectors, just like multiplying a number by zero: you can't undo a multiplication by zero. And it fits perfectly, because zero is the one number with no inverse either — nothing brings it back to 1.*
 :::
 
 ## 5. Pitfalls & takeaways
