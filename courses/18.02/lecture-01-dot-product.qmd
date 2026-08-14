@@ -176,7 +176,11 @@ plt.show()
 ::: {.callout-tip appearance="simple"}
 **Prompt**: explain the dot product to a high-school student, with no formula, in 30 seconds.
 
-**My target answer**: *The dot product is a two-input machine — two arrows — that spits out a single number. That number measures how much the two arrows point in the same direction. Large and positive: they point the same way. Zero: they are perpendicular. Negative: they oppose each other. At its core, it answers one question — "how much of arrow A moves along arrow B?"*
+**My answer**: *In my mind, a scalar product can be pictured as two people walking — the two vectors. They're independent, so they can move at different speeds and in different directions: side by side, at an angle, or toward each other. What the scalar product tells us is how much the first person walks in the same direction as the other.*
+
+*There are three notable cases. First, they walk at least a little bit in the same direction. Second, one walks at a right angle to the other — kind of like two people separating at a street corner. Third, they lean against each other's direction, from just past a right angle all the way to walking head-on opposite.*
+
+*But direction isn't the whole story: the resulting number also grows with how much ground each person covers — their walking speed, the magnitude of the vectors. Walking slowly side by side counts for little; sprinting side by side counts for a lot.* **Direction sets the sign, speed sets the size.**
 :::
 
 ## 5. Pitfalls & takeaways
