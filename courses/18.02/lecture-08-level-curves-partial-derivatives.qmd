@@ -79,7 +79,7 @@ $$
 
 ## 3. Python demonstration
 
-We use Ludovic's own example, $f(x,y)=1-x^2-y^2$, throughout.
+We use our running example, $f(x,y)=1-x^2-y^2$, throughout.
 
 ### 3.1 The surface and its contour map
 
@@ -188,7 +188,11 @@ plt.show()
 ::: {.callout-tip appearance="simple"}
 **Prompt**: with no formulas, explain what a *partial derivative* measures, and why a function of two variables needs **two** of them. Use the hill-and-contour-map picture.
 
-**My target answer**: *Picture the function as the height of a landscape: for every spot on the flat map below, it tells you the altitude above it. Standing at one spot, "how steep is it here?" has no single answer — it depends on which way you face. A partial derivative pins down two special directions: walk one step due-East and see how fast the ground rises or falls (that is the $x$-partial); do the same walking due-North (the $y$-partial). We need two numbers, not one, because a hillside can slope in completely different ways along those two directions — flat one way while dropping steeply the other. The contour map makes it visible: cross the packed contour lines and you climb fast; walk parallel to them and your altitude barely changes.*
+**My answer**: *A partial derivative tells you the slope of a function in one direction, and one only — that's the "partial" part. Think of walking on a hill: one partial derivative says "hey, if you go to your left, you'll go up!", and the other says "hey, if you walk forward, you'll go down!"*
+
+*Now you might ask: why only two? I can also walk diagonally, so shouldn't there be infinitely many — one for every direction I could face? Here's the trick. Go back to "walking diagonally" and ask what it really means. Heading northeast, at a 45° angle, isn't a direction of its own: you're really walking north and east at the same time. Any direction is just a combination of two basic ones — "forward/back" and "left/right". That's why two partial derivatives are enough in 2D: every possible direction is built from those two, so knowing the slope along each is enough to rebuild the slope along any of them.*
+
+*And the count isn't tied to how many letters you happen to use, but to the number of independent directions — the dimension of the space you're moving in. In 2D that's two; in 3D you add "up/down" and get three; and so on — one partial derivative per independent direction.*
 :::
 
 ## 5. Pitfalls & takeaways
