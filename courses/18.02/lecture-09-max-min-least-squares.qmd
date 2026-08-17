@@ -205,7 +205,11 @@ plt.tight_layout(); plt.show()
 ::: {.callout-tip appearance="simple"}
 **Prompt**: with no formulas, explain (a) what makes a point a "critical point," and (b) why fitting a straight line to scattered data is secretly the same kind of problem.
 
-**My target answer**: *A critical point is a spot where the landscape is momentarily level — set a marble down and it wouldn't know which way to roll. On a hill that happens at the very top (a peak), at the bottom of a valley, or at a mountain pass where the ground rises one way and falls the other. So "find the maximum or minimum" turns into "find where the ground is flat," which means both slopes — the one facing East and the one facing North — are zero at once. Line-fitting is the same game on a different landscape. Every possible line has some total error; imagine that error as an altitude plotted above all possible lines. The best line sits at the very bottom of that error-valley, where the ground is flat again — and setting those two slopes to zero gives two straightforward equations that hand you the line.*
+**My answer**:
+
+*(a) What makes a point critical.* A critical point is a point where the *tangent plane* is horizontal — both partial derivatives vanish. Crucially, this does *not* mean the surface itself is flat there: it means the surface *starts off* flat, to first order. A peak, a valley bottom, and a saddle all share the exact same horizontal tangent plane, so first derivatives alone can't tell them apart — to first order they're identical. What separates them is how the surface curves away from that plane, at second order, which is why a further test is needed.
+
+*(b) Why line-fitting is the same problem.* What we minimize is the gap between a candidate line and the data points — the line's *total error*. That error doesn't really come from the data; it comes from the approximation each candidate line makes of them. And a line is fixed by two parameters, its slope $a$ and its intercept $b$. So we can picture the total error as a landscape sitting above the plane of all $(a,b)$ pairs — every point on that ground is one possible line, and its height is that line's total error. Minimizing over $a$ and $b$ means finding the bottom of that bowl: the critical point (a minimum) whose coordinates $(a,b)$ give the best-fit line. Same critical-point hunt as before — just carried out in the space of models instead of the space of positions.
 :::
 
 ## 5. Pitfalls & takeaways
