@@ -180,7 +180,21 @@ plt.tight_layout(); plt.show()
 ::: {.callout-tip appearance="simple"}
 **Prompt**: explain why the diffusion equation $\partial u/\partial t=k\nabla^2u$ follows from Fick's law, conservation, and the divergence theorem — and what the Laplacian is doing.
 
-**My target answer** *(to be rewritten in my own words)*: *Start with how smoke moves: it drifts from crowded places to empty ones, down the concentration gradient, faster where the drop is steeper. That's Fick's law, $\vec F=-k\nabla u$, minus sign and all. Next, nothing is created or lost, so the amount of smoke inside any region can only change because smoke flowed across its boundary: the rate the smoke inside grows equals minus the flux out through the surface. The divergence theorem rewrites that surface flux as a volume integral of $\operatorname{div}\vec F$, so for every region the total of $\operatorname{div}\vec F$ inside equals minus the total rate of change inside. "For every region" forces the integrands to be equal at each point: $\operatorname{div}\vec F=-\partial u/\partial t$. Plug in Fick's law and $\operatorname{div}(-k\nabla u)=-k\nabla^2u$ gives $\partial u/\partial t=k\nabla^2u$. The Laplacian $\nabla^2u$ measures how a point compares to the average of its neighbors: below average (a dip) it's positive and the point fills up, above average (a peak) it's negative and the point drains. So the equation says everything relaxes toward its surroundings' average — which is exactly what diffusion looks like.*
+**My answer** *(in my own words)*:
+
+**Fick's law.** Smoke drifts from crowded spots toward empty ones — down the concentration gradient — and the steeper the drop, the faster it goes: $\vec F=-k\nabla u$, the minus meaning "toward the empty side." (Underneath, no particle *aims* anywhere: each staggers at random, and more of them simply start where there are more of them, so the net drift runs high-to-low by sheer counting.)
+
+**Conservation.** No smoke is made or destroyed inside a region $D$, so the only way its amount can change is by crossing the boundary — the border is the region's ledger. What accumulates inside is minus what flows out:
+$$\frac{d}{dt}\iiint_D u\,dV=-\iint_S\vec F\cdot\hat n\,dS.$$
+
+**Divergence theorem** rewrites that outward flux as a volume integral:
+$$\iiint_D\frac{\partial u}{\partial t}\,dV=-\iiint_D\operatorname{div}\vec F\,dV.$$
+
+**From global to local.** This holds for *every* region $D$ — any size, anywhere. Two functions whose integrals agree over every domain must be equal at every point (shrink the box around any point where they differed and the integrals couldn't match). So $\dfrac{\partial u}{\partial t}=-\operatorname{div}\vec F$.
+
+**Substitute Fick.** $\dfrac{\partial u}{\partial t}=-\operatorname{div}(-k\nabla u)=k\,\operatorname{div}(\nabla u)=k\nabla^2u$ — the two minus signs cancel.
+
+**What the Laplacian does.** $\nabla^2u$ measures how far a point sits from the average of its neighbours (the multi-D curvature): below them (a dip) it's positive and the point fills up; above them (a peak) it's negative and the point drains. So the equation just says *every point runs toward its neighbourhood average* — which is why smoke spreads, hot spots cool, and everything relaxes smoothly and irreversibly toward uniform.
 :::
 
 ## 5. Pitfalls & takeaways
