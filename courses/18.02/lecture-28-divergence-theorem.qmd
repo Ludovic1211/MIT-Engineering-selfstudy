@@ -214,7 +214,14 @@ HTML(html)
 ::: {.callout-tip appearance="simple"}
 **Prompt**: explain what the divergence of a vector field measures, state the divergence theorem, and give the reason it is true (the cancellation argument).
 
-**My target answer** *(to be rewritten in my own words)*: *Picture the field as the velocity of a fluid. The divergence at a point tells you how much fluid is being created there: positive means a source (fluid wells up and spreads out), negative means a sink (fluid drains away), zero means it just flows through. The divergence theorem says that for a closed surface wrapping a solid region, the total flux out through the surface equals the divergence added up over the whole inside: $\iint_S\vec F\cdot\hat n\,dS=\iiint_D\operatorname{div}\vec F\,dV$, with $\operatorname{div}\vec F=P_x+Q_y+R_z$. It's true because you can slice the solid into tiny boxes. The flux out of one tiny box is its divergence times its volume — that's what divergence means. When you add up all the boxes, every inside wall is shared by two boxes that count it with opposite outward directions, so those cancel; only the outer walls of the whole region are left, and adding them up is the flux through the surface. So "sum of all the little sources inside" equals "total flow out through the skin." In practice it's a shortcut: a nasty surface integral becomes an easy volume integral of a simple scalar.*
+**My answer** *(in my own words)*:
+
+**Divergence.** Picture the field as a fluid's velocity. The divergence at a point measures the source/sink density there — how much fluid is being created (div > 0, a spring) or swallowed (div < 0, a drain) per unit volume. div $= 0$ means whatever flows in flows out.
+
+**The theorem.** For a *closed* surface $S$ wrapping a solid $D$, oriented outward, the total flux out through the skin equals the divergence summed over the whole filling:
+$$\iint_S\vec F\cdot\hat n\,dS=\iiint_D\operatorname{div}\vec F\,dV,\qquad \operatorname{div}\vec F=P_x+Q_y+R_z.$$
+
+**Why it's true — two legs that meet.** Chop $D$ into tiny boxes and add up the flux out of every box. This sum can be read two ways. *Read as surfaces:* every interior face is shared by two boxes whose outward normals point opposite ways, so those contributions cancel in pairs; only the outer skin, shared by no one, survives — that leftover is the flux through $S$. *Read as volumes:* the flux out of one tiny box is $\operatorname{div}\vec F\cdot\Delta V$ (its source density times its size — no normals here, just numbers), so the same sum is $\iiint_D\operatorname{div}\vec F\,dV$. Same total, two viewpoints, hence the equality. The cancellation lives only on the surface leg; the volume leg is pure bookkeeping of sources.
 :::
 
 ## 5. Pitfalls & takeaways
