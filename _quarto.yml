@@ -39,6 +39,83 @@ website:
       - icon: github
         href: "https://github.com/Ludovic1211/MIT-Engineering-selfstudy"
         aria-label: GitHub repository
+  sidebar:
+    - id: mv-1802
+      title: "18.02 — Multivariable Calculus"
+      style: "docked"
+      contents:
+        - href: courses/18.02/index.qmd
+          text: "Course overview"
+        - section: "Part I — Vectors and matrices"
+          contents:
+            - href: courses/18.02/lecture-01-dot-product.qmd
+              text: "L1 · Dot product"
+            - href: courses/18.02/lecture-02-determinants-cross-product.qmd
+              text: "L2 · Determinants & cross product"
+            - href: courses/18.02/lecture-03-matrices.qmd
+              text: "L3 · Matrices"
+            - href: courses/18.02/lecture-04-square-systems-planes.qmd
+              text: "L4 · Square systems & planes"
+            - href: courses/18.02/lecture-05-parametric-equations.qmd
+              text: "L5 · Parametric equations"
+            - href: courses/18.02/lecture-06-velocity-acceleration-kepler.qmd
+              text: "L6 · Velocity, acceleration & Kepler"
+        - section: "Part II — Partial derivatives"
+          contents:
+            - href: courses/18.02/lecture-08-level-curves-partial-derivatives.qmd
+              text: "L8 · Level curves & partials"
+            - href: courses/18.02/lecture-09-max-min-least-squares.qmd
+              text: "L9 · Max-min & least squares"
+            - href: courses/18.02/lecture-10-second-derivative-test.qmd
+              text: "L10 · Second derivative test"
+            - href: courses/18.02/lecture-11-differentials-chain-rule.qmd
+              text: "L11 · Differentials & chain rule"
+            - href: courses/18.02/lecture-12-gradient-directional-derivatives.qmd
+              text: "L12 · Gradient & directional derivatives"
+            - href: courses/18.02/lecture-13-lagrange-multipliers.qmd
+              text: "L13 · Lagrange multipliers"
+            - href: courses/18.02/lecture-14-non-independent-variables.qmd
+              text: "L14 · Non-independent variables"
+        - section: "Part III — Double & line integrals"
+          contents:
+            - href: courses/18.02/lecture-16-double-integrals.qmd
+              text: "L16 · Double integrals"
+            - href: courses/18.02/lecture-17-polar-coordinates-applications.qmd
+              text: "L17 · Polar coordinates & applications"
+            - href: courses/18.02/lecture-18-change-of-variables.qmd
+              text: "L18 · Change of variables"
+            - href: courses/18.02/lecture-19-vector-fields-line-integrals.qmd
+              text: "L19 · Vector fields & line integrals"
+            - href: courses/18.02/lecture-20-path-independence-conservative-fields.qmd
+              text: "L20 · Path independence & conservative fields"
+            - href: courses/18.02/lecture-21-gradient-fields-potential-functions.qmd
+              text: "L21 · Gradient fields & potentials"
+            - href: courses/18.02/lecture-22-greens-theorem.qmd
+              text: "L22 · Green's theorem"
+            - href: courses/18.02/lecture-23-flux-normal-form-green.qmd
+              text: "L23 · Flux & normal form of Green"
+        - section: "Part IV — Triple & surface integrals"
+          contents:
+            - href: courses/18.02/lecture-25-triple-integrals-rectangular-cylindrical.qmd
+              text: "L25 · Triple integrals (rect. & cyl.)"
+            - href: courses/18.02/lecture-26-spherical-coordinates-surface-area.qmd
+              text: "L26 · Spherical coordinates & surface area"
+            - href: courses/18.02/lecture-27-vector-fields-surface-integrals-flux.qmd
+              text: "L27 · Surface integrals & flux"
+            - href: courses/18.02/lecture-28-divergence-theorem.qmd
+              text: "L28 · Divergence theorem"
+            - href: courses/18.02/lecture-29-divergence-theorem-applications-proof.qmd
+              text: "L29 · Divergence theorem — applications"
+            - href: courses/18.02/lecture-30-line-integrals-space-curl.qmd
+              text: "L30 · Line integrals in space; curl"
+            - href: courses/18.02/lecture-31-stokes-theorem.qmd
+              text: "L31 · Stokes' theorem"
+            - href: courses/18.02/lecture-32-stokes-theorem-review.qmd
+              text: "L32 · Stokes' theorem — review"
+            - href: courses/18.02/lecture-33-topology-maxwell.qmd
+              text: "L33 · Topology; Maxwell's equations"
+        - href: courses/18.02/appendix-problem-sets-exams.qmd
+          text: "Problem sets & exams"
   page-footer:
     border: true
     left: |

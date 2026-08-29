@@ -41,3 +41,17 @@ h2 {
 pre.sourceCode {
   border-radius: 8px;
 }
+
+// ─────────────────────────────────────────────────────────────
+//  MATH OVERFLOW — long display equations scroll horizontally
+//  instead of spilling over the margin / table of contents.
+//  A thin scrollbar appears under a formula only when it is
+//  genuinely too wide; normal equations are unaffected.
+// ─────────────────────────────────────────────────────────────
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-top: 0.5em;      // room so the scrollbar never clips the formula
+  padding-bottom: 0.5em;
+}
