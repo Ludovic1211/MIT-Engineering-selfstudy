@@ -188,7 +188,19 @@ assert m1 < 1e-6 and m2 < 1e-6
 ::: {.callout-tip appearance="simple"}
 **Prompt**: explain how the three big theorems (fundamental theorem for line integrals, Stokes, divergence) are really one idea, and what "simply connected" and "orientable" have to do with when they apply.
 
-**My target answer** *(to be rewritten in my own words)*: *All three say the same thing in different dimensions: the total of some derivative of a field over a region equals the field itself measured only on the region's boundary. On a curve, the change of a potential is its values at the two endpoints. On a surface, the total curl (swirl) equals the circulation around the edge — that's Stokes. On a solid, the total divergence (source) equals the flux through the surface — that's the divergence theorem. "What's inside is determined by what crosses the boundary." The two conditions are about the shape of the region. Simply connected means every loop can be filled with a surface; you need it to conclude a curl-free field is conservative, because the proof caps a loop with a surface and uses Stokes. Orientable means you can pick one consistent side; you need it for flux to make sense at all — the Möbius strip is one-sided, so you can't even define which way is "out." Two identities keep it consistent: a gradient has no curl and a curl has no divergence, which is really the single statement that the boundary of a boundary is nothing.*
+**My answer** *(in my own words)*:
+
+**One idea in three dimensions.** All three theorems say the same sentence: *the integral of a field's derivative over a region equals the plain field read only on that region's boundary* — what's inside is fixed by what sits on the edge. Each step climbs one dimension, and a region's boundary always drops one:
+
+| region (a derivative on it) | its boundary | plain field on the boundary |
+|---|---|---|
+| curve — $\int_C\nabla f\cdot d\vec r$ | 2 endpoints | $f(P_1)-f(P_0)$ |
+| surface — $\iint_S(\nabla\times\vec F)\cdot\hat n\,dS$ | its rim curve | circulation $\oint_C\vec F\cdot d\vec r$ |
+| solid — $\iiint_D\operatorname{div}\vec F\,dV$ | its skin surface | flux $\iint_S\vec F\cdot\hat n\,dS$ |
+
+The derivative climbs grad → curl → div; the boundary reads the field *along* it (circulation) or *through* it (flux). Green isn't a fourth theorem — it's Stokes with the surface flattened into the plane. So: three theorems, one pattern.
+
+**Two conditions, two separate jobs — don't merge them.** *Orientable* is what **flux** needs: a consistent normal $\hat n$ over the whole surface. On a Möbius strip the normal comes back flipped after a loop, so there's no coherent "which way is out," and flux is undefined — so both flux theorems (Stokes, divergence) need an orientable surface. *Simply connected* ("no holes") is not a condition for the theorems to exist; it's the condition for one specific implication: $\operatorname{curl}\vec F=\vec 0\Rightarrow$ conservative. That proof caps a loop with a surface and runs Stokes. Put a hole in the region (a point where $\vec F$ blows up), take a loop around it, and *every* capping surface must pass through the hole — it leaves the region, so Stokes has no legal surface. The link breaks, and a curl-free field can circulate around the hole without being conservative. Simply connected means every loop *can* be filled, so the proof holds.
 :::
 
 ## 5. Pitfalls & takeaways
