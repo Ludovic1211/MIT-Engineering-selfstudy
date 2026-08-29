@@ -43,6 +43,7 @@ website:
     - id: mv-1802
       title: "18.02 — Multivariable Calculus"
       style: "docked"
+      collapse-level: 1
       contents:
         - href: courses/18.02/index.qmd
           text: "Course overview"
