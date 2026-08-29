@@ -1,7 +1,7 @@
 ---
 title: "Lecture 1 — Dot Product"
 subtitle: "MIT 18.02 · Part I: Vectors and Matrices"
-date: 02/08/2026
+date: 2026-08-13
 ---
 
 ::: {.callout-note appearance="simple" icon=false}

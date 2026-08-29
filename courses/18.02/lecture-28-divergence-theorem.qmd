@@ -1,7 +1,7 @@
 ---
 title: "Lecture 28 — The Divergence Theorem"
 subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
-date: 12/08/2026
+date: 2026-08-12
 ---
 
 ::: {.callout-note appearance="simple" icon=false}

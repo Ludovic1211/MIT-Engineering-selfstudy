@@ -1,7 +1,7 @@
 ---
 title: "Lecture 18 — Change of Variables"
 subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
-date: 06/08/2026
+date: 2026-08-06
 ---
 
 ::: {.callout-note appearance="simple" icon=false}

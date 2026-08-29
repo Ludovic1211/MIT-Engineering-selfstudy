@@ -1,7 +1,7 @@
 ---
 title: "Lecture 12 — Gradient, Directional Derivatives"
 subtitle: "MIT 18.02 · Part II: Partial Derivatives"
-date: 05/08/2026
+date: 2026-08-05
 ---
 
 ::: {.callout-note appearance="simple" icon=false}

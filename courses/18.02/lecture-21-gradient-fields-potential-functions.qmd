@@ -1,7 +1,7 @@
 ---
 title: "Lecture 21 — Gradient Fields & Potential Functions"
 subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
-date: 10/08/2026
+date: 2026-08-10
 ---
 
 ::: {.callout-note appearance="simple" icon=false}

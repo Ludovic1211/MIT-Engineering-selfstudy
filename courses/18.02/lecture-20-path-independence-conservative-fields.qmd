@@ -1,7 +1,7 @@
 ---
 title: "Lecture 20 — Path Independence & Conservative Fields"
 subtitle: "MIT 18.02 · Part III: Double Integrals & Line Integrals in the Plane"
-date: 07/08/2026
+date: 2026-08-07
 ---
 
 ::: {.callout-note appearance="simple" icon=false}
