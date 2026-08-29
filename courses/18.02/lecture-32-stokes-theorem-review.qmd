@@ -1,7 +1,7 @@
 ---
 title: "Lecture 32 — Stokes' Theorem (cont.) & Review"
 subtitle: "MIT 18.02 · Part IV: Triple Integrals & Surface Integrals"
-date: today
+date: 12/08/2026
 ---
 
 ::: {.callout-note appearance="simple" icon=false}
