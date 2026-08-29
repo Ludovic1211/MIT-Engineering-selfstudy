@@ -61,6 +61,6 @@ format:
     fig-cap-location: bottom
     include-in-header: _include/fonts.html
     link-external-newwindow: true
-
+    date-format: "DD/MM/YYYY"
 execute:
   warning: false
