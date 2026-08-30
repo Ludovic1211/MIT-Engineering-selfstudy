@@ -1,0 +1,6 @@
+# Applies to every page in courses/18.02/ (course overview + all lectures).
+# The banner image sits beside this file; Quarto uses the body background
+# colour for text unless told otherwise, so we force white over the dark
+# low-poly gradient. Regenerate the image with tools/make_banner.py.
+title-block-banner: banner.svg
+title-block-banner-color: white

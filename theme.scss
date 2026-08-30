@@ -55,3 +55,20 @@ pre.sourceCode {
   padding-top: 0.5em;      // room so the scrollbar never clips the formula
   padding-bottom: 0.5em;
 }
+
+// ─────────────────────────────────────────────────────────────
+//  COURSE BANNER (title-block-banner image) — coverage & legibility.
+//  Only pages that set title-block-banner (the 18.02 pages) are affected.
+// ─────────────────────────────────────────────────────────────
+
+.quarto-title-banner {
+  background-size: cover;
+  background-position: center;
+}
+
+// keep the white title / subtitle crisp over the faceted image
+.quarto-title-banner h1,
+.quarto-title-banner .subtitle,
+.quarto-title-banner .quarto-title-meta {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
