@@ -64,9 +64,37 @@ pre.sourceCode {
 .quarto-title-banner {
   background-size: cover;
   background-position: center;
+  color: rgba(255, 255, 255, 0.82);   // base tone for all secondary text
 }
 
-// keep the white title / subtitle crisp over the faceted image
+// Title: pure white.
+.quarto-title-banner h1,
+.quarto-title-banner h1.title {
+  color: #fff !important;
+}
+
+// Subtitle: a touch brighter than the breadcrumb, for hierarchy.
+.quarto-title-banner .subtitle {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+// Links inside the banner: breadcrumb items and the "</> Code" button.
+// (title-block-banner-color only recolours the H1, so we do the rest here.)
+.quarto-title-banner a,
+.quarto-title-banner button,
+.quarto-title-banner .code-tools-button,
+.quarto-title-banner .quarto-title-breadcrumbs,
+.quarto-title-banner .breadcrumb,
+.quarto-title-banner .breadcrumb a {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+// Breadcrumb separators ( › ).
+.quarto-title-banner .breadcrumb-item + .breadcrumb-item::before {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+// Keep the white text crisp over the faceted image.
 .quarto-title-banner h1,
 .quarto-title-banner .subtitle,
 .quarto-title-banner .quarto-title-meta {
