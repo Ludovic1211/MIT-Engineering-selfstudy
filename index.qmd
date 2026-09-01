@@ -20,24 +20,9 @@ Concretely, every note shares the same template: *In brief → Concepts → Key 
 
 ## The courses
 
-### Available
+My roadmap follows an order meant so that each course prepares the next — and all of them have **video lectures**, to support the discovery stage.
 
-- **[18.02 — Multivariable Calculus](courses/18.02/index.qmd)**
-  Vectors and matrices, partial derivatives, multiple integrals, Green's and Stokes' theorems.
-  *(Course completed; notes being published.)*
-
-### Roadmap
-
-My path follows an order meant so that each course prepares the next — and all of them have **video lectures**, to support the discovery stage:
-
-1. **8.01SC** — Classical Mechanics *(Newtonian mechanics: the bedrock of engineering physics)*
-2. **18.03** — Differential Equations *(modeling how systems evolve over time)*
-3. **18.06** — Linear Algebra *(the language of matrices, everywhere in engineering and data science)*
-4. **8.02** — Electricity & Magnetism *(electric and magnetic fields, Maxwell's equations)*
-5. **2.003SC** — Engineering Dynamics *(dynamics and vibrations of mechanical systems)*
-6. **16.01** — Unified Engineering *(an integrated introduction to aerospace engineering)*
-
----
+<div class="course-grid"><a class="course-card" href="courses/18.02/index.qmd"><span class="thumb" style="background-image:url(courses/18.02/banner.svg);background-size:cover;background-position:center;"></span><span class="body"><span class="code">18.02</span><span class="name">Multivariable Calculus</span><span class="desc">Vectors &amp; matrices, partial derivatives, multiple integrals, Green's &amp; Stokes' theorems.</span><span class="badge-status done">✓ Complete · 30 lectures</span></span></a><a class="course-card wip" href="courses/8.01SC/index.qmd"><span class="thumb" style="background:linear-gradient(105deg,#2a2f3a,#3b414f);"></span><span class="body"><span class="code">8.01SC</span><span class="name">Classical Mechanics</span><span class="desc">Newtonian mechanics: the bedrock of engineering physics.</span><span class="badge-status">⚠ Work in progress</span></span></a><a class="course-card wip" href="courses/18.03/index.qmd"><span class="thumb" style="background:linear-gradient(105deg,#2a2f3a,#3b414f);"></span><span class="body"><span class="code">18.03</span><span class="name">Differential Equations</span><span class="desc">Modeling how systems evolve over time.</span><span class="badge-status">⚠ Work in progress</span></span></a><a class="course-card wip" href="courses/18.06/index.qmd"><span class="thumb" style="background:linear-gradient(105deg,#2a2f3a,#3b414f);"></span><span class="body"><span class="code">18.06</span><span class="name">Linear Algebra</span><span class="desc">The language of matrices, everywhere in engineering &amp; data science.</span><span class="badge-status">⚠ Work in progress</span></span></a><a class="course-card wip" href="courses/8.02/index.qmd"><span class="thumb" style="background:linear-gradient(105deg,#2a2f3a,#3b414f);"></span><span class="body"><span class="code">8.02</span><span class="name">Electricity &amp; Magnetism</span><span class="desc">Electric &amp; magnetic fields, Maxwell's equations.</span><span class="badge-status">⚠ Work in progress</span></span></a><a class="course-card wip" href="courses/2.003SC/index.qmd"><span class="thumb" style="background:linear-gradient(105deg,#2a2f3a,#3b414f);"></span><span class="body"><span class="code">2.003SC</span><span class="name">Engineering Dynamics</span><span class="desc">Dynamics &amp; vibrations of mechanical systems.</span><span class="badge-status">⚠ Work in progress</span></span></a><a class="course-card wip" href="courses/16.01/index.qmd"><span class="thumb" style="background:linear-gradient(105deg,#2a2f3a,#3b414f);"></span><span class="body"><span class="code">16.01</span><span class="name">Unified Engineering</span><span class="desc">An integrated introduction to aerospace engineering.</span><span class="badge-status">⚠ Work in progress</span></span></a></div>
 
 ::: {.callout-note appearance="simple"}
 All content derives from MIT OpenCourseWare materials licensed under

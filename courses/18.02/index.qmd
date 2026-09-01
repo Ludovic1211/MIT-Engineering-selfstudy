@@ -25,53 +25,19 @@ The course is organized into four parts:
 
 ### Part I — Vectors and matrices
 
-| # | Lecture | Status |
-|---|---------|--------|
-| 1 | [Dot Product](lecture-01-dot-product.qmd) | ✅ Online |
-| 2 | [Determinants & Cross Product](lecture-02-determinants-cross-product.qmd) | ✅ Online |
-| 3 | [Matrices & Inverse Matrices](lecture-03-matrices.qmd) | ✅ Online |
-| 4 | [Square Systems & Equations of Planes](lecture-04-square-systems-planes.qmd) | ✅ Online |
-| 5 | [Parametric Equations & Curves](lecture-05-parametric-equations.qmd) | ✅ Online |
-| 6 | [Velocity, Acceleration & Kepler's Second Law](lecture-06-velocity-acceleration-kepler.qmd) | ✅ Online |
+<div class="lecture-grid"><a class="lecture-card" href="lecture-01-dot-product.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L1</span><span class="ltitle">Dot Product</span></a><a class="lecture-card" href="lecture-02-determinants-cross-product.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L2</span><span class="ltitle">Determinants &amp; Cross Product</span></a><a class="lecture-card" href="lecture-03-matrices.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L3</span><span class="ltitle">Matrices &amp; Inverse Matrices</span></a><a class="lecture-card" href="lecture-04-square-systems-planes.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L4</span><span class="ltitle">Square Systems &amp; Equations of Planes</span></a><a class="lecture-card" href="lecture-05-parametric-equations.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L5</span><span class="ltitle">Parametric Equations &amp; Curves</span></a><a class="lecture-card" href="lecture-06-velocity-acceleration-kepler.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L6</span><span class="ltitle">Velocity, Acceleration &amp; Kepler&#x27;s Second Law</span></a></div>
 
 ### Part II — Partial derivatives
 
-| # | Lecture | Status |
-|---|---------|--------|
-| 8 | [Level Curves & Partial Derivatives](lecture-08-level-curves-partial-derivatives.qmd) | ✅ Online |
-| 9 | [Max-Min Problems & Least Squares](lecture-09-max-min-least-squares.qmd) | ✅ Online |
-| 10 | [Second Derivative Test](lecture-10-second-derivative-test.qmd) | ✅ Online |
-| 11 | [Differentials & Chain Rule](lecture-11-differentials-chain-rule.qmd) | ✅ Online |
-| 12 | [Gradient & Directional Derivatives](lecture-12-gradient-directional-derivatives.qmd) | ✅ Online |
-| 13 | [Lagrange Multipliers](lecture-13-lagrange-multipliers.qmd) | ✅ Online |
-| 14 | [Non-Independent Variables](lecture-14-non-independent-variables.qmd) | ✅ Online |
+<div class="lecture-grid"><a class="lecture-card" href="lecture-08-level-curves-partial-derivatives.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L8</span><span class="ltitle">Level Curves &amp; Partial Derivatives</span></a><a class="lecture-card" href="lecture-09-max-min-least-squares.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L9</span><span class="ltitle">Max-Min Problems &amp; Least Squares</span></a><a class="lecture-card" href="lecture-10-second-derivative-test.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L10</span><span class="ltitle">Second Derivative Test</span></a><a class="lecture-card" href="lecture-11-differentials-chain-rule.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L11</span><span class="ltitle">Differentials &amp; Chain Rule</span></a><a class="lecture-card" href="lecture-12-gradient-directional-derivatives.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L12</span><span class="ltitle">Gradient &amp; Directional Derivatives</span></a><a class="lecture-card" href="lecture-13-lagrange-multipliers.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L13</span><span class="ltitle">Lagrange Multipliers</span></a><a class="lecture-card" href="lecture-14-non-independent-variables.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L14</span><span class="ltitle">Non-Independent Variables</span></a></div>
 
 ### Part III — Double integrals and line integrals in the plane
 
-| # | Lecture | Status |
-|---|---------|--------|
-| 16 | [Double Integrals](lecture-16-double-integrals.qmd) | ✅ Online |
-| 17 | [Double Integrals in Polar Coordinates & Applications](lecture-17-polar-coordinates-applications.qmd) | ✅ Online |
-| 18 | [Change of Variables](lecture-18-change-of-variables.qmd) | ✅ Online |
-| 19 | [Vector Fields & Line Integrals in the Plane](lecture-19-vector-fields-line-integrals.qmd) | ✅ Online |
-| 20 | [Path Independence & Conservative Fields](lecture-20-path-independence-conservative-fields.qmd) | ✅ Online |
-| 21 | [Gradient Fields & Potential Functions](lecture-21-gradient-fields-potential-functions.qmd) | ✅ Online |
-| 22 | [Green's Theorem](lecture-22-greens-theorem.qmd) | ✅ Online |
-| 23 | [Flux & the Normal Form of Green's Theorem](lecture-23-flux-normal-form-green.qmd) | ✅ Online |
+<div class="lecture-grid"><a class="lecture-card" href="lecture-16-double-integrals.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L16</span><span class="ltitle">Double Integrals</span></a><a class="lecture-card" href="lecture-17-polar-coordinates-applications.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L17</span><span class="ltitle">Double Integrals in Polar Coordinates &amp; Applications</span></a><a class="lecture-card" href="lecture-18-change-of-variables.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L18</span><span class="ltitle">Change of Variables</span></a><a class="lecture-card" href="lecture-19-vector-fields-line-integrals.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L19</span><span class="ltitle">Vector Fields &amp; Line Integrals in the Plane</span></a><a class="lecture-card" href="lecture-20-path-independence-conservative-fields.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L20</span><span class="ltitle">Path Independence &amp; Conservative Fields</span></a><a class="lecture-card" href="lecture-21-gradient-fields-potential-functions.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L21</span><span class="ltitle">Gradient Fields &amp; Potential Functions</span></a><a class="lecture-card" href="lecture-22-greens-theorem.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L22</span><span class="ltitle">Green&#x27;s Theorem</span></a><a class="lecture-card" href="lecture-23-flux-normal-form-green.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L23</span><span class="ltitle">Flux &amp; the Normal Form of Green&#x27;s Theorem</span></a></div>
 
 ### Part IV — Triple integrals and surface integrals
 
-| # | Lecture | Status |
-|---|---------|--------|
-| 25 | [Triple Integrals in Rectangular & Cylindrical Coordinates](lecture-25-triple-integrals-rectangular-cylindrical.qmd) | ✅ Online |
-| 26 | [Spherical Coordinates & Surface Area](lecture-26-spherical-coordinates-surface-area.qmd) | ✅ Online |
-| 27 | [Vector Fields in 3D: Surface Integrals & Flux](lecture-27-vector-fields-surface-integrals-flux.qmd) | ✅ Online |
-| 28 | [The Divergence Theorem](lecture-28-divergence-theorem.qmd) | ✅ Online |
-| 29 | [The Divergence Theorem — Applications & Proof](lecture-29-divergence-theorem-applications-proof.qmd) | ✅ Online |
-| 30 | [Line Integrals in Space; Curl, Exactness & Potentials](lecture-30-line-integrals-space-curl.qmd) | ✅ Online |
-| 31 | [Stokes' Theorem](lecture-31-stokes-theorem.qmd) | ✅ Online |
-| 32 | [Stokes' Theorem — Applications & Review](lecture-32-stokes-theorem-review.qmd) | ✅ Online |
-| 33 | [Topological Considerations; Maxwell's Equations](lecture-33-topology-maxwell.qmd) | ✅ Online |
+<div class="lecture-grid"><a class="lecture-card" href="lecture-25-triple-integrals-rectangular-cylindrical.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L25</span><span class="ltitle">Triple Integrals in Rectangular &amp; Cylindrical Coordinates</span></a><a class="lecture-card" href="lecture-26-spherical-coordinates-surface-area.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L26</span><span class="ltitle">Spherical Coordinates &amp; Surface Area</span></a><a class="lecture-card" href="lecture-27-vector-fields-surface-integrals-flux.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L27</span><span class="ltitle">Vector Fields in 3D: Surface Integrals &amp; Flux</span></a><a class="lecture-card" href="lecture-28-divergence-theorem.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L28</span><span class="ltitle">The Divergence Theorem</span></a><a class="lecture-card" href="lecture-29-divergence-theorem-applications-proof.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L29</span><span class="ltitle">The Divergence Theorem — Applications &amp; Proof</span></a><a class="lecture-card" href="lecture-30-line-integrals-space-curl.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L30</span><span class="ltitle">Line Integrals in Space; Curl, Exactness &amp; Potentials</span></a><a class="lecture-card" href="lecture-31-stokes-theorem.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L31</span><span class="ltitle">Stokes&#x27; Theorem</span></a><a class="lecture-card" href="lecture-32-stokes-theorem-review.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L32</span><span class="ltitle">Stokes&#x27; Theorem — Applications &amp; Review</span></a><a class="lecture-card" href="lecture-33-topology-maxwell.qmd"><span class="done" title="Note online">✓</span><span class="lnum">L33</span><span class="ltitle">Topological Considerations; Maxwell&#x27;s Equations</span></a></div>
 
 ## Problem sets & exams
 
