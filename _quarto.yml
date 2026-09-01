@@ -46,8 +46,8 @@ website:
       collapse-level: 1
       contents:
         - href: courses/18.02/index.qmd
-          text: "Course overview"
-        - section: "Part I — Vectors and matrices"
+          text: "<i class='cico cico-book'></i> Course overview"
+        - section: "<i class='cico cico-vector'></i> Part I — Vectors and matrices"
           contents:
             - href: courses/18.02/lecture-01-dot-product.qmd
               text: "L1 · Dot product"
@@ -61,7 +61,7 @@ website:
               text: "L5 · Parametric equations"
             - href: courses/18.02/lecture-06-velocity-acceleration-kepler.qmd
               text: "L6 · Velocity, acceleration & Kepler"
-        - section: "Part II — Partial derivatives"
+        - section: "<i class='cico cico-chart'></i> Part II — Partial derivatives"
           contents:
             - href: courses/18.02/lecture-08-level-curves-partial-derivatives.qmd
               text: "L8 · Level curves & partials"
@@ -77,7 +77,7 @@ website:
               text: "L13 · Lagrange multipliers"
             - href: courses/18.02/lecture-14-non-independent-variables.qmd
               text: "L14 · Non-independent variables"
-        - section: "Part III — Double & line integrals"
+        - section: "<i class='cico cico-integral'></i> Part III — Double & line integrals"
           contents:
             - href: courses/18.02/lecture-16-double-integrals.qmd
               text: "L16 · Double integrals"
@@ -95,7 +95,7 @@ website:
               text: "L22 · Green's theorem"
             - href: courses/18.02/lecture-23-flux-normal-form-green.qmd
               text: "L23 · Flux & normal form of Green"
-        - section: "Part IV — Triple & surface integrals"
+        - section: "<i class='cico cico-cube'></i> Part IV — Triple & surface integrals"
           contents:
             - href: courses/18.02/lecture-25-triple-integrals-rectangular-cylindrical.qmd
               text: "L25 · Triple integrals (rect. & cyl.)"
@@ -116,7 +116,7 @@ website:
             - href: courses/18.02/lecture-33-topology-maxwell.qmd
               text: "L33 · Topology; Maxwell's equations"
         - href: courses/18.02/appendix-problem-sets-exams.qmd
-          text: "Problem sets & exams"
+          text: "<i class='cico cico-clipboard'></i> Problem sets & exams"
   page-footer:
     border: true
     left: |
