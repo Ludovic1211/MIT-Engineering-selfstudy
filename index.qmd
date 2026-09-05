@@ -9,7 +9,7 @@ toc: false
 This site collects my self-study notes in engineering, built from the open courses of [MIT OpenCourseWare](https://ocw.mit.edu). It has three goals:
 
 - **Consolidate what I learn.** Writing up and rephrasing each lecture in my own words is where understanding is really tested.
-- **Keep tangible evidence** of this work, in particular toward a VAE (*Validation des Acquis de l'Expérience*, a French accreditation of prior experiential learning).
+- **Keep tangible evidence** of a self-directed learning path — a growing interest in engineering and physics that I explore in my own time, alongside my data-science background.
 - **Show that the understanding is operational**, not just theoretical — each note comes with Python demonstrations (numerical checks, visualizations).
 
 ## The method
